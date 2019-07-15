@@ -66,10 +66,10 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFe
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 ```
 7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste). Don't forget that `svchost` will need an access to use WinUpdate.
-8. `choco install miniwall` and configure per-application network access.
 9. Edit BitLocker-related GPOs:
    1. Enable "enhanced pin" - allows to use extended character set
    1. Enable PCR banks to taste.
 10. Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
 _Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
 11. Plug back ethernet, update system and "Windows Store" apps.
+8. `choco install miniwall` and configure per-application network access.
