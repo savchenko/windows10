@@ -46,7 +46,7 @@ Don't call home on every boot to check the license:
 ```
 reg add "HKLM\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f
 ```
-Disably sync:
+Disable sync:
 ```
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync /t REG_DWORD /d 2 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSyncUserOverride /t REG_DWORD /d 1 /f
@@ -61,3 +61,8 @@ reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggested
 ```
 7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste).
 8. `choco install miniwall` and configure per-application network access.
+9. Edit GPO before configuring BitLocker:
+   1. Enable "enhanced pin" - allows to use extended character set.
+   1. Enable PCR banks to taste.
+10. Use `manage-bde` to configure BitLocker and add/remove recovery agents.  
+_Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
