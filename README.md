@@ -14,8 +14,9 @@
    `.\DG_Readiness_tool_v3.4.ps1 -Ready`  
    1. Enable:  
    `.\DG_Readiness_tool_v3.4.ps1 -Enable`  
-   1. 
-   1. Reboot, check again. Happy with the result? Don't forget to switch exec.policy back:  
+   1. Looks like this?  
+   ![](https://i.imgur.com/QsaDuOV.png)
+   1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
 5. Download O&O AppBuster and ShutUP. Adjust per taste, apply.
 6. Run these from `cmd`. Cortana: 
