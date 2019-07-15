@@ -1,13 +1,17 @@
+Please note, this is a mere cheat-sheet for a single-user Windows 10 installation.  
+Nothing is automated and it is unknown if it ever will be, treat accordingly.
+
+If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 # Before install
-1. Pray your gods
-2. Un-plug ethernet if present, disable WiFi
-3. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d, 
+1. Pray your gods.
+2. Un-plug ethernet if present, disable WiFi.
+3. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d. 
 
 # After
-1. If necessary, install GPU drivers using offline installer
+1. If necessary, install GPU drivers using offline installer.
 2. Turn on "controlled folder access" and "core isolation".
-3. Enable "Windows Sandbox" and "Windows Defender App Guard" in "Windows features"
-4. Use [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337)  
+3. Enable "Windows Sandbox" and "Windows Defender App Guard" in "Windows features".
+4. Use [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
    1. Temporarily change execution policy for PowerShell scripts:  
    `Set-ExecutionPolicy -ExecutionPolicy AllSigned`  
    1. Check current status:  
@@ -64,7 +68,7 @@ reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggested
 7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste). Don't forget that `svchost` will need an access to use WinUpdate.
 8. `choco install miniwall` and configure per-application network access.
 9. Edit BitLocker-related GPOs:
-   1. Enable "enhanced pin" - allows to use extended character set.
+   1. Enable "enhanced pin" - allows to use extended character set
    1. Enable PCR banks to taste.
 10. Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
 _Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
