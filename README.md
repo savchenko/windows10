@@ -65,7 +65,8 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindow
 reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFeedbackNotifications /t REG_DWORD /d 1 /f
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 ```
-7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste). Don't forget that `svchost` will need an access to use WinUpdate.
+7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste).  
+Don't forget that `svchost` will need an access to use WinUpdate.
 9. Edit BitLocker-related GPOs:
    1. Enable "enhanced pin" - allows to use extended character set
    1. Enable PCR banks to taste.
