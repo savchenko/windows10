@@ -5,9 +5,9 @@
 
 # After
 1. If necessary, install GPU drivers using offline installer
-2. Turn on "controlled folder access" and "core isolation". Either manually or via GPo.
+2. Turn on "controlled folder access" and "core isolation".
 3. Enable "Windows Sandbox" and "Windows Defender App Guard" in "Windows features"
-4. Download [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337)  
+4. Use [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337)  
    1. Temporarily change execution policy for PowerShell scripts:  
    `Set-ExecutionPolicy -ExecutionPolicy AllSigned`  
    1. Check current status:  
@@ -18,7 +18,7 @@
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
-5. Download O&O AppBuster and ShutUP. Adjust per taste, apply.
+5. Use O&O AppBuster and ShutUP instead of messing-up with multitude of GPOs manually.
 6. Run these from `cmd` instead of PowerShell:    
 
 Cortana: 
@@ -61,10 +61,11 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindow
 reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFeedbackNotifications /t REG_DWORD /d 1 /f
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 ```
-7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste).
+7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste). Don't forget that `svchost` will need an access to use WinUpdate.
 8. `choco install miniwall` and configure per-application network access.
-9. Edit GPO before configuring BitLocker:
+9. Edit BitLocker-related GPOs:
    1. Enable "enhanced pin" - allows to use extended character set.
    1. Enable PCR banks to taste.
-10. Use `manage-bde` to configure BitLocker and add/remove recovery agents.  
+10. Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
 _Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
+11. Plug back ethernet, update system and "Windows Store" apps.
