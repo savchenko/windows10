@@ -74,3 +74,10 @@ Don't forget that `svchost` will need an access to use WinUpdate.
 _Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
 11. Plug back ethernet, update system and "Windows Store" apps.
 8. `choco install miniwall` and configure per-application network access.
+9. `choco install pgp4win`
+   1. Import pubkey, insert smart-card.
+   3. Open `kleopatra`, Tools &rarr; Manage Smartcards, ensure yours is present.
+   4. Do not close Kleopatra.
+   5. Issue `gpg.exe --card-status` to refresh the SCDaemon.
+   6. Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
+   7. Change trust level on your own certificate to ultimate.
