@@ -80,4 +80,6 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
    4. Do not close Kleopatra.
    5. Issue `gpg.exe --card-status` to refresh the SCDaemon.
    6. Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
-   7. Change trust level on your own certificate to ultimate.
+   7. Change trust level of your own certificate to ultimate.
+10. Adjust content of system CA as necessary:
+![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
