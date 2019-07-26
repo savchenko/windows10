@@ -105,4 +105,5 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
 [-HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\SendTo]
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
 "{1d27f844-3a1f-4410-85ac-14651078412d}"=""
+"{7AD84985-87B4-4a16-BE58-8B72A5B390F7}"="Play to Menu"
 ```
