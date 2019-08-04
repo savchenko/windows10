@@ -43,8 +43,8 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t
 ```
 Disable LLMNR (alternatively, can be done via GPO)
 ```ps
-REG ADD  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient”
-REG ADD  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” EnableMulticast” /t REG_DWORD /d “0” /f
+reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient”
+reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” EnableMulticast” /t REG_DWORD /d “0” /f
 ```
 Don't enforce updates:
 ```ps
