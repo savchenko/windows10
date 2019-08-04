@@ -110,3 +110,7 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
 12. Install necessary drivers.
 13. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
+
+# TODO
+
+1. Limit talkativeness of the `svchost.exe `
