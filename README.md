@@ -26,44 +26,44 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 6. Run these from `cmd` instead of PowerShell:    
 
 Cortana: 
-```ps
+```powershell
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCortana /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules"  /v "{2765E0F4-2918-4A46-B9C9-43CDD8FCBA2B}" /t REG_SZ /d  "BlockCortana|Action=Block|Active=TRUE|Dir=Out|App=C:\windows\systemapps\microsoft.windows.cortana_cw5n1h2txyewy\searchui.exe|Name=Search  and Cortana  application|AppPkgId=S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742|" /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" /v BingSearchEnabled /t REG_DWORD /d 0 /f
 ```
 3D paint:  
-```
+```powershell
 for /f "tokens=1* delims=" %I in (' reg query "HKEY_CLASSES_ROOT\SystemFileAssociations" /s /k /f "3D Edit" ^| find /i "3D Edit" ') do (reg delete "%I" /f )
 for /f "tokens=1* delims=" %I in (' reg query "HKEY_CLASSES_ROOT\SystemFileAssociations" /s /k /f "3D Print" ^| find /i "3D Print" ') do (reg delete "%I" /f )
 ```
 Error reporting:
-```ps
+```powershell
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 ```
 Disable LLMNR (alternatively, can be done via GPO)
-```ps
+```powershell
 reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient”
 reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” EnableMulticast” /t REG_DWORD /d “0” /f
 ```
 Don't enforce updates:
-```ps
+```powershell
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v AUOptions /t REG_DWORD /d 2 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v ScheduledInstallDay /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v ScheduledInstallTime /t REG_DWORD /d 3 /f
 ```
 Don't call home on every boot to check the license:
-```ps
+```powershell
 reg add "HKLM\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f
 ```
 Disable sync:
-```ps
+```powershell
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync /t REG_DWORD /d 2 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSyncUserOverride /t REG_DWORD /d 1 /f
 ```
 Disable Windows tips:
-```ps
+```powershell
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding /t REG_DWORD /d 1 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
@@ -71,7 +71,7 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFe
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 ```
 Limit PTR requests:
-```ps
+```powershell
 reg add  "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip" /v DisableReverseAddressRegistrations /t REG_DWORD /d 1 /f
 ```
 7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste).  
@@ -116,9 +116,22 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
 "{1d27f844-3a1f-4410-85ac-14651078412d}"=""
 "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}"="Play to Menu"
 ```
-12. Install necessary drivers.
-13. Enable "Early Launch Antimalware" GPO:
+15. Install necessary drivers.
+16. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
+17. Create PowerShell profile
+```powershell
+New-Item -path $profile -type file -force
+```
+18. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
+```powershell
+function yocmd {
+    $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
+    $token_value = $token.split(" ")
+    Set-Clipboard -Value $token_value[2]
+}
+Set-Alias -Name yo -Value yocmd
+```
 
 # TODO
 
