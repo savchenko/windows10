@@ -3,7 +3,14 @@ As you might have noticed, things are a little ad-hoc.
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 # Before install
-1. Pray your gods.
+1. Recognize that you are dealing with the closed-source operating system that has useful features and hostile elements simultaneously:
+
+> Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user. 
+> 
+> Text that is collected includes all outgoing messages in Windows Mail, and MAPI enabled email clients, as well as URLs from the Internet Explorer browser history. The information that is stored includes word frequency and new words not already known to the handwriting recognition engines (for example, proper names and acronyms).
+>
+> Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
+
 2. Un-plug ethernet if present, disable WiFi.
 3. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d. 
 
