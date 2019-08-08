@@ -119,11 +119,23 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
 15. Install necessary drivers.
 16. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
-17. Create PowerShell profile
+17. Check your current PS execution policy:
+```powershell
+> Get-ExecutionPolicy -List
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser      Restricted
+ LocalMachine      Restricted
+ ```
+18. Create profile:
 ```powershell
 New-Item -path $profile -type file -force
 ```
-18. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
+19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
 function yocmd {
     $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
@@ -132,6 +144,9 @@ function yocmd {
 }
 Set-Alias -Name yo -Value yocmd
 ```
+20. Enable DNSSEC in DNS client.
+Local GPO &rarr; Windows Settings &rarr; Name Resolution Policy.
+![2019-08-08 21_17_36-Window](https://user-images.githubusercontent.com/300146/62701837-63f37780-ba24-11e9-9d0b-c1062d7f4ad1.png)
 
 # TODO
 
