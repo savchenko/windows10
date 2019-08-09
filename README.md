@@ -178,7 +178,7 @@ function sudo_updatecmd {
 Set-Alias -Name update -Value sudo_updatecmd
 ```
    - Now, when you'd like to update Windows, just run `update` from the PS.
-     This would temporarily allow svchost to communicate, download and install necessary packages and turne the blocker rule on right after.
+     This would request for an elevated PS session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
    
 
 # TODO
