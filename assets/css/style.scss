@@ -3,3 +3,8 @@
 
 @import "{{ site.theme }}";
 body {font-size: 2em; }
+.wrapper {
+    min-width: 640px;
+    max-width: 900px;
+    width: 40%;
+}
