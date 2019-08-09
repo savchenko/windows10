@@ -3,10 +3,22 @@
 
 @import "{{ site.theme }}";
 body {
-    font: 18px/2.0 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 1em/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .wrapper {
     min-width: 640px;
     max-width: 900px;
     width: 40%;
+}
+header p {
+    font-size: 1em;
+}
+h1 {
+    font-size: 2em;
+}
+section {
+    font-size: 1em;
+}
+code, pre {
+    font-size: 1em;
 }
