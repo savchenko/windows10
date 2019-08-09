@@ -186,6 +186,9 @@ Set-Alias -Name update -Value sudo_updatecmd
 1. Selectively limit talkativeness of the `svchost.exe` (see https://github.com/henrypp/simplewall/issues/516)
 2. Figure out why DNS client is spamming public with unsolicited PTR requests:  
     Try `(dns.flags.response == 0 and dns.qry.name contains "arpa")` in Wireshark.
+    
     ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
+    
+ 3. Publish LGPO file.
 
 
