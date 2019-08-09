@@ -144,6 +144,7 @@ New-Item -path $profile -type file -force
 ```
 19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
+# Yo
 function yocmd {
     $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
     $token_value = $token.split(" ")
@@ -154,7 +155,37 @@ Set-Alias -Name yo -Value yocmd
 20. Enable DNSSEC in DNS client.
 Local GPO &rarr; Windows Settings &rarr; Name Resolution Policy.
 ![2019-08-08 21_17_36-Window](https://user-images.githubusercontent.com/300146/62701837-63f37780-ba24-11e9-9d0b-c1062d7f4ad1.png)
+21. Let's limit service host's unstoppable desire to talk with the outside world.  
+   - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
+   - Add to your profile:
+   ```powershell
+# Update Windows
+function updatecmd {
+    $enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
+    if ($enabled -like "*Block*") {
+        Set-NetFirewallRule -DisplayName block_service_host -Action Allow
+    }
+    else {
+    }
+    Get-WindowsUpdate -Verbose -Install -AcceptAll
+    Set-NetFirewallRule -DisplayName block_service_host -Action Block
+}
+
+function sudo_updatecmd {
+    Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
+}
+
+Set-Alias -Name update -Value sudo_updatecmd
+```
+   - Now, when you'd like to update Windows, just run `update` from the PS.
+     This would temporarily allow svchost to communicate, download and install necessary packages and turne the blocker rule on right after.
+   
 
 # TODO
 
-1. Limit talkativeness of the `svchost.exe `
+1. Selectively limit talkativeness of the `svchost.exe` (see https://github.com/henrypp/simplewall/issues/516)
+2. Figure out why DNS client is spamming public with unsolicited PTR requests:  
+    Try `(dns.flags.response == 0 and dns.qry.name contains "arpa")` in Wireshark.
+    ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
+
+
