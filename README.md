@@ -157,7 +157,7 @@ Local GPO &rarr; Windows Settings &rarr; Name Resolution Policy.
 ![2019-08-08 21_17_36-Window](https://user-images.githubusercontent.com/300146/62701837-63f37780-ba24-11e9-9d0b-c1062d7f4ad1.png)
 21. Let's limit service host's unstoppable desire to talk with the outside world.  
    - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
-   - Add to your profile:
+   - Add to your profile:  
    ```powershell
 # Update Windows
 function updatecmd {
