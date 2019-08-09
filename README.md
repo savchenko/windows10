@@ -180,6 +180,13 @@ Set-Alias -Name update -Value sudo_updatecmd
    - Now, when you'd like to update Windows, just run `update` from the PS.
      This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
    
+# GPG
+
+1. Export pubkey from a (sub)key that is allowed to authenticate: `gpg.exe --export-ssh-key ID`
+2. Enable Putty support: `echo "enable-putty-support" >> C:\Users\asv\AppData\Roaming\gnupg\test.conf`
+3. Restart daemon: `gpg-connect-agent KILLAGENT /bye; gpg-agent.exe -v --enable-putty-support`.
+3. Try to login, authenticate card as usual. Should see something like this:
+![2019-08-09 21_46_11-192 168 2 202 - PuTTY](https://user-images.githubusercontent.com/300146/62778531-c49bb680-baef-11e9-8147-c34ec73c12e6.png)
 
 # TODO
 
@@ -190,12 +197,3 @@ Set-Alias -Name update -Value sudo_updatecmd
     ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
     
  3. Publish LGPO file.
-
-# GPG
-
-1. Export pubkey from a (sub)key that is allowed to authenticate: `gpg.exe --export-ssh-key ID`
-2. Enable Putty support: `echo "enable-putty-support" >> C:\Users\asv\AppData\Roaming\gnupg\test.conf`
-3. Restart daemon: `gpg-connect-agent KILLAGENT /bye; gpg-agent.exe -v --enable-putty-support`.
-3. Try to login, authenticate card as usual. Should see something like this:
-![2019-08-09 21_46_11-192 168 2 202 - PuTTY](https://user-images.githubusercontent.com/300146/62778531-c49bb680-baef-11e9-8147-c34ec73c12e6.png)
-
