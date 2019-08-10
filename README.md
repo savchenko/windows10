@@ -1,5 +1,4 @@
-Cheat-sheet for a single-user Windows 10 installation.  
-As you might notice, things are a little ad-hoc.
+Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 # Before install
