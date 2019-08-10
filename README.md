@@ -196,4 +196,15 @@ Set-Alias -Name update -Value sudo_updatecmd
     
     ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
     
- 3. Publish LGPO file.
+    This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
+
+3. Publish LGPO file.
+
+    
+# Notes
+
+Microsoft Network Monitor allows filtering on per-process basis:
+```powershell
+Conversation.ProcessName == "shady.exe"
+```
+    
