@@ -28,7 +28,13 @@ If you are looking for something reproducible and more of a \*nix flavour, check
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
-5. Execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot (see [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel))
+5. Change Hyper-V scheduler to mitigate against CVE-2018-3646, etc. 
+   1. See [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
+   2. Determine current scheduler, most likely it will be "root" aka 0x4:
+   ```powershell
+   Get-WinEvent -FilterHashTable @{ProviderName="Microsoft-Windows-Hyper-V-Hypervisor"; ID=2} | select -Last 1
+   ```
+   4. Execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot.
 6. Run these from `cmd` instead of PowerShell:    
 
 Cortana: 
