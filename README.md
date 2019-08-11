@@ -28,7 +28,7 @@ If you are looking for something reproducible and more of a \*nix flavour, check
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
-5. Change Hyper-V scheduler to mitigate against CVE-2018-3646, etc. 
+5. Change Hyper-V scheduler to mitigate CVE-2018-3646, etc. 
    1. See [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
    2. Determine current scheduler, most likely it will be "root" aka 0x4:
    ```powershell
