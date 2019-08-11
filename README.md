@@ -28,7 +28,7 @@ If you are looking for something reproducible and more of a \*nix flavour, check
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
-5. Use O&O AppBuster and ShutUP instead of messing-up with multitude of GPOs manually.
+5. Execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot (see [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel))
 6. Run these from `cmd` instead of PowerShell:    
 
 Cortana: 
@@ -151,9 +151,6 @@ function yocmd {
 }
 Set-Alias -Name yo -Value yocmd
 ```
-20. Enable DNSSEC in DNS client.
-Local GPO &rarr; Windows Settings &rarr; Name Resolution Policy.
-![2019-08-08 21_17_36-Window](https://user-images.githubusercontent.com/300146/62701837-63f37780-ba24-11e9-9d0b-c1062d7f4ad1.png)
 21. Let's limit service host's unstoppable desire to talk with the outside world.  
    - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
    - Add to your profile:  
@@ -206,4 +203,3 @@ Microsoft Network Monitor allows filtering on per-process basis:
 ```powershell
 Conversation.ProcessName == "shady.exe"
 ```
-    
