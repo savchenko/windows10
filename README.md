@@ -1,6 +1,6 @@
 # Summary
 Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
-Aiming at level 3 baseline + some additional restrictions.
+Aiming at level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
@@ -238,6 +238,7 @@ Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids
     This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
 
 3. Publish LGPO file.
+4. Consider https://github.com/Microsoft/AaronLocker
 
     
 # Notes
