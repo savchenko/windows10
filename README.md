@@ -168,7 +168,7 @@ function yocmd {
 }
 Set-Alias -Name yo -Value yocmd
 ```
-21. Let's limit service host's unstoppable desire to talk with the outside world.  
+20. Let's limit service host's unstoppable desire to talk with the outside world.  
    - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
    - Add to your profile:  
    ```powershell
@@ -192,7 +192,7 @@ Set-Alias -Name update -Value sudo_updatecmd
 ```
    - Now, when you'd like to update Windows, just run `update` from the PS.
      This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
-22. Let's add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
+21. Let's add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
 ```powershell
 $asrs = @("BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550",  # Block executable content from email client and webmail
            "D4F940AB-401B-4EFC-AADC-AD5F3C50688A", # Block all Office applications from creating child processes
@@ -213,11 +213,11 @@ foreach ($rule in $asrs) {
 	Add-MpPreference -AttackSurfaceReductionRules_Ids $rule -AttackSurfaceReductionRules_Actions Enabled
 }
 ```
-23. Check that rules are applied correctly:
+22. Check that rules are applied correctly:
 ```powershell
 Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids
 ```
-24. Check antimalware:
+23. Check antimalware:
 ```powershell
 Get-MpComputerStatus | Select-Object -Property "*enabled*"
 
@@ -229,6 +229,12 @@ IoavProtectionEnabled     : True
 NISEnabled                : True
 OnAccessProtectionEnabled : True
 RealTimeProtectionEnabled : True
+```
+If anything from the above is disabled &mdash; investigate why and fix.
+
+24. Enable controlled folder access:
+```powershell
+Set-MpPreference -EnableControlledFolderAccess Enabled
 ```
    
 # GPG
