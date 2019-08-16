@@ -217,6 +217,19 @@ foreach ($rule in $asrs) {
 ```powershell
 Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids
 ```
+24. Check antimalware:
+```powershell
+Get-MpComputerStatus | Select-Object -Property "*enabled*"
+
+AMServiceEnabled          : True
+AntispywareEnabled        : True
+AntivirusEnabled          : True
+BehaviorMonitorEnabled    : True
+IoavProtectionEnabled     : True
+NISEnabled                : True
+OnAccessProtectionEnabled : True
+RealTimeProtectionEnabled : True
+```
    
 # GPG
 
