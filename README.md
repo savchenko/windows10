@@ -1,6 +1,12 @@
-Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.
+# Summary
+Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
+Aiming at level 3 baseline + some additional restrictions.
+
+![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
+
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
+
 # Before install
 1. Recognize that you are dealing with the closed-source operating system that has useful features and hostile elements simultaneously. To give you an idea on how chilly MS world is different from a warm \*nix shell, this is enabled by default:
 
