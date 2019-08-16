@@ -8,6 +8,7 @@ Tools used:
 * MS Docs & Technet
 * Wireshark and MS Network Monitor
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
+* [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
