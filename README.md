@@ -241,6 +241,8 @@ Set-MpPreference -EnableControlledFolderAccess Enabled
 ```powershell
 Get-ProcessMitigation -System
 ```
+
+*TODO:* Write about ACG for network-allowed applications.
    
 # GPG
 
