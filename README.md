@@ -4,6 +4,10 @@ Aiming at level 3 baseline + some additional restrictions.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
+Tools used:
+* MS Docs & Technet
+* Wireshark and MS Network Monitor
+* [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
