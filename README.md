@@ -236,6 +236,11 @@ If anything from the above is disabled &mdash; investigate why and fix.
 ```powershell
 Set-MpPreference -EnableControlledFolderAccess Enabled
 ```
+
+25. Enable and configure [exploit mitigation options](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/)
+```powershell
+Get-ProcessMitigation -System
+```
    
 # GPG
 
