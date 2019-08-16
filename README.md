@@ -266,3 +266,9 @@ Microsoft Network Monitor allows filtering on per-process basis:
 ```powershell
 Conversation.ProcessName == "shady.exe"
 ```
+
+Cleanup "MS Defender App Guard":
+```cmd
+wdagtool.exe cleanup
+wdagtool.exe cleanup RESET_PERSISTENCE_LAYER
+```
