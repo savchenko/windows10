@@ -317,3 +317,26 @@ wdagtool.exe cleanup RESET_PERSISTENCE_LAYER
 "bPurchaseAcro"=dword:00000000
 "bReaderRetentionExperiment"=dword:00000000
 ```
+
+## Per-application process mitigation settings
+Save all settings:
+```powershell
+Get-ProcessMitigation -RegistryConfigFilePath settings.xml
+```
+
+### Firefox
+```xml
+<AppConfig Executable="firefox.exe">
+  <DEP Enable="true" EmulateAtlThunks="false" />
+  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
+  <StrictHandle Enable="true" />
+  <ExtensionPoints DisableExtensionPoints="true" />
+  <ControlFlowGuard Enable="true" SuppressExports="false" />
+  <SignedBinaries EnforceModuleDependencySigning="true" />
+  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
+  <Payload EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
+  <SEHOP Enable="true" TelemetryOnly="false" />
+  <Heap TerminateOnError="true" />
+</AppConfig>
+```
+	  
