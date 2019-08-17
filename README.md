@@ -181,6 +181,8 @@ function updatecmd {
     else {
     }
     Get-WindowsUpdate -Verbose -Install -AcceptAll
+    # Start-Sleep -s 5
+    Read-host “Press Enter to continue...”
     Set-NetFirewallRule -DisplayName block_service_host -Action Block
 }
 
