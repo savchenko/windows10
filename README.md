@@ -326,6 +326,24 @@ Save all settings:
 Get-ProcessMitigation -RegistryConfigFilePath settings.xml
 ```
 
+### KeePassXC
+```xml
+<AppConfig Executable="KeePassXC.exe">
+  <DEP Enable="true" EmulateAtlThunks="false" />
+  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
+  <StrictHandle Enable="true" />
+  <ExtensionPoints DisableExtensionPoints="true" />
+  <ControlFlowGuard Enable="true" SuppressExports="false" />
+  <SignedBinaries EnforceModuleDependencySigning="true" />
+  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
+  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
+  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
+  <SEHOP Enable="true" TelemetryOnly="false" />
+  <Heap TerminateOnError="true" />
+  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
+</AppConfig>
+```
+
 ### Firefox
 ```xml
 <AppConfig Executable="firefox.exe">
@@ -339,6 +357,45 @@ Get-ProcessMitigation -RegistryConfigFilePath settings.xml
   <Payload EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
   <SEHOP Enable="true" TelemetryOnly="false" />
   <Heap TerminateOnError="true" />
+</AppConfig>
+```
+
+### Notepad++
+```xml
+<AppConfig Executable="notepad++.exe">
+  <DEP Enable="true" EmulateAtlThunks="false" />
+  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
+  <StrictHandle Enable="true" />
+  <ExtensionPoints DisableExtensionPoints="true" />
+  <DynamicCode BlockDynamicCode="true" AllowThreadsToOptOut="false" Audit="false" />
+  <ControlFlowGuard Enable="true" SuppressExports="false" />
+  <SignedBinaries EnforceModuleDependencySigning="true" />
+  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
+  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
+  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
+  <SEHOP Enable="true" TelemetryOnly="false" />
+  <Heap TerminateOnError="true" />
+  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
+</AppConfig>
+
+```
+
+### mIRC
+```xml
+<AppConfig Executable="mirc.exe">
+  <DEP Enable="true" EmulateAtlThunks="false" />
+  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
+  <StrictHandle Enable="true" />
+  <ExtensionPoints DisableExtensionPoints="true" />
+  <DynamicCode BlockDynamicCode="true" AllowThreadsToOptOut="false" Audit="false" />
+  <ControlFlowGuard Enable="true" SuppressExports="false" />
+  <SignedBinaries MicrosoftSignedOnly="true" AllowStoreSignedBinaries="false" Audit="false" AuditStoreSigned="false" EnforceModuleDependencySigning="true" />
+  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
+  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
+  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
+  <SEHOP Enable="true" TelemetryOnly="false" />
+  <Heap TerminateOnError="true" />
+  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
 </AppConfig>
 ```
 	  
