@@ -279,7 +279,9 @@ git config --global commit.gpgsign true
     
     This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
 
-3. Consider https://github.com/Microsoft/AaronLocker
+3. Consider https://github.com/Microsoft/AaronLocker (_requires "Enterprise"?.._)
+
+4. Mention separation of apps that have network access from "protected folders".
 
     
 # Notes
