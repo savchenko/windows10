@@ -1,6 +1,6 @@
 # Summary
 Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
-Aiming at level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
+Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
