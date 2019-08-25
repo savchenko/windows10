@@ -244,8 +244,22 @@ Set-MpPreference -EnableControlledFolderAccess Enabled
 Get-ProcessMitigation -System
 ```
 
-*TODO:* Write about ACG for network-allowed applications.
+26. Import GPO rules and restart:
+```powershell
+LGPO.exe /v /g '.\{8559EB48-4AB7-436F-91E2-A45222356495}\'
+```
    
+# Git
+
+1. Install `git`, `git-credential-manager-for-windows` and `tortoise-git`.
+2. Configure to sign commits by default:
+```powershell
+git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+git config --global user.signingkey $LONG_KEY_ID
+git config --global commit.gpgsign true
+```
+3. 
+
 # GPG
 
 1. Export pubkey from a (sub)key that is allowed to authenticate: `gpg.exe --export-ssh-key ID`
@@ -265,8 +279,7 @@ Get-ProcessMitigation -System
     
     This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
 
-3. Publish LGPO file.
-4. Consider https://github.com/Microsoft/AaronLocker
+3. Consider https://github.com/Microsoft/AaronLocker
 
     
 # Notes
