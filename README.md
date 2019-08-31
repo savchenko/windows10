@@ -28,7 +28,7 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
 5. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
-   2. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, Hewlett Packard:
+   2. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
