@@ -253,7 +253,8 @@ LGPO.exe /v /g '.\{8559EB48-4AB7-436F-91E2-A45222356495}\'
 ```
 
 27. Use `tools/mdstools` to assess the damage caused by [speculative execution attacks](https://mdsattacks.com/).  
-Also, from `tools/SpeControl`:  
+
+28. Also, from `tools/SpeControl`:  
 ```powershell
 Import-Module -name .\SpeculationControl.psm1
 Get-SpeculationControlSettings -Verbose
