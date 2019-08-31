@@ -24,9 +24,30 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 
 2. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
-4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to update/patch/assess using CSME tool, link above.
+4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
 4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
 5. Disable HyperThreading&reg; if you can afford the performance loss.
+   1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
+   2. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, Hewlett Packard:
+   ```powershell
+   .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
+   ```
+   ```xml
+	<BIOSCONFIG Version="" Computername="WIN" Date="2019/08/31" Time="21:23:19" UTC="10">
+		<SUCCESS msg="Successfully read password from file" />
+		<SETTING changeStatus="skip" name="Trusted Execution Technology (TXT)" returnCode="18">
+			<OLDVALUE><![CDATA[Enable]]></OLDVALUE>
+			<VALUE><![CDATA[Disable]]></VALUE>
+		</SETTING>
+		<SUCCESS msg="No errors occurred" />
+		<Information msg="BCU return value" real="0" translated="0" />
+	</BIOSCONFIG>
+    ```
+    3. Finally, disable HT:
+    ```powershell
+    .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
+    ```
+   
 
 # After
 1. If necessary, install GPU drivers using offline installer.
