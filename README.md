@@ -26,6 +26,7 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
 4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to update/patch/assess using CSME tool, link above.
 4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
+5. Disable HyperThreading&reg; if you can afford the performance loss.
 
 # After
 1. If necessary, install GPU drivers using offline installer.
