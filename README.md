@@ -9,6 +9,7 @@ Tools used:
 * Wireshark and MS Network Monitor
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
+* [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
@@ -22,7 +23,9 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
 
 2. Un-plug ethernet if present, disable WiFi.
-3. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d. 
+3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
+4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to update/patch/assess using CSME tool, link above.
+4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
 
 # After
 1. If necessary, install GPU drivers using offline installer.
@@ -248,6 +251,8 @@ Get-ProcessMitigation -System
 ```powershell
 LGPO.exe /v /g '.\{8559EB48-4AB7-436F-91E2-A45222356495}\'
 ```
+
+27. Use `tools/mdstools` to assess the damage caused by [speculative execution attacks](https://mdsattacks.com/)
    
 # Git
 
