@@ -296,14 +296,16 @@ KVAShadowWindowsSupportEnabled      : True
 
 # Git
 
-1. Install `git`, `git-credential-manager-for-windows` and `tortoise-git`.
+1. Install git:
+```powershell
+choco install --force git --params "/NoGuiHereIntegration /NoShellHereIntegration"
+```
 2. Configure to sign commits by default:
 ```powershell
 git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
 git config --global user.signingkey $LONG_KEY_ID
 git config --global commit.gpgsign true
 ```
-3. 
 
 # GPG
 
