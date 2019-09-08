@@ -269,20 +269,25 @@ Set-MpPreference -EnableControlledFolderAccess Enabled
 Get-ProcessMitigation -System
 ```
 
-26. Import GPO rules and restart:
+26. Enable Local Security Authority (LSA) hardening:
+```powershell
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 1 /f
+```
+
+27. Import GPO rules and restart:
 ```powershell
 LGPO.exe /v /g '.\{8559EB48-4AB7-436F-91E2-A45222356495}\'
 ```
 
-27. Use `tools/mdstools` to assess the damage caused by [speculative execution attacks](https://mdsattacks.com/).  
+28. Use `tools/mdstools` to assess the damage caused by [speculative execution attacks](https://mdsattacks.com/).  
 
-28. Also, from `tools/SpeControl`:  
+29. Also, from `tools/SpeControl`:  
 ```powershell
 Import-Module -name .\SpeculationControl.psm1
 Get-SpeculationControlSettings -Verbose
 ```
 
-29. To enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
+30. To enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
 ```powershell
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverride /t REG_DWORD /d 8 /f
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
