@@ -22,7 +22,11 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
 
-2. Un-plug ethernet if present, disable WiFi.
+2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all CPUs except of >7th generation Intel processors. To quote Mark Russinovich and Alex Ionescu:
+
+> "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
+
+3. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
 4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
 4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
@@ -296,6 +300,11 @@ Reboot and verify:
 ```powershell
 Get-SpeculationControlSettings -Quiet | grep KVAS\w*SupportEnabled
 KVAShadowWindowsSupportEnabled      : True
+```
+
+31. Verify Device Guard&trade; operational status:
+```powershell
+Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
 ```
 
 
