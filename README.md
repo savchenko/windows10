@@ -28,6 +28,8 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
 
+3. In addition to the above, you are likely to experience performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
+
 3. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
 4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
