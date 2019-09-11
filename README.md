@@ -13,6 +13,14 @@ Tools used:
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
+# Rationale
+One might rightfully ask, - "Why author decided to bother with MS product while there are much more comfortable \*nix-based operating systems?". At present, main considerations for touching the proprietary OS are:
+* Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not exactly default modus operandi of LUKS.
+* Type-1 hypervisor. See below for the details on HVCI.
+* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
+* Handy commercial software that is not available under Linux or \*BSD.
+* Good hardware support.
+
 # Before install
 1. Recognize that you are dealing with the closed-source operating system that has useful features and hostile elements simultaneously. To give you an idea on how chilly MS world is different from a warm \*nix shell, this is enabled by default:
 
