@@ -413,6 +413,10 @@ Save all settings:
 ```powershell
 Get-ProcessMitigation -RegistryConfigFilePath settings.xml
 ```
+Apply all settings from a previously saved XML:
+```powershell
+Set-ProcessMitigation -PolicyFilePath .\settings.xml
+```
 
 ### KeePassXC
 ```xml
