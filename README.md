@@ -370,6 +370,11 @@ wdagtool.exe cleanup
 wdagtool.exe cleanup RESET_PERSISTENCE_LAYER
 ```
 
+There is an in-built alternative to `shasum`:
+```powershell
+CertUtil -hashfile $FILE SHA1
+```
+
 ## Adobe Reader DC lockdown
 
 ```reg
