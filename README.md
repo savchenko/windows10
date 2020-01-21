@@ -154,6 +154,7 @@ _Tip of the day:_ Add file protectors instead of the pre-generated numerical seq
 ![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
 11. Explorer tweaks to remove unnecessary cruft:
 ```reg
+Windows Registry Editor Version 5.00
 [-HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\Sharing]
 [-HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\{90AA3A4E-1CBA-4233-B8BB-535773D48449}]
 [-HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\SendTo]
@@ -373,6 +374,7 @@ CertUtil -hashfile $FILE SHA1
 
 Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseGit:
 ```reg
+Windows Registry Editor Version 5.00
 [-HKEY_CLASSES_ROOT\Directory\shell\git_gui]
 [-HKEY_CLASSES_ROOT\Directory\shell\git_shell]
 [-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_gui]
@@ -384,6 +386,7 @@ Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseG
 ## Adobe Reader DC lockdown
 
 ```reg
+Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Acrobat Reader\DC\FeatureLockDown]
 "bUpdater"=dword:00000000
 "bSuppressSignOut"=dword:00000001
