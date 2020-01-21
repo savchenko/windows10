@@ -371,6 +371,16 @@ There is an in-built alternative to `shasum`:
 CertUtil -hashfile $FILE SHA1
 ```
 
+Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseGit:
+```reg
+[-HKEY_CLASSES_ROOT\Directory\shell\git_gui]
+[-HKEY_CLASSES_ROOT\Directory\shell\git_shell]
+[-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_gui]
+[-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_shell]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\git_gui]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\git_shell]
+```
+
 ## Adobe Reader DC lockdown
 
 ```reg
