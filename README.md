@@ -1,20 +1,12 @@
-[Summary](#summary)
-- [Summary](#summary)
-- [Rationale](#rationale)
-- [Intro](#intro)
-- [Before installation](#before-installation)
-- [Yo](#yo)
-- [Update Windows](#update-windows)
-
 # Summary
-Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
+This is a cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
 Tools used:
-* MS Docs & Technet
-* Wireshark and MS Network Monitor
+* [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
+* [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
@@ -22,7 +14,7 @@ Tools used:
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 # Rationale
-One might rightfully ask, - "Why author decided to bother with MS product while there are much more comfortable \*nix-based operating systems?". At present, main considerations for touching the proprietary OS are:
+One might rightfully ask, - _"Why to bother with MS product while there are better \*nix-based operating systems?"_. At present, main considerations for touching the proprietary OS are:
 * Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not exactly default modus operandi of LUKS.
 * Type-1 hypervisor. See below for the details on HVCI.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
