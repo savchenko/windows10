@@ -1,3 +1,11 @@
+[Summary](#summary)
+- [Summary](#summary)
+- [Rationale](#rationale)
+- [Intro](#intro)
+- [Before installation](#before-installation)
+- [Yo](#yo)
+- [Update Windows](#update-windows)
+
 # Summary
 Cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
@@ -38,7 +46,7 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
 
 3. In addition to the above, you are likely to experience performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
 
-# Before install
+# Before installation
 3. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
 4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
@@ -64,12 +72,13 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
     ```powershell
     .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
     ```
+# During installation
+1. Keep machine disconnected from the Internet
+2. Opt-out from personal data collection when asked
 
-# After
-1. If necessary, install GPU drivers using offline installer.
-2. Turn on "controlled folder access" and "core isolation".
-3. Enable "Windows Sandbox" and "Windows Defender App Guard" in "Windows features".
-4. Use [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
+# After installation
+1. If necessary, install GPU drivers using _verified_ offline installer, use DCH package if possible.
+2. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
    1. Temporarily change execution policy for PowerShell scripts:  
    `Set-ExecutionPolicy -ExecutionPolicy AllSigned`  
    1. Check current status:  
@@ -80,66 +89,26 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch exec.policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
-5. Change Hyper-V scheduler to mitigate CVE-2018-3646, etc. 
-   1. See [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
-   2. Determine current scheduler, most likely it will be "root" aka 0x4:
+
+3. Check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
+   1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
+   2. Determine current scheduler:
    ```powershell
    Get-WinEvent -FilterHashTable @{ProviderName="Microsoft-Windows-Hyper-V-Hypervisor"; ID=2} | select -Last 1
    ```
-   4. Execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot.
-6. Run these from `cmd` instead of PowerShell:    
+   4. If the command above has returned "root" aka 0x4, execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot.
+   5. Configure each VM to take advantage of `core` by setting their hardware thread count per core to two:
+   ```powershell
+   Set-VMProcessor -VMName <VMName> -HwThreadCountPerCore 2
+   ```
 
-Cortana: 
-```powershell
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCortana /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules"  /v "{2765E0F4-2918-4A46-B9C9-43CDD8FCBA2B}" /t REG_SZ /d  "BlockCortana|Action=Block|Active=TRUE|Dir=Out|App=C:\windows\systemapps\microsoft.windows.cortana_cw5n1h2txyewy\searchui.exe|Name=Search  and Cortana  application|AppPkgId=S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742|" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" /v BingSearchEnabled /t REG_DWORD /d 0 /f
-```
-3D paint:  
-```powershell
-for /f "tokens=1* delims=" %I in (' reg query "HKEY_CLASSES_ROOT\SystemFileAssociations" /s /k /f "3D Edit" ^| find /i "3D Edit" ') do (reg delete "%I" /f )
-for /f "tokens=1* delims=" %I in (' reg query "HKEY_CLASSES_ROOT\SystemFileAssociations" /s /k /f "3D Print" ^| find /i "3D Print" ') do (reg delete "%I" /f )
-```
-Error reporting:
-```powershell
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
-```
-Disable LLMNR (alternatively, can be done via GPO)
-```powershell
-reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient”
-reg add  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” EnableMulticast” /t REG_DWORD /d “0” /f
-```
-Don't enforce updates:
-```powershell
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v AUOptions /t REG_DWORD /d 2 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v ScheduledInstallDay /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v ScheduledInstallTime /t REG_DWORD /d 3 /f
-```
-Don't call home on every boot to check the license:
-```powershell
-reg add "HKLM\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f
-```
-Disable sync:
-```powershell
-reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync /t REG_DWORD /d 2 /f
-reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSyncUserOverride /t REG_DWORD /d 1 /f
-```
-Disable Windows tips:
-```powershell
-reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding /t REG_DWORD /d 1 /f
-reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
-reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
-reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFeedbackNotifications /t REG_DWORD /d 1 /f
-reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
-```
-7. Configure minimal Windows Firewall (drop all incoming, allow core networking and other services to taste).  
-Don't forget that `svchost` will need an access to use WinUpdate.
-9. Edit BitLocker-related GPOs:
+## Setting-up the machine
+1. Review its code and once satisfied, run the  `./Scripts/cmd.bat`.
+2. Import initial firewall policy from `./Settings/WDF`
+3. Edit BitLocker-related GPOs:
    1. Enable "enhanced pin" - allows to use extended character set
-   1. Enable PCR banks to taste.
-10. Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
+   2. Enable PCR banks to taste.
+4.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
 _Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
 11. Plug back ethernet, update system and "Windows Store" apps.
 8. `choco install miniwall` and configure per-application network access.
@@ -314,6 +283,12 @@ KVAShadowWindowsSupportEnabled      : True
 31. Verify Device Guard&trade; operational status:
 ```powershell
 Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
+```
+
+
+After Windows is activated, run the following to prevent it from calling home on every boot to check the license:
+```powershell
+reg add "HKLM\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f
 ```
 
 
