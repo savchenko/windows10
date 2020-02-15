@@ -14,7 +14,7 @@ Tools used:
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 # Rationale
-One might rightfully ask, - _"Why to bother with MS product while there are better \*nix-based operating systems?"_. At present, main considerations for touching the proprietary OS are:
+One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />At present, main considerations for touching the proprietary OS are:
 * Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not exactly default modus operandi of LUKS.
 * Type-1 hypervisor. See below for the details on HVCI.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
