@@ -21,7 +21,7 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
 * Handy commercial software that is not available under Linux or \*BSD.
 * Good hardware support.
 
-# Before install
+# Intro
 1. Recognize that you are dealing with the closed-source operating system that has useful features and hostile elements simultaneously. To give you an idea on how chilly MS world is different from a warm \*nix shell, this is enabled by default:
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user. 
@@ -30,18 +30,19 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
 
-2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all CPUs except of >7th generation Intel processors. To quote Mark Russinovich and Alex Ionescu:
+2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and [AMD before Ryzen 2](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
 > "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
 
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
 
-3. In addition to the above, you are likely to experience performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
+3. In addition to the above, you are likely to experience performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
 
+# Before install
 3. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
 4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
-4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d.
+4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
 5. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    2. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
@@ -63,7 +64,6 @@ One might rightfully ask, - "Why author decided to bother with MS product while 
     ```powershell
     .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
     ```
-   
 
 # After
 1. If necessary, install GPU drivers using offline installer.
