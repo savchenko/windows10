@@ -1,3 +1,4 @@
+
 # Summary
 This is a cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
@@ -14,15 +15,16 @@ Tools used:
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 # Rationale
-One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />At present, main considerations for touching the proprietary OS are:
-* Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not exactly default modus operandi of LUKS.
-* Type-1 hypervisor. See below for the details on HVCI.
+One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
+At present, main considerations for touching the proprietary OS are:
+* Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
+* Commercial-grade Type-1 hypervisor, elaborate virtualization options out of the box.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
-* Handy commercial software that is not available under Linux or \*BSD.
+* Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
 # Intro
-1. Recognize that you are dealing with the closed-source operating system that has useful features and hostile elements simultaneously. To give you an idea on how chilly MS world is different from a warm \*nix shell, this is enabled by default:
+1. Recognize that you are dealing with the closed-source operating system that has a combination of useful features and hostile elements. To give you an idea on how MS world is different from a typical \*nix, this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user. 
 > 
@@ -30,18 +32,20 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
 
-2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and [AMD before Ryzen 2](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
+2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
 > "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
 
+After we are done, your environment will look like this:
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
+...plus some more VMs on the side.
 
-3. In addition to the above, you are likely to experience performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
+3. Be aware of the performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
 
 # Before installation
 3. Un-plug ethernet if present, disable WiFi.
 3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
-4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch/ using CSME, link above.
+4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
 5. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
@@ -60,7 +64,7 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 		<Information msg="BCU return value" real="0" translated="0" />
 	</BIOSCONFIG>
     ```
-    3. Finally, disable HT:
+    3. Afterwards, you should be able to disable HT:
     ```powershell
     .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
     ```
@@ -69,8 +73,8 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 2. Opt-out from personal data collection when asked
 
 # After installation
-1. If necessary, install GPU drivers using _verified_ offline installer, use DCH package if possible.
-2. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
+## Enable HVCI and Credential Guard
+1. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
    1. Temporarily change execution policy for PowerShell scripts:  
    `Set-ExecutionPolicy -ExecutionPolicy AllSigned`  
    1. Check current status:  
@@ -79,39 +83,75 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
    `.\DG_Readiness_tool_v3.4.ps1 -Enable`  
    1. Looks like this?  
    ![](https://i.imgur.com/QsaDuOV.png)
-   1. Good. Don't forget to switch exec.policy back:  
+   1. Good. Don't forget to switch the policy back:  
    `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
 
-3. Check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
+2. Check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
    1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
    2. Determine current scheduler:
    ```powershell
    Get-WinEvent -FilterHashTable @{ProviderName="Microsoft-Windows-Hyper-V-Hypervisor"; ID=2} | select -Last 1
    ```
-   4. If the command above has returned "root" aka 0x4, execute `bcdedit /set hypervisorschedulertype core` from elevated shell and reboot.
-   5. Configure each VM to take advantage of `core` by setting their hardware thread count per core to two:
+   4. If the command above has returned 0x4, execute from elevated shell and reboot: `bcdedit /set hypervisorschedulertype core`.
+   5. Later, you will need to configure each VM so it takes advantage of the Core scheduler by setting its hardware thread-count-per-core to two:
    ```powershell
    Set-VMProcessor -VMName <VMName> -HwThreadCountPerCore 2
    ```
 
-## Setting-up the machine
+3. After reboot, verify current state:
+   ```powershell
+   Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | fl SecurityServicesRunning, SecurityServicesConfigured, VirtualizationBasedSecurityStatus
+   ```
+   If curious (as you should be), compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity). In general, output should look like this:
+   ```shell
+   blah xxx -ccc --ccc -v --help -f --force
+   ```
+# TODO: Open https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity
+#         Check the list on SL, continue
+
+## First 3 steps
 1. Review its code and once satisfied, run the  `./Scripts/cmd.bat`.
 2. Import initial firewall policy from `./Settings/WDF`
-3. Edit BitLocker-related GPOs:
-   1. Enable "enhanced pin" - allows to use extended character set
-   2. Enable PCR banks to taste.
-4.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.  
-_Tip of the day:_ Add file protectors instead of the pre-generated numerical sequences.
-11. Plug back ethernet, update system and "Windows Store" apps.
-8. `choco install miniwall` and configure per-application network access.
-9. `choco install pgp4win`
-   1. Import pubkey, insert smart-card.
-   3. Open `kleopatra`, Tools &rarr; Manage Smartcards, ensure yours is present.
-   4. Do not close Kleopatra.
-   5. Issue `gpg.exe --card-status` to refresh the SCDaemon.
-   6. Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
-   7. Change trust level of your own certificate to ultimate.
-10. Adjust content of system CA as necessary:
+3. Import Group Policy from `./Settings/GPO`
+
+## Full Disk Encryption for NT systems: Bitlocker
+4. Open policy editor and search the following: _"Configure TPM platform validation profile for native UEFI firmware configurations"_.
+5.  Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
+Good start on a relatively modern device with TPM 2.0 would be `0,1,.......`
+7.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
+    1. Double-check that Bitlocker is disabled for the system drive:
+      ```powershell
+      .\manage-bde.exe -protectors -get C:
+      ```
+    2. If result is negative, add TPM and PIN:
+      ```powershell
+      .\manage-bde.exe -protectors -add -tp C:
+      ```
+    3. Until the above is confirmed working, add temporary recovery key:
+      ```powershell
+      .\manage-bde.exe -protectors -add -rp C:
+      ```
+      Write-down the numerical password, you will need it if machine refuses to boot with the chosen set of PCR banks.
+
+    4. If computer has started successfully and `Manage-BDE -protectors -get C:` returns data set at step #1...
+
+    5. Add file protectors instead of the pre-generated numerical sequence:
+      ```powershell
+      .\manage-bde.exe -protectors -delete -t RecoveryPassword C:
+      .\manage-bde.exe -protectors -add -rk X:\WHERE_TO_STORE_KEY C:
+      ```
+      *N.B.* Don't forget to securely wipe device "X" after the key is transferred to a proper location. 
+
+8. If necessary, install GPU drivers using _verified_ offline installer, use DCH package if possible.
+
+11. `choco install pgp4win`
+1. Import pubkey, insert smart-card.
+    1) Open `kleopatra`, Tools &rarr; Manage Smartcards, ensure yours is present.
+    2) Do not close Kleopatra.
+    3) Issue `gpg.exe --card-status` to refresh the SCDaemon.
+    4) Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
+    5) Change trust level of your own certificate to ultimate.
+2.  Adjust content of system CA as necessary:
 ![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
 11. Explorer tweaks to remove unnecessary cruft:
 ```reg
@@ -194,6 +234,15 @@ Set-Alias -Name update -Value sudo_updatecmd
    - Now, when you'd like to update Windows, just run `update` from the PS.
      This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
 21. Let's add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
+
+#TODO: Expand on OTP: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-atp/exploit-protection#block-executable-files-from-running-unless-they-meet-a-prevalence-age-or-trusted-list-criterion
+
+https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/enable-attack-surface-reduction
+
+https://github.com/AndyFul
+
+https://demo.wd.microsoft.com/?ocid=cx-wddocs-testground
+
 ```powershell
 $asrs = @("BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550",  # Block executable content from email client and webmail
            "D4F940AB-401B-4EFC-AADC-AD5F3C50688A", # Block all Office applications from creating child processes

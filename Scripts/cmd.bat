@@ -3,7 +3,7 @@
 ::
 
 @echo off
-::SETLOCAL EnableDelayedExpansion
+SETLOCAL EnableDelayedExpansion
 
 echo This should be run with Administrator privileges, otherwise errors will occur.
 set /p rtg="Press any key if you are ready, close this window if not."
@@ -37,6 +37,5 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFe
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync /t REG_DWORD /d 2 /f
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSyncUserOverride /t REG_DWORD /d 1 /f
-
 
 set /p done=""
