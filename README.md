@@ -115,7 +115,7 @@ After we are done, your environment will look like this:
 3. Import Group Policy from `./Settings/GPO`
 
 ## Full Disk Encryption for NT systems: Bitlocker
-4. Open policy editor and search the following: _"Configure TPM platform validation profile for native UEFI firmware configurations"_.
+4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
 5.  Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
 Good start on a relatively modern device with TPM 2.0 would be `0,1,.......`
 7.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
@@ -195,7 +195,9 @@ MachinePolicy       Undefined
  ```
 18. Create profile:
 ```powershell
-New-Item -path $profile -type file -force
+if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
+  New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
+}
 ```
 19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
