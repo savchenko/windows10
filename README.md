@@ -390,6 +390,11 @@ There is an in-built alternative to `shasum`:
 CertUtil -hashfile $FILE SHA1
 ```
 
+Set keyboard layout:
+```powershell
+Set-WinUserLanguageList -LanguageList en-US
+```
+
 Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseGit:
 ```reg
 Windows Registry Editor Version 5.00
