@@ -103,11 +103,18 @@ After we are done, your environment will look like this:
    Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | fl SecurityServicesRunning, SecurityServicesConfigured, VirtualizationBasedSecurityStatus
    ```
    If curious (as you should be), compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity). In general, output should look like this:
-   ```shell
-   blah xxx -ccc --ccc -v --help -f --force
+   ```powershell
+    AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
+    CodeIntegrityPolicyEnforcementStatus         : 0
+    InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
+    RequiredSecurityProperties                   : {0}
+    SecurityServicesConfigured                   : {0}
+    SecurityServicesRunning                      : {0}
+    UsermodeCodeIntegrityPolicyEnforcementStatus : 0
+    Version                                      : 1.0
+    VirtualizationBasedSecurityStatus            : 0
+    PSComputerName                               :
    ```
-# TODO: Open https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity
-#         Check the list on SL, continue
 
 ## First 3 steps
 1. Review its code and once satisfied, run the  `./Scripts/cmd.bat`.
