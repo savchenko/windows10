@@ -122,7 +122,7 @@ After we are done, your environment will look like this:
 3. Import Group Policy from `./Settings/GPO`
 
 ## Full Disk Encryption for NT systems: Bitlocker
-4. Open policy editor and search the following: _"Configure TPM platform validation profile for native UEFI firmware configurations"_.
+4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
 5.  Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
 Good start on a relatively modern device with TPM 2.0 would be `0,1,.......`
 7.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
@@ -202,7 +202,9 @@ MachinePolicy       Undefined
  ```
 18. Create profile:
 ```powershell
-New-Item -path $profile -type file -force
+if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
+  New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
+}
 ```
 19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
@@ -395,6 +397,11 @@ There is an in-built alternative to `shasum`:
 CertUtil -hashfile $FILE SHA1
 ```
 
+Set keyboard layout:
+```powershell
+Set-WinUserLanguageList -LanguageList en-US
+```
+
 Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseGit:
 ```reg
 Windows Registry Editor Version 5.00
@@ -408,42 +415,7 @@ Windows Registry Editor Version 5.00
 
 ## Adobe Reader DC lockdown
 
-```reg
-Windows Registry Editor Version 5.00
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Acrobat Reader\DC\FeatureLockDown]
-"bUpdater"=dword:00000000
-"bSuppressSignOut"=dword:00000001
-"bToggleAdobeDocumentServices"=dword:00000001
-"bToggleFillSign"=dword:00000001
-"bToggleSendACopy"=dword:00000000
-"bToggleAdobeSign"=dword:00000001
-"bToggleManageSign"=dword:00000001
-"bToggleSendAndTrack"=dword:00000001
-"bTogglePrefsSync"=dword:00000001
-"bToggleNotifications"=dword:00000001
-"bToggleDocumentCloud"=dword:00000001
-"bToggleWebConnectors"=dword:00000001
-"bToggleAdobeReview"=dword:00000001
-"bAcroSuppressOpenInReader"=dword:00000001
-"bToggleShareFeedback"=dword:00000000
-"bToggleToDoList"=dword:00000001
-"bToggleFTE"=dword:00000001
-"bToggleToDoTiles"=dword:00000001
-"bToggleDCAppCenter"=dword:00000001
-"bMixRecentFilesFeatureLockDown"=dword:00000001
-"bShowEbookMenu"=dword:00000000
-"bCommercialPDF"=dword:00000001
-"bRegisterProduct"=dword:00000001
-"bShowAdsAllow"=dword:00000001
-"bEnableFlash"=dword:00000000
-"bFindMoreWorkflowsOnline"=dword:00000000
-"bFindMoreCustomizationsOnline"=dword:00000000
-"bShowRhpToolSearch"=dword:00000000
-"bEnableAcrobatPromptForDocOpen"=dword:00000000
-"bAcroSuppressUpsell"=dword:00000001
-"bPurchaseAcro"=dword:00000000
-"bReaderRetentionExperiment"=dword:00000000
-```
+Moved to the WIKI.
 
 ## Per-application process mitigation settings
 Save all settings:
