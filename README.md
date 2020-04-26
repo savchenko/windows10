@@ -47,9 +47,10 @@ After we are done, your environment will look like this:
 1. Install latest BIOS from a vendor.
 1. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
-1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;. Think carefully as performance impact will be significant, this is where hardware upgrade might be a more reasonable choice.
+1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
+	Think carefully as performance impact will be significant. Hardware upgrade might be a more reasonable choice.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
-   1. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
+   1. Sometimes this can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
@@ -70,7 +71,7 @@ After we are done, your environment will look like this:
     ```
 # During installation
 1. Keep machine disconnected from the Internet
-2. Opt-out from personal data collection when asked
+2. Opt-out from all personal data collection when asked. This means answering "no" to almost every single question.
 
 # After installation
 ## Enable HVCI and Credential Guard
@@ -84,7 +85,9 @@ After we are done, your environment will look like this:
    1. Looks like this?  
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch the policy back:  
-   `Set-ExecutionPolicy -ExecutionPolicy Restricted`  
+   `Set-ExecutionPolicy -ExecutionPolicy Restricted`
+
+1. Reboot
 
 2. Check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
    1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
