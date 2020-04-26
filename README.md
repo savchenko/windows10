@@ -47,7 +47,7 @@ After we are done, your environment will look like this:
 1. Install latest BIOS from a vendor.
 1. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
-1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
+1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;. Think carefully as performance impact will be significant, this is where hardware upgrade might be a more reasonable choice.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    1. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
