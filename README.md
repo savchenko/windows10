@@ -18,7 +18,7 @@ If you are looking for something reproducible and more of a \*nix flavour, check
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations for touching the proprietary OS are:
 * Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
-* Commercial-grade Type-1 hypervisor, elaborate virtualization options out of the box.
+* Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
@@ -32,7 +32,7 @@ At present, main considerations for touching the proprietary OS are:
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
 
-2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
+1. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
 > "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
 
@@ -40,16 +40,16 @@ After we are done, your environment will look like this:
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
 ...plus some more VMs on the side.
 
-3. Be aware of the performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
+1. Be aware of the performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
 
 # Before installation
-3. Un-plug ethernet if present, disable WiFi.
-3. Install latest BIOS from a vendor or flash Coreboot with the latest CPU microcode.
-4. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
-4. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
-5. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
+1. Un-plug ethernet if present, disable WiFi.
+1. Install latest BIOS from a vendor.
+1. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
+1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
+1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
-   2. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
+   1. This, however, sometimes can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
