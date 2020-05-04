@@ -7,6 +7,7 @@ Level 3 baseline plus/minus some additional customizations: less network noise, 
 
 Tools used:
 * [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
+* [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
 * [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
@@ -83,14 +84,17 @@ After we are done, your environment will look like this:
 2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
 
 # After installation
+## Copy this repository to the target machine
+Obviosly, via local means. Do not connect to the Internet just yet.
+
 ## Enable HVCI and Credential Guard
 1. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
    1. Temporarily change execution policy for PowerShell scripts:  
    `Set-ExecutionPolicy -ExecutionPolicy AllSigned`  
    1. Check current status:  
-   `.\DG_Readiness_tool_v3.4.ps1 -Ready`  
+   `.\DG_Readiness_tool_v3.6.ps1 -Ready`  
    1. Enable:  
-   `.\DG_Readiness_tool_v3.4.ps1 -Enable`  
+   `.\DG_Readiness_tool_v3.6.ps1 -Enable`  
    1. Looks like this?  
    ![](https://i.imgur.com/QsaDuOV.png)
    1. Good. Don't forget to switch the policy back:  
@@ -98,14 +102,15 @@ After we are done, your environment will look like this:
 
 1. Reboot
 
-2. Check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
+## Check Hyper-V settings
+2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
    1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
    2. Determine current scheduler:
    ```powershell
    Get-WinEvent -FilterHashTable @{ProviderName="Microsoft-Windows-Hyper-V-Hypervisor"; ID=2} | select -Last 1
    ```
    4. If the command above has returned 0x4, execute from elevated shell and reboot: `bcdedit /set hypervisorschedulertype core`.
-   5. Later, you will need to configure each VM so it takes advantage of the Core scheduler by setting its hardware thread-count-per-core to two:
+   5. Later, you will need to configure each VM so it takes advantage of the Core scheduler **by setting its hardware thread-count-per-core to two**:
    ```powershell
    Set-VMProcessor -VMName <VMName> -HwThreadCountPerCore 2
    ```
@@ -119,13 +124,13 @@ After we are done, your environment will look like this:
     AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
     CodeIntegrityPolicyEnforcementStatus         : 0
     InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
-    RequiredSecurityProperties                   : {0}
-    SecurityServicesConfigured                   : {0}
-    SecurityServicesRunning                      : {0}
+    RequiredSecurityProperties                   : {0}		#								  #
+    SecurityServicesConfigured                   : {0}		# Depends on the hardware support #
+    SecurityServicesRunning                      : {0}		#								  #
     UsermodeCodeIntegrityPolicyEnforcementStatus : 0
     Version                                      : 1.0
     VirtualizationBasedSecurityStatus            : 0
-    PSComputerName                               :
+    PSComputerName                               : COMPUTERNAME
    ```
 
 ## First 3 steps
