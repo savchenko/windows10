@@ -15,19 +15,22 @@ Tools used:
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 # Foreword
-As you might notice, this guide suggests to follow rather strict approach of using vendor-approved 
+As you might notice, this guide suggests to follow rather strict approach and accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and whenever possible suggests to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
+
+Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model.
+
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations for touching the proprietary OS are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
-	And good luck getting `clevis` to work with "TPM + user password" setup that supports additional "backup" keys and automatic roll-over after kernel upgrades.
+	And good luck getting `clevis` to work with "TPM + user password" setup that supports additional backup keys and automatic roll-over after kernel upgrades.
 * Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
-# First thoughts
+# First steps
 1. Recognize that you are dealing with the closed-source operating system that has a combination of useful features and hostile elements. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
