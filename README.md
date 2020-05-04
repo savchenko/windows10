@@ -109,6 +109,8 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 .\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
 ```
+1. Create new, non-administrative account
+1. Reboot
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
