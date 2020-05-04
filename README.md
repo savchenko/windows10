@@ -174,6 +174,10 @@ Navigate to `./Tools/Scripts`.
 
 2. Import initial firewall policy from `./Settings/WDF`
 3. Import Group Policy from `./Settings/GPO`
+5. After the Windows is activated, execute from elevated `cmd.exe`:
+```bat
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
+```
 
 ## Full Disk Encryption for NT systems: Bitlocker
 4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
