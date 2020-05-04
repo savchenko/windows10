@@ -132,7 +132,12 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 All future steps shall be performed from the recently created non-administrative account.
 
 ### Stoptracking GPOs
-1. Navigate 
+1. Navigate to `./Tools/Scripts`
+	1. In elevated `cmd.exe`, execute:
+		- `windows.bat`
+		- `edge.bat`
+	1. In elevated PowerShell:
+		- `apps.ps1`
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
