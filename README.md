@@ -1,6 +1,6 @@
 
 # Summary
-This is a cheat-sheet for a single-user Windows 10 installation. As you might notice, things are a little ad-hoc.  
+This is a cheat-sheet for a single-user Windows 10 installation.
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
@@ -8,17 +8,18 @@ Level 3 baseline plus/minus some additional customizations: less network noise, 
 Tools used:
 * [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
 * [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
-* [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
+* [GP Search](https://gpsearch.azurewebsites.net/)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
+* [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
 
-If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
+If you are looking for something more reproducible and of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 # Foreword
 This guide suggests to follow rather strict approach and accepts no closed-source utilities that promise to "fix Windows privacy".
 
-Author has rather dim view on such tools and whenever possible suggests to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
+Author has rather dim view on such tools and whenever possible proposes to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
@@ -103,7 +104,9 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 1. Reboot
 
-## Install security baseline
+## Baseline policies
+
+### Security
 1. Navigate to `./Tools/baseline_security/Scripts` and:
 
 	```powershell
@@ -112,6 +115,14 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 	```
 1. Create new, non-administrative account
 1. Reboot
+
+### Traffic restriction
+1. Navigate to `./Tools/baseline_traffic` and:
+	```powershell
+	cp ..\LGPO\LGPO.exe .\Tools\
+	.\RestrictedTraffic_ClientEnt_Install.cmd
+	```
+	1. Accept the terms.
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
@@ -145,7 +156,7 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
    ```
 
 ## First 3 steps
-1. Review its code and once satisfied, run the  `./Scripts/cmd.bat`.
+
 2. Import initial firewall policy from `./Settings/WDF`
 3. Import Group Policy from `./Settings/GPO`
 
