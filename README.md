@@ -118,6 +118,7 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 ### Traffic restriction
 1. Navigate to `./Tools/baseline_traffic` and:
+
 	```powershell
 	cp ..\LGPO\LGPO.exe .\Tools\
 	.\RestrictedTraffic_ClientEnt_Install.cmd
