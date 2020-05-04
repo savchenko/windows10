@@ -90,6 +90,8 @@ After we are done, your environment will look like this:
 	```powershell
 	.\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
 	```
+1. Lastly, reader is encouraged to [check](https://nvd.nist.gov/vuln/detail/CVE-2020-0551) [the](https://nvd.nist.gov/vuln/detail/CVE-2017-5754) [numerous](https://nvd.nist.gov/vuln/detail/CVE-2017-5715) [vulnerabilities](https://nvd.nist.gov/vuln/detail/CVE-2017-5753) [affecting](https://nvd.nist.gov/vuln/detail/CVE-2018-3646) [Intel](https://nvd.nist.gov/vuln/detail/CVE-2018-3620) [CPUs](https://nvd.nist.gov/vuln/detail/CVE-2020-0549). [With](https://nvd.nist.gov/vuln/detail/CVE-2018-12130), [no](https://nvd.nist.gov/vuln/detail/CVE-2018-12127) [end](https://nvd.nist.gov/vuln/detail/CVE-2019-11091) [in](https://nvd.nist.gov/vuln/detail/CVE-2019-11135) [sight](https://nvd.nist.gov/vuln/detail/CVE-2018-12126) [for](https://nvd.nist.gov/vuln/detail/CVE-2018-3615) [this](https://nvd.nist.gov/vuln/detail/CVE-2020-0549) [maddness](https://nvd.nist.gov/vuln/detail/CVE-2020-0548). Vote with your wallet.
+
 # During installation
 1. Keep machine disconnected from the Internet
 2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
