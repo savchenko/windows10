@@ -28,12 +28,12 @@ At present, main considerations are:
 
 	And while there is `clevis`, "TPM + user password" setup that supports additional backup keys and automatic roll-over after kernel upgrades is not a supported model of any major Linux distribution as in Q1 2020.
 * Commercial-grade Type-1 hypervisor.
-* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
+* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
 # First steps
-1. Recognize that you are dealing with the closed-source, commercial, SaaS-like operating system that has a combination of useful features and hostile elements. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
+1. Recognize that you are dealing with the closed-source, SaaS-like operating system that has a combination of useful features and hostile elements simultaneously. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
