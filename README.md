@@ -14,23 +14,25 @@ Tools used:
 
 If you are looking for something reproducible and more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
+# Foreword
+As you might notice, this guide suggests to follow rather strict approach of using vendor-approved 
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations for touching the proprietary OS are:
-* Ability to use well-tested FDE that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
+* Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS. And good luck getting `clevis` to work with "TPM + user password" setup that supports additional "backup" keys and automatic roll-over after kernel upgrades.
 * Commercial-grade Type-1 hypervisor.
-* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine.
+* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
-# Intro
-1. Recognize that you are dealing with the closed-source operating system that has a combination of useful features and hostile elements. To give you an idea on how MS world is different from a typical \*nix, this is enabled by default: 
+# First thoughts
+1. Recognize that you are dealing with the closed-source operating system that has a combination of useful features and hostile elements. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
 
-> Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user. 
+> Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
 > Text that is collected includes all outgoing messages in Windows Mail, and MAPI enabled email clients, as well as URLs from the Internet Explorer browser history. The information that is stored includes word frequency and new words not already known to the handwriting recognition engines (for example, proper names and acronyms).
 >
-> Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored. 
+> Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored.
 
 2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
@@ -40,21 +42,20 @@ After we are done, your environment will look like this:
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
 ...plus some more VMs on the side.
 
-3. Be aware of the performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, comparing against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html).
+3. Remember about performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, compare against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). This is when hardware upgrade might be a wise choice.
 
 # Before installation
 1. Un-plug ethernet if present, disable WiFi.
 1. Install latest BIOS from a vendor.
-1. Strip Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
+1. Consider stripping Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
-1. In case you are using Intel&trade; CPU, consider disabling HyperThreading&reg;.
-	Think carefully as performance impact will be significant. Hardware upgrade might be a more reasonable choice.
+1. In case you are using Intel&trade;, depending on the CPU generation you might consider disabling HyperThreading&reg;.
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    1. Sometimes this can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
-   ```xml
+	```xml
 	<BIOSCONFIG Version="" Computername="WIN" Date="2019/08/31" Time="21:23:19" UTC="10">
 		<SUCCESS msg="Successfully read password from file" />
 		<SETTING changeStatus="skip" name="Trusted Execution Technology (TXT)" returnCode="18">
@@ -64,14 +65,14 @@ After we are done, your environment will look like this:
 		<SUCCESS msg="No errors occurred" />
 		<Information msg="BCU return value" real="0" translated="0" />
 	</BIOSCONFIG>
-    ```
+	```
     3. Afterwards, you should be able to disable HT:
-    ```powershell
-    .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
-    ```
+	```powershell
+	.\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
+	```
 # During installation
 1. Keep machine disconnected from the Internet
-2. Opt-out from all personal data collection when asked. This means answering "no" to almost every single question.
+2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
 
 # After installation
 ## Enable HVCI and Credential Guard
