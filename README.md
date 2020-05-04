@@ -11,6 +11,7 @@ Tools used:
 * [GP Search](https://gpsearch.azurewebsites.net/)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Connection endpoints documentation](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
+* (Endpoint management)[https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services]
 * [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
@@ -24,11 +25,10 @@ Author has rather dim view on such tools and whenever possible proposes to rely 
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
-Further, some settings are applied via direct registry injection instead of a GPO import. I will just quote Microsoft here:
+Number of settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft here:
 
 > To turn off Messaging cloud sync:
->
->    Note: There is no Group Policy corresponding to this registry key.
+>    There is no Group Policy corresponding to this registry key.
 
 
 # Rationale
