@@ -33,7 +33,7 @@ At present, main considerations are:
 * Good hardware support.
 
 # First steps
-1. Recognize that you are dealing with the closed-source operating system that has a combination of useful features and hostile elements. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
+1. Recognize that you are dealing with the closed-source, commercial, SaaS-like operating system that has a combination of useful features and hostile elements. To give an idea on how MS world is different from a typical \*nix, this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
