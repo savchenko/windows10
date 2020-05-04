@@ -25,7 +25,7 @@ Author has rather dim view on such tools and whenever possible proposes to rely 
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
-Number of settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, for example here:
+Number of settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, here:
 
 > To turn off Messaging cloud sync:
 >    There is no Group Policy corresponding to this registry key.
@@ -39,7 +39,7 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
-	And while there is `clevis`, "TPM + user password" setup that supports additional backup keys and automatic roll-over after kernel upgrades is not a supported model of any major Linux distribution as in Q1 2020.
+	And while there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
 * Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
