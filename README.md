@@ -84,8 +84,8 @@ After we are done, your environment will look like this:
 2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
 
 # After installation
-## Copy this repository to the target machine
-Obviosly, via local means. Do not connect to the Internet just yet.
+1. Copy this repository to the target machine via local means
+1. Make 
 
 ## Enable HVCI and Credential Guard
 1. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
