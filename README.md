@@ -1,6 +1,6 @@
 
 # Summary
-This is a cheat-sheet for a single-user installation of Windows 10 build 1909.
+This is a cheat-sheet for a single-user installation of Windows 10 build 1909.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
