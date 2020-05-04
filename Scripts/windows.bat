@@ -171,9 +171,6 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /t REG_D
 echo [101;93m Disable "delivery optimisation" [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization " /t REG_DWORD /v DODownloadMode /d 100 /f
 
-reg add "" /t REG_DWORD /v xxxxx /d 0 /f
-reg add "" /t REG_DWORD /v xxxxx /d 0 /f
-
 
 echo All done!
 set /p done=""
