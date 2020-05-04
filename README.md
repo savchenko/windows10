@@ -24,6 +24,13 @@ Author has rather dim view on such tools and whenever possible proposes to rely 
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
+Further, some settings are applied via direct registry injection instead of a GPO import. I will just quote Microsoft here:
+
+> To turn off Messaging cloud sync:
+>
+>    Note: There is no Group Policy corresponding to this registry key.
+
+
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations are:
