@@ -104,13 +104,10 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 1. Reboot
 
 ## Install security baseline
-1. Launch elevated PowerShell:
+1. Navigate to `./Tools/baseline_security/Scripts` and:
 ```powershell
- Set-ExecutionPolicy -ExecutionPolicy Unrestricted
-```
-1. From the `./Tools/baseline_security/Scripts`, launch:
-```powershell
- .\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+.\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
 ```
 
 ## Check Hyper-V settings
