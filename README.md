@@ -105,6 +105,7 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 ## Install security baseline
 1. Navigate to `./Tools/baseline_security/Scripts` and:
+
 	```powershell
 	Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 	.\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
