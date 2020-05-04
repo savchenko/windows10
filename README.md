@@ -55,10 +55,10 @@ After we are done, your environment will look like this:
 
 # Before installation
 1. Un-plug ethernet if present, disable WiFi.
-1. Install latest BIOS from a vendor.
+1. Install latest BIOS/FWs from a vendor.
 1. Consider stripping Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
-1. In case you are using Intel&trade;, depending on the CPU generation you might consider disabling HyperThreading&reg;.
+1. In case you are using Intel&trade;, depending on the CPU generation you might consider disabling HyperThreading&reg;.  
 	Hint:
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    1. Sometimes this can be circumvented by using vendor's mass-provisioning tool. For example, HP:
