@@ -124,7 +124,6 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 	Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 	.\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
 	```
-1. Create new, non-administrative account
 1. Reboot
 
 ### Traffic restriction
@@ -138,8 +137,6 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 1. Reboot
-
-All future steps shall be performed from the recently created non-administrative account.
 
 ### Stoptracking GPOs
 Navigate to `./Tools/Scripts`.
