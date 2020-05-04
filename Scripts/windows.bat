@@ -36,6 +36,7 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLa
 
 echo [101;93m Disable "Windows Spotlight" [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
+reg add "HKEY_Local_Machine\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable consumer features [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
@@ -145,6 +146,27 @@ reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_D
 echo [101;93m Disable Windows Sync [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SettingSync" /t REG_DWORD /v DisableSettingSync /d 2 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SettingSync" /t REG_DWORD /v DisableSettingSyncUserOverride /d 1 /f
+
+echo [101;93m Turn off messaging cloud sync [0m
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Messaging" /t REG_DWORD /v CloudServiceSyncEnabled /d 0 /f
+
+echo [101;93m Disable Teredo [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition" /t REG_SZ /v "Disabled" /f
+
+echo [101;93m Disable SpyNet (no kidding) and do not send samples to Microsoft [0m
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Spynet" /t REG_DWORD /v SpyNetReporting /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Spynet"  /t REG_DWORD /v SubmitSamplesConsent /d 2 /f
+
+echo [101;93m Disable MSRT [0m
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\MRT"  /t REG_DWORD /v DontReportInfectionInformation /d 1 /f
+
+
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
 
 
 echo All done!

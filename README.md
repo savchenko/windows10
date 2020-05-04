@@ -30,6 +30,9 @@ Number of settings are applied via direct registry injection instead of a GPO im
 > To turn off Messaging cloud sync:
 >    There is no Group Policy corresponding to this registry key.
 
+and
+
+> Note: There is no Group Policy to turn off the Malicious Software Reporting Tool diagnostic data.
 
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
