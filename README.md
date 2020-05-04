@@ -19,7 +19,7 @@ This guide suggests to follow rather strict approach and accepts no closed-sourc
 
 Author has rather dim view on such tools and whenever possible suggests to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
 
-Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model.
+Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake what is a product here and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
