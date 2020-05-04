@@ -102,6 +102,16 @@ After we are done, your environment will look like this:
 
 1. Reboot
 
+## Install security baseline
+1. Launch elevated PowerShell:
+```powershell
+ Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+```
+1. From the `./Tools/baseline_security/Scripts`, launch:
+```powershell
+ .\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
+```
+
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
    1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
