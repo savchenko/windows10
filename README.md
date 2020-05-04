@@ -19,14 +19,14 @@ This guide suggests to follow rather strict approach and accepts no closed-sourc
 
 Author has rather dim view on such tools and whenever possible suggests to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
 
-Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake what is a product here and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
+Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
-At present, main considerations for touching the proprietary OS are:
+At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
-	And good luck getting `clevis` to work with "TPM + user password" setup that supports additional backup keys and automatic roll-over after kernel upgrades.
+	And while there is `clevis`, "TPM + user password" setup that supports additional backup keys and automatic roll-over after kernel upgrades is not a supported model of any major Linux distribution as in Q1 2020.
 * Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows bulding additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
