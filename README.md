@@ -70,7 +70,6 @@ After we are done, your environment will look like this:
 1. Consider stripping Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
 1. In case you are using Intel&trade;, depending on the CPU generation you might consider disabling HyperThreading&reg;.  
-	_Hint_
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    1. Sometimes this can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
@@ -168,9 +167,9 @@ Navigate to `./Tools/Scripts`.
     AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
     CodeIntegrityPolicyEnforcementStatus         : 0
     InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
-    RequiredSecurityProperties                   : {0}		#								  #
-    SecurityServicesConfigured                   : {0}		# Depends on the hardware support #
-    SecurityServicesRunning                      : {0}		#								  #
+    RequiredSecurityProperties                   : {0}	#
+    SecurityServicesConfigured                   : {0}	# Depends on the hardware support
+    SecurityServicesRunning                      : {0}	#
     UsermodeCodeIntegrityPolicyEnforcementStatus : 0
     Version                                      : 1.0
     VirtualizationBasedSecurityStatus            : 0
