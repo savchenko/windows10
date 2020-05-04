@@ -85,7 +85,7 @@ After we are done, your environment will look like this:
 
 # After installation
 1. Copy this repository to the target machine via local means
-1. Copy `LGPO.exe` from `./Tools` to `C:\Windows\system32\`.
+1. Copy `LGPO.exe` from `./Tools` to `C:\Windows\system32\`.  
 Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 ## Enable HVCI and Credential Guard
