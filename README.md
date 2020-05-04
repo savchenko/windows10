@@ -189,6 +189,14 @@ Navigate to `./Tools/Scripts`.
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
 ```
 
+Allowed traffic list for Windows Restricted Traffic Limited Functionality Baseline
+Table 16
+Allowed traffic endpoints
+activation-v2.sls.microsoft.com/*
+crl.microsoft.com/pki/crl/*
+ocsp.digicert.com/*
+www.microsoft.com/pkiops/*
+
 ## Full Disk Encryption for NT systems: Bitlocker
 4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
 5.  Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  

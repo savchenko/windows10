@@ -37,6 +37,7 @@ reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLa
 echo [101;93m Disable "Windows Spotlight" [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
 reg add "HKEY_Local_Machine\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f
+reg add "HKEY_Local_Machine\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v LockScreenOverlaysDisabled /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable consumer features [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
@@ -160,13 +161,18 @@ reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Spynet"
 echo [101;93m Disable MSRT [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\MRT"  /t REG_DWORD /v DontReportInfectionInformation /d 1 /f
 
+echo [101;93m Disable Microsoft Store [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore" /t REG_DWORD /v DisableStoreApps /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore " /t REG_DWORD /v AutoDownload /d 2 /f
 
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
-reg add ""  /t REG_DWORD /v xxxxx /d 0 /f
+echo [101;93m Disable "Apps for websites" [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /t REG_DWORD /v EnableAppUriHandlers /d 0 /f
+
+echo [101;93m Disable "delivery optimisation" [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization " /t REG_DWORD /v DODownloadMode /d 100 /f
+
+reg add "" /t REG_DWORD /v xxxxx /d 0 /f
+reg add "" /t REG_DWORD /v xxxxx /d 0 /f
 
 
 echo All done!
