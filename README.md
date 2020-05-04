@@ -10,6 +10,7 @@ Tools used:
 * [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
 * [GP Search](https://gpsearch.azurewebsites.net/)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
+* [Connection endpoints documentation](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
 * [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
@@ -128,10 +129,10 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 1. Reboot
 
-All future steps shall be performed from the recently created non-administrative account
+All future steps shall be performed from the recently created non-administrative account.
 
 ### Stoptracking GPOs
-
+1. Navigate 
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
