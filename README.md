@@ -59,7 +59,7 @@ After we are done, your environment will look like this:
 1. Consider stripping Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
 1. Enable UEFI-native boot, "Secure boot", DEP, VTx/VT-d (or AMD-V).
 1. In case you are using Intel&trade;, depending on the CPU generation you might consider disabling HyperThreading&reg;.  
-	Hint:
+	_Hint_
    1. On certain SMB platforms IntelTXT&reg; is enabled and not exposed in BIOS which may prevent from disabling HT.
    1. Sometimes this can be circumvented by using vendor's mass-provisioning tool. For example, HP:
    ```powershell
@@ -104,7 +104,7 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 1. Reboot
 
-## Baseline policies
+## Apply baseline policies
 
 ### Security
 1. Navigate to `./Tools/baseline_security/Scripts` and:
@@ -123,6 +123,14 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 	.\RestrictedTraffic_ClientEnt_Install.cmd
 	```
 	1. Accept the terms.
+1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
+1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
+1. Reboot
+
+All future steps shall be performed from the recently created non-administrative account
+
+### Stoptracking GPOs
+
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
