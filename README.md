@@ -124,12 +124,12 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 	```
 	In general, output should look like this:
 	```powershell
-    AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
+    AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}  # Depends on the hardware support
     CodeIntegrityPolicyEnforcementStatus         : 0
-    InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
-    RequiredSecurityProperties                   : {0}	#
-    SecurityServicesConfigured                   : {0}	# Depends on the hardware support
-    SecurityServicesRunning                      : {0}	#
+    InstanceIdentifier                           : long-id-here
+    RequiredSecurityProperties                   : {0}					#
+    SecurityServicesConfigured                   : {0}					# Depends on the hardware support
+    SecurityServicesRunning                      : {0}					#
     UsermodeCodeIntegrityPolicyEnforcementStatus : 0
     Version                                      : 1.0
     VirtualizationBasedSecurityStatus            : 0
