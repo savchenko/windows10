@@ -1,6 +1,6 @@
 
 # Summary
-This is a cheat-sheet for a single-user installation of Windows 10 build 1909.  
+This is a cheat-sheet for a single-user installation of Windows 10 **build 1909**.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
@@ -33,6 +33,8 @@ Number of settings are applied via direct registry injection instead of a GPO im
 and here:
 
 > Note: There is no Group Policy to turn off the Malicious Software Reporting Tool diagnostic data.
+
+Even then, registry "tweaks" are taken directly from Microsoft documentation for the specific build version.
 
 # Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
@@ -146,6 +148,14 @@ Navigate to `./Tools/Scripts`.
 	- `edge.bat`
 1. In elevated PowerShell:
 	- `apps.ps1`
+	
+### Clean user profiles
+1. Create two new user profiles:
+	1. Regular user
+	1. Administrator account
+1. Log in as the newly created administrator
+1. Remove the old user account
+1. Reboot
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
@@ -194,6 +204,20 @@ activation-v2.sls.microsoft.com/*
 crl.microsoft.com/pki/crl/*
 ocsp.digicert.com/*
 www.microsoft.com/pkiops/*
+
+Enable execution of PowerShell scripts:
+
+```powershell
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+```
+
+Unblock PowerShell scripts and modules within this directory:
+
+```powershell
+ls -Recurse *.ps*1 | Unblock-File
+```
+
+
 
 ## Full Disk Encryption for NT systems: Bitlocker
 4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
