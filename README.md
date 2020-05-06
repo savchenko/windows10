@@ -118,6 +118,20 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 1. Reboot
 
+1. If curious (as you should be), compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity). In general, output should look like this:
+   ```powershell
+    AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
+    CodeIntegrityPolicyEnforcementStatus         : 0
+    InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
+    RequiredSecurityProperties                   : {0}	#
+    SecurityServicesConfigured                   : {0}	# Depends on the hardware support
+    SecurityServicesRunning                      : {0}	#
+    UsermodeCodeIntegrityPolicyEnforcementStatus : 0
+    Version                                      : 1.0
+    VirtualizationBasedSecurityStatus            : 0
+    PSComputerName                               : COMPUTERNAME
+   ```
+
 ## Apply baseline policies
 
 ### Security
@@ -148,9 +162,9 @@ Navigate to `./Tools/Scripts`.
 	- `edge.bat`
 1. In elevated PowerShell:
 	- `apps.ps1`
-	- `hosts.ps1` !TODO!
+	- `hosts.ps1` TODO
 	
-### Clean user profiles
+### Clean-up profiles
 1. Create two new user profiles:
 	1. Regular user
 	1. Administrator account
@@ -175,20 +189,7 @@ Navigate to `./Tools/Scripts`.
    ```powershell
    Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | fl SecurityServicesRunning, SecurityServicesConfigured, VirtualizationBasedSecurityStatus
    ```
-   If curious (as you should be), compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity). In general, output should look like this:
-   ```powershell
-    AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
-    CodeIntegrityPolicyEnforcementStatus         : 0
-    InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
-    RequiredSecurityProperties                   : {0}	#
-    SecurityServicesConfigured                   : {0}	# Depends on the hardware support
-    SecurityServicesRunning                      : {0}	#
-    UsermodeCodeIntegrityPolicyEnforcementStatus : 0
-    Version                                      : 1.0
-    VirtualizationBasedSecurityStatus            : 0
-    PSComputerName                               : COMPUTERNAME
-   ```
-
+   
 ## First 3 steps
 
 2. Import initial firewall policy from `./Settings/WDF`
