@@ -118,8 +118,12 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 1. Reboot
 
-1. If curious (as you should be), compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity). In general, output should look like this:
-   ```powershell
+1. If curious (as you should be), check the status and compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity):
+	```powershell
+	Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard
+	```
+	In general, output should look like this:
+	```powershell
     AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}
     CodeIntegrityPolicyEnforcementStatus         : 0
     InstanceIdentifier                           : 4ff40742-2649-41b8-bdd1-e80fad1cce80
@@ -130,7 +134,7 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
     Version                                      : 1.0
     VirtualizationBasedSecurityStatus            : 0
     PSComputerName                               : COMPUTERNAME
-   ```
+	```
 
 ## Apply baseline policies
 
