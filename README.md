@@ -41,7 +41,7 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
-	And while there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
+    And while there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
 * Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
@@ -77,21 +77,21 @@ After we are done, your environment will look like this:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
-	```xml
-	<BIOSCONFIG Version="" Computername="WIN" Date="2019/08/31" Time="21:23:19" UTC="10">
-		<SUCCESS msg="Successfully read password from file" />
-		<SETTING changeStatus="skip" name="Trusted Execution Technology (TXT)" returnCode="18">
-			<OLDVALUE><![CDATA[Enable]]></OLDVALUE>
-			<VALUE><![CDATA[Disable]]></VALUE>
-		</SETTING>
-		<SUCCESS msg="No errors occurred" />
-		<Information msg="BCU return value" real="0" translated="0" />
-	</BIOSCONFIG>
-	```
+    ```xml
+    <BIOSCONFIG Version="" Computername="WIN" Date="2019/08/31" Time="21:23:19" UTC="10">
+        <SUCCESS msg="Successfully read password from file" />
+        <SETTING changeStatus="skip" name="Trusted Execution Technology (TXT)" returnCode="18">
+            <OLDVALUE><![CDATA[Enable]]></OLDVALUE>
+            <VALUE><![CDATA[Disable]]></VALUE>
+        </SETTING>
+        <SUCCESS msg="No errors occurred" />
+        <Information msg="BCU return value" real="0" translated="0" />
+    </BIOSCONFIG>
+    ```
     3. Afterwards, you should be able to disable HT:
-	```powershell
-	.\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
-	```
+    ```powershell
+    .\BiosConfigUtility64.exe /setvalue:"Intel (R) HT Technology","Disable" /cpwdfile:"pwd.bin" /l /verbose
+    ```
 1. Reader is encouraged to [check](https://nvd.nist.gov/vuln/detail/CVE-2020-0551) [the](https://nvd.nist.gov/vuln/detail/CVE-2017-5754) [numerous](https://nvd.nist.gov/vuln/detail/CVE-2017-5715) [vulnerabilities](https://nvd.nist.gov/vuln/detail/CVE-2017-5753) [affecting](https://nvd.nist.gov/vuln/detail/CVE-2018-3646) [Intel](https://nvd.nist.gov/vuln/detail/CVE-2018-3620) [CPUs](https://nvd.nist.gov/vuln/detail/CVE-2020-0549). [With](https://nvd.nist.gov/vuln/detail/CVE-2018-12130) [no](https://nvd.nist.gov/vuln/detail/CVE-2018-12127) [end](https://nvd.nist.gov/vuln/detail/CVE-2019-11091) [in](https://nvd.nist.gov/vuln/detail/CVE-2019-11135) [sight](https://nvd.nist.gov/vuln/detail/CVE-2018-12126) [for](https://nvd.nist.gov/vuln/detail/CVE-2018-3615) [this](https://nvd.nist.gov/vuln/detail/CVE-2020-0549) [maddness](https://nvd.nist.gov/vuln/detail/CVE-2020-0548). Vote with your wallet.
 
 # During installation
@@ -119,42 +119,42 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 1. Reboot
 
 1. If curious (as you should be), check the status and compare against [documentation](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity):
-	```powershell
-	Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard
-	```
-	In general, output should look like this:
-	```powershell
+    ```powershell
+    Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard
+    ```
+    In general, output should look like this:
+    ```powershell
     AvailableSecurityProperties                  : {1, 2, 3, 4, 5, 7}  # Depends on the hardware support
     CodeIntegrityPolicyEnforcementStatus         : 0
     InstanceIdentifier                           : long-id-here
-    RequiredSecurityProperties                   : {0}					#
-    SecurityServicesConfigured                   : {0}					# Depends on the hardware support
-    SecurityServicesRunning                      : {0}					#
+    RequiredSecurityProperties                   : {0}                 #
+    SecurityServicesConfigured                   : {0}                 # Depends on the hardware support
+    SecurityServicesRunning                      : {0}                 #
     UsermodeCodeIntegrityPolicyEnforcementStatus : 0
     Version                                      : 1.0
     VirtualizationBasedSecurityStatus            : 0
     PSComputerName                               : COMPUTERNAME
-	```
+    ```
 
 ## Apply baseline policies
 
 ### Security
 1. Navigate to `./Tools/baseline_security/Scripts` and:
 
-	```powershell
-	Set-ExecutionPolicy -ExecutionPolicy Unrestricted
-	.\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
-	```
+    ```powershell
+    Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+    .\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
+    ```
 1. Reboot
 
 ### Traffic restriction
 1. Navigate to `./Tools/baseline_traffic` and:
 
-	```powershell
-	cp ..\LGPO\LGPO.exe .\Tools\
-	.\RestrictedTraffic_ClientEnt_Install.cmd
-	```
-	1. Accept the terms.
+    ```powershell
+    cp ..\LGPO\LGPO.exe .\Tools\
+    .\RestrictedTraffic_ClientEnt_Install.cmd
+    ```
+    1. Accept the terms.
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 1. Reboot
@@ -162,16 +162,16 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 ### Stoptracking changes
 Navigate to `./Tools/Scripts`.
 1. In elevated `cmd.exe`, execute:
-	- `windows.bat`
-	- `edge.bat`
+    - `windows.bat`
+    - `edge.bat`
 1. In elevated PowerShell:
-	- `apps.ps1`
-	- `hosts.ps1` TODO
-	
+    - `apps.ps1`
+    - `hosts.ps1` TODO
+    
 ### Clean-up profiles
 1. Create two new user profiles:
-	1. Regular user
-	1. Administrator account
+    1. Regular user
+    1. Administrator account
 1. Log in as the newly created administrator
 1. Remove the old user account
 1. Reboot
@@ -373,7 +373,7 @@ $asrs = @("BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550",  # Block executable content fr
            "7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c", # Block Adobe Reader from creating child processes
            "e6db77e5-3df2-4cf1-b95a-636979351e5b") # Block persistence through WMI event subscription 
 foreach ($rule in $asrs) {
-	Add-MpPreference -AttackSurfaceReductionRules_Ids $rule -AttackSurfaceReductionRules_Actions Enabled
+    Add-MpPreference -AttackSurfaceReductionRules_Ids $rule -AttackSurfaceReductionRules_Actions Enabled
 }
 ```
 22. Check that rules are applied correctly:
@@ -603,4 +603,4 @@ Set-ProcessMitigation -PolicyFilePath .\settings.xml
   <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
 </AppConfig>
 ```
-	  
+      
