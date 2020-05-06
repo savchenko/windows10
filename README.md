@@ -141,13 +141,14 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 1. Reboot
 
-### Stoptracking GPOs
+### Stoptracking changes
 Navigate to `./Tools/Scripts`.
 1. In elevated `cmd.exe`, execute:
 	- `windows.bat`
 	- `edge.bat`
 1. In elevated PowerShell:
 	- `apps.ps1`
+	- `hosts.ps1` !TODO!
 	
 ### Clean user profiles
 1. Create two new user profiles:
