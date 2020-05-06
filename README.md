@@ -99,9 +99,8 @@ After we are done, your environment will look like this:
 2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
 
 # After installation
-1. Copy this repository to the target machine via local means
+1. Copy this repository to the target machine via local means.
 1. Copy `LGPO.exe` from `./Tools` to `C:\Windows\system32\`.  
-Alternatively, you can copy it elsewhere and add the location to `$PATH`.
 
 ## Enable HVCI and Credential Guard
 1. From `./Tools/dgreadiness_v3.6`, launch [DG readiness tool](https://www.microsoft.com/en-us/download/details.aspx?id=53337).  
@@ -147,6 +146,10 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
     ```
 1. Reboot
 
+Optional, but userful:
+1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
+1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
+
 ### Traffic restriction
 1. Navigate to `./Tools/baseline_traffic` and:
 
@@ -155,8 +158,6 @@ Alternatively, you can copy it elsewhere and add the location to `$PATH`.
     .\RestrictedTraffic_ClientEnt_Install.cmd
     ```
     1. Accept the terms.
-1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
-1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 1. Reboot
 
 ### Stoptracking changes
