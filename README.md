@@ -1,4 +1,3 @@
-
 # Summary
 This is a cheat-sheet for a single-user installation of Windows 10 **build 1909**.  
 Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
@@ -18,7 +17,7 @@ Tools used:
 
 If you are looking for something more reproducible and of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
-# Foreword
+## Foreword
 This guide suggests to follow rather strict approach and accepts no closed-source utilities that promise to "fix Windows privacy".
 
 Author has rather dim view on such tools and whenever possible proposes to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
@@ -36,7 +35,7 @@ and here:
 
 Even then, registry "tweaks" are taken directly from Microsoft documentation for the specific build version.
 
-# Rationale
+## Rationale
 One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
@@ -47,7 +46,7 @@ At present, main considerations are:
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
-# First steps
+## First steps
 1. Recognize that you are dealing with the closed-source, SaaS-like operating system that has a combination of useful features and hostile elements simultaneously. To give an idea on how the "Microsoft world" is different, this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
@@ -160,7 +159,7 @@ Optional, but userful:
     1. Accept the terms.
 1. Reboot
 
-### Stoptracking changes
+### "Stoptracking" changes
 Navigate to `./Tools/Scripts`.
 1. In elevated `cmd.exe`, execute:
     - `windows.bat`
@@ -174,8 +173,40 @@ Navigate to `./Tools/Scripts`.
     1. Regular user
     1. Administrator account
 1. Log in as the newly created administrator
-1. Remove the old user account
+1. Remove the old user account, choose "delete files"
 1. Reboot
+1. Confirm that no pre-provisioned apps are present: TODO
+```powershell
+
+```
+
+## Full Disk Encryption for NT systems: Bitlocker
+1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
+1. Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
+	Good start on a relatively modern device with TPM 2.0 would be `0,1,.......` TODO
+1.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
+    1. Double-check that Bitlocker is disabled for the system drive:
+      ```powershell
+      .\manage-bde.exe -protectors -get C:
+      ```
+    1. If result is negative, add TPM and PIN:
+      ```powershell
+      .\manage-bde.exe -protectors -add -tp C:
+      ```
+    1. Until the above is confirmed working, add temporary recovery key:
+      ```powershell
+      .\manage-bde.exe -protectors -add -rp C:
+      ```
+      Write-down the numerical password, you will need it if machine refuses to boot with the chosen set of PCR banks.
+
+    1. If computer has started successfully and `Manage-BDE -protectors -get C:` returns data set at step #1...
+
+    1. Add file protectors instead of the pre-generated numerical sequence:
+      ```powershell
+      .\manage-bde.exe -protectors -delete -t RecoveryPassword C:
+      .\manage-bde.exe -protectors -add -rk X:\WHERE_TO_STORE_KEY C:
+      ```
+      *N.B.* Don't forget to securely wipe device "X" after the key is transferred to a proper location. 
 
 ## Check Hyper-V settings
 2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
@@ -224,47 +255,24 @@ Unblock PowerShell scripts and modules within this directory:
 ls -Recurse *.ps*1 | Unblock-File
 ```
 
+-------------------------------------
 
-
-## Full Disk Encryption for NT systems: Bitlocker
-4. Open policy editor and search the following: _"Configure TPM platform validation for native UEFI firmware configurations"_.
-5.  Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
-Good start on a relatively modern device with TPM 2.0 would be `0,1,.......`
-7.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
-    1. Double-check that Bitlocker is disabled for the system drive:
-      ```powershell
-      .\manage-bde.exe -protectors -get C:
-      ```
-    2. If result is negative, add TPM and PIN:
-      ```powershell
-      .\manage-bde.exe -protectors -add -tp C:
-      ```
-    3. Until the above is confirmed working, add temporary recovery key:
-      ```powershell
-      .\manage-bde.exe -protectors -add -rp C:
-      ```
-      Write-down the numerical password, you will need it if machine refuses to boot with the chosen set of PCR banks.
-
-    4. If computer has started successfully and `Manage-BDE -protectors -get C:` returns data set at step #1...
-
-    5. Add file protectors instead of the pre-generated numerical sequence:
-      ```powershell
-      .\manage-bde.exe -protectors -delete -t RecoveryPassword C:
-      .\manage-bde.exe -protectors -add -rk X:\WHERE_TO_STORE_KEY C:
-      ```
-      *N.B.* Don't forget to securely wipe device "X" after the key is transferred to a proper location. 
 
 8. If necessary, install GPU drivers using _verified_ offline installer, use DCH package if possible.
 
-11. `choco install pgp4win`
+### pgp4win
 1. Import pubkey, insert smart-card.
     1) Open `kleopatra`, Tools &rarr; Manage Smartcards, ensure yours is present.
     2) Do not close Kleopatra.
     3) Issue `gpg.exe --card-status` to refresh the SCDaemon.
     4) Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
     5) Change trust level of your own certificate to ultimate.
+	
+	
+	
 2.  Adjust content of system CA as necessary:
 ![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
+
 11. Explorer tweaks to remove unnecessary cruft:
 ```reg
 Windows Registry Editor Version 5.00
@@ -290,9 +298,12 @@ Windows Registry Editor Version 5.00
 "{1d27f844-3a1f-4410-85ac-14651078412d}"=""
 "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}"="Play to Menu"
 ```
+
 15. Install necessary drivers.
+
 16. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
+
 17. Check your current PS execution policy:
 ```powershell
 > Get-ExecutionPolicy -List
@@ -305,12 +316,14 @@ MachinePolicy       Undefined
   CurrentUser    RemoteSigned
  LocalMachine      Restricted
  ```
+ 
 18. Create profile:
 ```powershell
 if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
   New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
 }
 ```
+
 19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
 # Yo
@@ -321,6 +334,7 @@ function yocmd {
 }
 Set-Alias -Name yo -Value yocmd
 ```
+
 20. Let's limit service host's unstoppable desire to talk with the outside world.  
    - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
    - Add to your profile:  
@@ -347,6 +361,7 @@ Set-Alias -Name update -Value sudo_updatecmd
 ```
    - Now, when you'd like to update Windows, just run `update` from the PS.
      This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
+	 
 21. Let's add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
 
 #TODO: Expand on OTP: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-atp/exploit-protection#block-executable-files-from-running-unless-they-meet-a-prevalence-age-or-trusted-list-criterion
