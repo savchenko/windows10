@@ -159,14 +159,11 @@ Optional, but userful:
     1. Accept the terms.
 1. Reboot
 
-### "Stoptracking" changes
-Navigate to `./Tools/Scripts`.
-1. In elevated `cmd.exe`, execute:
-    - `windows.bat`
-    - `edge.bat`
+### Remove pre-installed AppX packages
+1. Navigate to `./Tools/Scripts`.
 1. In elevated PowerShell:
     - `apps.ps1`
-    - `hosts.ps1` TODO
+	
     
 ### Clean-up profiles
 1. Create two new user profiles:
@@ -175,10 +172,14 @@ Navigate to `./Tools/Scripts`.
 1. Log in as the newly created administrator
 1. Remove the old user account, choose "delete files"
 1. Reboot
-1. Confirm that no pre-provisioned apps are present: TODO
-```powershell
 
-```
+### Install stoptracking changes
+1. In elevated `cmd.exe`, execute:
+    - `windows.bat`
+    - `edge.bat`
+1. In elevated PowerShell:
+	- `hosts.ps1` TODO
+	- `.\gpupdate.exe /force`
 
 ## Full Disk Encryption for NT systems: Bitlocker
 1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
