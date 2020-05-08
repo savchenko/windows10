@@ -173,6 +173,7 @@ Optional, but useful:
 1. Remove the old account, choose "delete files"
 1. Reboot
 
+
 ### Install stoptracking changes
 For _each_ user, run:
 
@@ -180,13 +181,19 @@ For _each_ user, run:
     - `windows.bat`
     - `edge.bat`
 1. In elevated PowerShell:
-	- `interfaces.ps1`
-	- `gpupdate /force`
+    - `interfaces.ps1`
+    - `gpupdate /force`
+1. Reboot
 
-## Full Disk Encryption for NT systems: Bitlocker
+### System CA
+Adjust content as necessary:
+![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
+
+
+### Enable Bitlocker
 1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
 1. Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
-	Good start on a relatively modern device with TPM 2.0 would be `0,1,.......` TODO
+    Good start on a relatively modern device with TPM 2.0 would be `0,1,.......` TODO
 1.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
     1. Double-check that Bitlocker is disabled for the system drive:
       ```powershell
@@ -210,86 +217,14 @@ For _each_ user, run:
       .\manage-bde.exe -protectors -add -rk X:\WHERE_TO_STORE_KEY C:
       ```
       *N.B.* Don't forget to securely wipe device "X" after the key is transferred to a proper location. 
-   
 
 
-# After the machine is online
-
-5. After the Windows is activated, execute from elevated `cmd.exe`:
-```bat
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
-```
-
-Allowed traffic list for Windows Restricted Traffic Limited Functionality Baseline
-Table 16
-Allowed traffic endpoints
-activation-v2.sls.microsoft.com/*
-crl.microsoft.com/pki/crl/*
-ocsp.digicert.com/*
-www.microsoft.com/pkiops/*
-
-Enable execution of PowerShell scripts:
-
-```powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-```
-
-Unblock PowerShell scripts and modules within this directory:
-
-```powershell
-ls -Recurse *.ps*1 | Unblock-File
-```
-
--------------------------------------
-
-
-8. If necessary, install GPU drivers using _verified_ offline installer, use DCH package if possible.
-
-### pgp4win
-1. Import pubkey, insert smart-card.
-    1) Open `kleopatra`, Tools &rarr; Manage Smartcards, ensure yours is present.
-    2) Do not close Kleopatra.
-    3) Issue `gpg.exe --card-status` to refresh the SCDaemon.
-    4) Press F5 in Kleopatra, assuming pubkey corresponds to private key stored on the card, relevant line will become highlighted with in bold.
-    5) Change trust level of your own certificate to ultimate.
-	
-	
-	
-2.  Adjust content of system CA as necessary:
-![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
-
-11. Explorer tweaks to remove unnecessary cruft:
-```reg
-Windows Registry Editor Version 5.00
-[-HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\{90AA3A4E-1CBA-4233-B8BB-535773D48449}]
-[-HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\SendTo]
-[-HKEY_CLASSES_ROOT\Directory\Background\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Directory\shellex\CopyHookHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Directory\shellex\PropertySheetHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Drive\shellex\PropertySheetHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Folder\ShellEx\ContextMenuHandlers\Library Location]
-[-HKEY_CLASSES_ROOT\Folder\shellex\ContextMenuHandlers\PintoStartScreen]
-[-HKEY_CLASSES_ROOT\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\Microsoft.Website\ShellEx\ContextMenuHandlers\PintoStartScreen]
-[-HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\SendTo]
-[-HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing]
-[-HKEY_CLASSES_ROOT\exefile\shellex\ContextMenuHandlers\PintoStartScreen]
-[-HKEY_CLASSES_ROOT\mscfile\shellex\ContextMenuHandlers\PintoStartScreen]
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location]
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
-"{1d27f844-3a1f-4410-85ac-14651078412d}"=""
-"{7AD84985-87B4-4a16-BE58-8B72A5B390F7}"="Play to Menu"
-```
-
-15. Install necessary drivers.
-
+### GPOs
 16. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
 
-17. Check your current PS execution policy:
+## Powershell
+1. Check your current PS execution policy:
 ```powershell
 > Get-ExecutionPolicy -List
 
@@ -301,15 +236,13 @@ MachinePolicy       Undefined
   CurrentUser    RemoteSigned
  LocalMachine      Restricted
  ```
- 
-18. Create profile:
+1. Create profile:
 ```powershell
 if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
   New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
 }
 ```
-
-19. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
+1. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
 ```powershell
 # Yo
 function yocmd {
@@ -320,10 +253,11 @@ function yocmd {
 Set-Alias -Name yo -Value yocmd
 ```
 
-20. Let's limit service host's unstoppable desire to talk with the outside world.  
-   - Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
-   - Add to your profile:  
-   ```powershell
+### svchost.exe
+Let's limit service host's unstoppable desire to talk with the outside world.  
+1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
+1. Add to your profile:  
+```powershell
 # Update Windows
 function updatecmd {
     $enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
@@ -332,7 +266,14 @@ function updatecmd {
     }
     else {
     }
-    Get-WindowsUpdate -Verbose -Install -AcceptAll
+    $Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
+    if ([bool]$Updates) {
+        Write-Host $Updates.Title
+        Install-WUUpdates -Updates $Updates
+    }
+    else {
+        Write-Host "No updates found."
+    }
     # Start-Sleep -s 5
     Read-host “Press Enter to continue...”
     Set-NetFirewallRule -DisplayName block_service_host -Action Block
@@ -344,9 +285,22 @@ function sudo_updatecmd {
 
 Set-Alias -Name update -Value sudo_updatecmd
 ```
-   - Now, when you'd like to update Windows, just run `update` from the PS.
-     This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
-	 
+1. Now, when you'd like to update Windows, just run `update` from the PS.  
+   This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
+
+
+# After the machine is online
+1. After the Windows is activated, execute from elevated `cmd.exe`:
+```bat
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
+```
+
+-------------------------------------
+
+
+
+
+     
 21. Let's add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
 
 #TODO: Expand on OTP: https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-atp/exploit-protection#block-executable-files-from-running-unless-they-meet-a-prevalence-age-or-trusted-list-criterion
