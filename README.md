@@ -227,7 +227,8 @@ For _each_ user, run:
 
 ### Speculative execution attacks
 1. Use `tools/mdstools` to [assess the damage](https://mdsattacks.com/).  
-1. From `tools/SpeControl`:  
+1. From `tools/SpeControl`:
+
 	```powershell
 	Import-Module -name .\SpeculationControl.psm1
 	Get-SpeculationControlSettings -Verbose
@@ -253,13 +254,14 @@ If output is unsatisfactory...
 	```
 
 1. Enable controlled folder access:
-```powershell
-Set-MpPreference -EnableControlledFolderAccess Enabled
-```
+	```powershell
+	Set-MpPreference -EnableControlledFolderAccess Enabled
+	```
 
 
 ### System CA
-Adjust content as necessary:
+Adjust content as necessary:  
+
 ![noliability](https://user-images.githubusercontent.com/300146/61441050-f8b60880-a983-11e9-9188-9af5941b4147.png)
 
 
@@ -293,7 +295,7 @@ Adjust content as necessary:
 
 
 ### GPOs
-16. Enable "Early Launch Antimalware" GPO:
+1. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
 
 
@@ -373,18 +375,8 @@ Let's limit service host's unstoppable desire to talk with the outside world.
 -------------------------------------
 
 
-# TODO
-
-1. Selectively limit talkativeness of the `svchost.exe` (see https://github.com/henrypp/simplewall/issues/516)
-2. Figure out why DNS client is spamming public with unsolicited PTR requests:  
-    Try `(dns.flags.response == 0 and dns.qry.name contains "arpa")` in Wireshark.
-    
-    ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
-    
-    This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
-
-    
 # Notes
+- **TODO:** Selectively limit talkativeness of the `svchost.exe` (see https://github.com/henrypp/simplewall/issues/516)
 
 Microsoft Network Monitor allows filtering on per-process basis:
 ```powershell
@@ -397,7 +389,7 @@ wdagtool.exe cleanup
 wdagtool.exe cleanup RESET_PERSISTENCE_LAYER
 ```
 
-There is an in-built alternative to `shasum`:
+There is a in-built alternative to `shasum`:
 ```powershell
 CertUtil -hashfile $FILE SHA1
 ```
@@ -419,89 +411,4 @@ Windows Registry Editor Version 5.00
 ```
 
 ## Adobe Reader DC lockdown
-
 Moved to the WIKI.
-
-## Per-application process mitigation settings
-Save all settings:
-```powershell
-Get-ProcessMitigation -RegistryConfigFilePath settings.xml
-```
-Apply all settings from a previously saved XML:
-```powershell
-Set-ProcessMitigation -PolicyFilePath .\settings.xml
-```
-
-### KeePassXC
-```xml
-<AppConfig Executable="KeePassXC.exe">
-  <DEP Enable="true" EmulateAtlThunks="false" />
-  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
-  <StrictHandle Enable="true" />
-  <ExtensionPoints DisableExtensionPoints="true" />
-  <ControlFlowGuard Enable="true" SuppressExports="false" />
-  <SignedBinaries EnforceModuleDependencySigning="true" />
-  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
-  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
-  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
-  <SEHOP Enable="true" TelemetryOnly="false" />
-  <Heap TerminateOnError="true" />
-  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
-</AppConfig>
-```
-
-### Firefox
-```xml
-<AppConfig Executable="firefox.exe">
-  <DEP Enable="true" EmulateAtlThunks="false" />
-  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
-  <StrictHandle Enable="true" />
-  <ExtensionPoints DisableExtensionPoints="true" />
-  <ControlFlowGuard Enable="true" SuppressExports="false" />
-  <SignedBinaries EnforceModuleDependencySigning="true" />
-  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
-  <Payload EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
-  <SEHOP Enable="true" TelemetryOnly="false" />
-  <Heap TerminateOnError="true" />
-</AppConfig>
-```
-
-### Notepad++
-```xml
-<AppConfig Executable="notepad++.exe">
-  <DEP Enable="true" EmulateAtlThunks="false" />
-  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
-  <StrictHandle Enable="true" />
-  <ExtensionPoints DisableExtensionPoints="true" />
-  <DynamicCode BlockDynamicCode="true" AllowThreadsToOptOut="false" Audit="false" />
-  <ControlFlowGuard Enable="true" SuppressExports="false" />
-  <SignedBinaries EnforceModuleDependencySigning="true" />
-  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
-  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
-  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
-  <SEHOP Enable="true" TelemetryOnly="false" />
-  <Heap TerminateOnError="true" />
-  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
-</AppConfig>
-
-```
-
-### mIRC
-```xml
-<AppConfig Executable="mirc.exe">
-  <DEP Enable="true" EmulateAtlThunks="false" />
-  <ASLR ForceRelocateImages="true" RequireInfo="false" BottomUp="true" HighEntropy="true" />
-  <StrictHandle Enable="true" />
-  <ExtensionPoints DisableExtensionPoints="true" />
-  <DynamicCode BlockDynamicCode="true" AllowThreadsToOptOut="false" Audit="false" />
-  <ControlFlowGuard Enable="true" SuppressExports="false" />
-  <SignedBinaries MicrosoftSignedOnly="true" AllowStoreSignedBinaries="false" Audit="false" AuditStoreSigned="false" EnforceModuleDependencySigning="true" />
-  <Fonts DisableNonSystemFonts="true" AuditOnly="false" Audit="false" />
-  <ImageLoad BlockRemoteImageLoads="true" AuditRemoteImageLoads="false" BlockLowLabelImageLoads="true" AuditLowLabelImageLoads="false" />
-  <Payload EnableExportAddressFilter="true" AuditEnableExportAddressFilter="false" EnableExportAddressFilterPlus="true" AuditEnableExportAddressFilterPlus="false" EnableImportAddressFilter="true" AuditEnableImportAddressFilter="false" EnableRopStackPivot="true" AuditEnableRopStackPivot="false" EnableRopCallerCheck="true" AuditEnableRopCallerCheck="false" EnableRopSimExec="true" AuditEnableRopSimExec="false" />
-  <SEHOP Enable="true" TelemetryOnly="false" />
-  <Heap TerminateOnError="true" />
-  <ChildProcess DisallowChildProcessCreation="true" Audit="false" />
-</AppConfig>
-```
-      
