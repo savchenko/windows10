@@ -149,6 +149,7 @@ Optional, but userful:
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 
+
 ### Traffic restriction
 1. Navigate to `./Tools/baseline_traffic` and:
 
@@ -159,6 +160,7 @@ Optional, but userful:
     1. Accept the terms.
 1. Reboot
 
+
 ### Remove pre-installed AppX packages
 1. Navigate to `./Tools/Scripts`.
 1. In elevated PowerShell:
@@ -166,15 +168,13 @@ Optional, but userful:
 	
     
 ### Clean-up profiles
-1. Create two new user profiles:
-    1. Regular user
-    1. Administrator account
+1. Create new user profile
 1. Log in as the newly created administrator
-1. Remove the old user account, choose "delete files"
+1. Remove the old account, choose "delete files"
 1. Reboot
 
-### Install stoptracking changes
 
+### Install stoptracking changes
 For _each_ user, run:
 
 1. In elevated `cmd.exe`, execute:
@@ -183,7 +183,7 @@ For _each_ user, run:
 1. In elevated PowerShell:
 	- `hosts.ps1` TODO
 	- `gpupdate /force`
-	
+
 
 ## Full Disk Encryption for NT systems: Bitlocker
 1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
