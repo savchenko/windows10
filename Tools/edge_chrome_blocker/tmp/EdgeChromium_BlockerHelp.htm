@@ -1,0 +1,316 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>Blocker Toolkit: Disable Automatic Delivery of Microsoft Edge (Chromium-based)</title>
+<style>
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Lucida Console";
+	panose-1:2 11 6 9 4 5 4 2 2 4;}
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:12.0pt;
+	font-size:8.0pt;
+	font-family:"Verdana","sans-serif";
+	color:black;}
+h2, h3, h4
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:normal;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial","sans-serif";
+	color:black;
+	font-weight:bold;}
+h2
+	{font-style:italic;}
+h4
+	{margin-bottom:6.0pt;
+	line-height:12.0pt;
+	font-size:9.0pt;
+	font-family:"Verdana","sans-serif";}
+a:link
+	{color:#0033CC;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:140%;
+	font-size:8.5pt;
+	font-family:"Verdana","sans-serif";}
+.code, .codethin, .codethick
+	{margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:10.0pt;
+	font-size:9.0pt;
+	font-family:"Lucida Console";
+	color:navy;}
+.codethin
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:normal;}
+.codethick
+	{margin-top:6.0pt;
+	margin-bottom:.0001pt;
+	line-height:normal;}
+.codechar
+	{font-family:"Lucida Console";
+	font-size:9.0pt;
+	color:navy;}
+ol, ul
+	{margin-bottom:0in;}
+table.MsoNormalTable
+	{font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+tr
+	{page-break-inside:avoid;}
+</style>
+</head>
+
+<body lang=EN-US link="#0033CC" vlink=purple>
+
+<div>
+
+<h2><span style='font-size:16.0pt;font-style:normal'>Blocker Toolkit:<br/>
+Disable Automatic Delivery of<br/>
+Microsoft Edge (Chromium-based)</span></h2>
+
+<h3><a name=Overview></a><span>Overview</span></h3>
+
+<p class=MsoNormal>To help keep our customers more secure and up-to-date,
+Microsoft will distribute Microsoft Edge (Chromium-based) through Automatic
+Updates for Windows 10 RS4 and newer. This Blocker
+Toolkit is for organizations that would like to block automatic
+delivery of Microsoft Edge (Chromium-based) to machines in environments
+where Automatic Updates is enabled. The Blocker Toolkit will not expire.</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>
+	For computers running Windows 10 RS4 and newer, the
+	Blocker Toolkit prevents the machine from receiving Microsoft Edge (Chromium-based)
+	via Automatic Updates.</li>
+ <li class=MsoNormal>
+	 The Blocker Toolkit will <i>not</i> prevent users from manually installing
+	 Microsoft Edge (Chromium-based) from internet download, or from external
+	 media.</li>
+ <li class=MsoNormal>
+	 Organizations do not need to deploy the Blocker Toolkit in environments
+	 managed with an update management solution such as Windows Server Update
+	 Services or System Center Configuration Manager. Organizations
+	 can use those products to fully manage deployment of updates released
+	 through Windows Update and Microsoft Update, including
+	 Microsoft Edge (Chromium-based), within their environment.</li>
+</ul>
+
+<h4>Toolkit Components</h4>
+
+<p class=MsoNormal>This toolkit contains the following components:</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Executable blocker script (.CMD)</li>
+ <li class=MsoNormal>Group Policy Administrative Template (.ADMX + .ADML)</li>
+</ul>
+
+<h4>Supported Operating Systems</h4>
+
+<p class=MsoNormal>Windows 10 RS4 and newer</p>
+
+<h3>Blocker Script</h3>
+
+<p class=MsoNormal>The script creates a registry key and sets the associated
+value to block or unblock (depending on the command-line option used) automatic
+delivery of Microsoft Edge (Chromium-based) on either the local machine or a
+remote target machine.</p>
+
+<p class=MsoNormal><b>Registry key:</b> <span class=codechar>
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\EdgeUpdate</span></p>
+
+<p class=MsoNormal><b>Key value name:</b> <span class=codechar>
+DoNotUpdateToEdgeWithChromium</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <thead>
+  <tr>
+   <td width=144 valign=top style='width:107.8pt;border:solid windowtext 1.0pt;
+   background:#E6E6E6;padding:0in 5.4pt 0in 5.4pt'>
+   <p class=MsoNormal><b>Value</b></p>
+   </td>
+   <td width=180 valign=top style='width:135.0pt;border:solid windowtext 1.0pt;
+   border-left:none;background:#E6E6E6;padding:0in 5.4pt 0in 5.4pt'>
+   <p class=MsoNormal><b>Result</b></p>
+   </td>
+  </tr>
+ </thead>
+ <tr>
+  <td width=144 valign=top style='width:107.8pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><i>Key is not defined</i></p>
+  </td>
+  <td width=180 valign=top style='width:135.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Distribution is <i>not</i> blocked.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top style='width:107.8pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=code>0</p>
+  </td>
+  <td width=180 valign=top style='width:135.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Distribution is <i>not</i> blocked.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=144 valign=top style='width:107.8pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span class=codechar>1</span></p>
+  </td>
+  <td width=180 valign=top style='width:135.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Distribution is blocked.</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>The script has the following command-line syntax:</p>
+
+<p class=code>EdgeChromium_Blocker.cmd [&lt;machine name&gt;] [/B] [/U] [/H]</p>
+
+<h4>Machine Name</h4>
+
+<p class=MsoNormal>The <span class=codechar>&lt;machine
+name&gt;</span> parameter is optional. If not specified, the action is performed
+on the local machine. Otherwise, the remote machine is accessed through the
+remote registry capabilities of the <span class=codechar>REG</span> command.
+If the remote registry can't be accessed due to security permissions or the
+remote machine can't be found, an error message is returned from the
+<span class=codechar>REG</span> command.</p>
+
+<h4 style='margin-bottom:0in;margin-bottom:.0001pt'><span style='font-size:
+8.5pt'>Switches</span></h4>
+
+<p class=MsoNormal>Switches used by the script are mutually exclusive and only
+the first valid switch from a given command is acted on. The script can be run
+multiple times on the same machine.</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <thead>
+  <tr>
+   <td width=83 valign=top style='width:62.05pt;border:solid windowtext 1.0pt;
+   background:#E6E6E6;padding:0in 5.4pt 0in 5.4pt'>
+   <p class=MsoNormal><b>Switch</b></p>
+   </td>
+   <td width=527 valign=top style='width:395.6pt;border:solid windowtext 1.0pt;
+   border-left:none;background:#E6E6E6;padding:0in 5.4pt 0in 5.4pt'>
+   <p class=MsoNormal><b>Description</b></p>
+   </td>
+  </tr>
+ </thead>
+ <tr>
+  <td width=83 valign=top style='width:62.05pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=code>/B</p>
+  </td>
+  <td width=527 valign=top style='width:395.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Blocks distribution</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=83 valign=top style='width:62.05pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=code>/U</p>
+  </td>
+  <td width=527 valign=top style='width:395.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Unblocks distribution</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=83 valign=top style='width:62.05pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span class=codechar>/H</span>
+  (or <span class=codechar>/?</span>)</p>
+  </td>
+  <td width=527 valign=top style='width:395.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Displays the following summary help:</p>
+  <p class=codethin>This
+  tool can be used to remotely block or unblock the delivery of</p>
+  <p class=codethin>Microsoft Edge (Chromium-based) through Automatic Updates.</p>
+  <p class=codethick>------------------------------------------------------------</p>
+  <p class=codethick>Usage:</p>
+  <p class=codethick>EdgeChromium_Blocker.cmd [&lt;machine name&gt;] [/B][/U][/H]</p>
+  <p class=codethick>B = Block Microsoft Edge (Chromium-based) deployment</p>
+  <p class=codethick>U = Allow Microsoft Edge (Chromium-based) deployment</p>
+  <p class=codethick>H = Help</p>
+  <p class=codethick>Examples:</p>
+  <p class=codethick>EdgeChromium_Blocker.cmd mymachine /B (blocks delivery on machine &quot;mymachine&quot;)</p>
+  <p class=codethick>EdgeChromium_Blocker.cmd /U (unblocks delivery on the local machine)</p>
+  <p class=codethin>------------------------------------------------------------</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Group Policy Administrative Template (.ADMX + .ADML files)</h3>
+
+<p class=MsoNormal style='margin-bottom:12.0pt'>The Group Policy Administrative
+Template (.ADMX + .ADML files) allows administrators to import the new Group Policy
+settings to block or unblock automatic delivery of Microsoft Edge (Chromium-based) into
+their Group Policy environment, and use Group Policy to centrally execute the
+action across systems in their environment.</p>
+
+<p class=MsoNormal style='margin-bottom:12.0pt'>Users running Windows 10
+RS4 and newer, will see the policy under <b>
+	<ul><li>Computer Configuration
+		<ul><li>Administrative Templates
+			<ul><li>Windows Components
+				<ul><li>Windows Update
+					<ul><li>Microsoft Edge (Chromium-based) Blockers</li></ul>
+				</li></ul>
+			</li></ul>
+		</li></ul>
+	</li></ul>
+</b></p>
+
+<p class=MsoNormal style='margin-bottom:12.0pt'>This setting is available
+only as a computer setting; there is no per-user setting.</p>
+
+<p class=MsoNormal style='margin-bottom:12.0pt'><b>Note</b>: This registry
+setting is not stored in a policies key and is considered a <i>preference</i>.
+Therefore, if the Group Policy Object that implements the setting is ever
+removed or the policy is set to <b>Not Configured</b>, the setting will remain.
+To unblock distribution of Microsoft Edge (Chromium-based) by using Group
+Policy, set the policy to <b>Disabled</b>.</p>
+
+</div>
+
+</body>
+
+</html>

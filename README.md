@@ -1,6 +1,6 @@
 # Summary
 This is a cheat-sheet for a single-user installation of Windows 10 **build 1909**.  
-Level 3 baseline plus/minus some additional customizations: less network noise, focus on single-user workstation, etc.
+Level 3 baseline with additional customizations: less network noise, focus on single-user workstation, etc.
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
@@ -31,10 +31,10 @@ and here:
 
 > Note: There is no Group Policy to turn off the Malicious Software Reporting Tool diagnostic data.
 
-Even then, registry "tweaks" are taken directly from Microsoft documentation for the specific build version.
+Even then, registry "tweaks" are taken from Microsoft documentation for the specific build version.
 
 ## Rationale
-One might rightfully ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
+One might ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
 At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
@@ -45,7 +45,7 @@ At present, main considerations are:
 * Good hardware support.
 
 ## First steps
-1. Recognize that you are dealing with the closed-source, SaaS-like operating system that has a combination of useful features and hostile elements simultaneously. To give an idea on how the "Microsoft world" is different, this is enabled by default: 
+1. Recognize that you are dealing with the closed-source, SaaS-like operating system. To give an idea about the "Microsoft world", this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
@@ -261,7 +261,7 @@ Adjust content as necessary:
 
 
 ### Enable Bitlocker
-1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
+1. Open policy editor and filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
 1. Enable PCR banks according to your hardware, here is the [comprehensive list with explanations](https://docs.microsoft.com/en-us/windows/win32/secprov/getkeyprotectorplatformvalidationprofile-win32-encryptablevolume).  
     Good start on a relatively modern device with TPM 2.0 would be `0,1,.......` TODO
 1.  Use `manage-bde` to set-up BitLocker and add/remove recovery agents.
@@ -326,7 +326,7 @@ Adjust content as necessary:
 
 ### svchost.exe
 Let's limit service host's unstoppable desire to talk with the outside world.  
-1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
+1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
 1. Add to your profile:  
     ```powershell
     # Update Windows
@@ -357,7 +357,7 @@ Let's limit service host's unstoppable desire to talk with the outside world.
     
     Set-Alias -Name update -Value sudo_updatecmd
     ```
-1. Now, when you'd like to update Windows, just run `update` from the PS.  
+1. Now, when you'd like to update Windows, run `update` from the PS.  
    This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
 
 
