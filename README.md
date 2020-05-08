@@ -181,7 +181,6 @@ After we are done, your environment will look like this:
 	OnAccessProtectionEnabled : True
 	RealTimeProtectionEnabled : True
 	```
-	If anything from the above is disabled &mdash; investigate why and fix.
 1. Reboot
 
 Optional, but useful:
