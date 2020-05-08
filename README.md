@@ -7,7 +7,7 @@ Level 3 baseline plus/minus some additional customizations: less network noise, 
 Tools used:
 * [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
 * [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
-* [GP Search](https://gpsearch.azurewebsites.net/)
+* [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Connection endpoints documentation](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
 * [Endpoint management](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
@@ -174,12 +174,16 @@ Optional, but userful:
 1. Reboot
 
 ### Install stoptracking changes
+
+For _each_ user, run:
+
 1. In elevated `cmd.exe`, execute:
     - `windows.bat`
     - `edge.bat`
 1. In elevated PowerShell:
 	- `hosts.ps1` TODO
-	- `.\gpupdate.exe /force`
+	- `gpupdate /force`
+	
 
 ## Full Disk Encryption for NT systems: Bitlocker
 1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.

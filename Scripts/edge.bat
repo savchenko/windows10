@@ -21,4 +21,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\MicrosoftEdge\BooksLibra
 echo [101;93m Do not send text typed in the address bar without user's consent [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\MicrosoftEdge\ServiceUI" /t REG_DWORD /v ShowOneBox /d 0 /f
 
+echo All done! Press any key to exit...
+echo.
 set /p done=""
+cls
