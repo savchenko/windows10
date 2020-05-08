@@ -223,10 +223,40 @@ For _each_ user, run:
     - `interfaces.ps1`
     - `gpupdate /force`
 1. Reboot
+
+
+### Speculative execution attacks
+1. Use `tools/mdstools` to [assess the damage](https://mdsattacks.com/).  
+1. From `tools/SpeControl`:  
+	```powershell
+	Import-Module -name .\SpeculationControl.psm1
+	Get-SpeculationControlSettings -Verbose
+	```
+If output is unsatisfactory...
+
+1. Enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
+	```powershell
+	reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverride /t REG_DWORD /d 72 /f
+	reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
+	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization" /v MinVmVersionForCpuBasedMitigations /t REG_SZ /d "1.0" /f
+	```
+1. Reboot and compare against the [documentation](https://support.microsoft.com/en-au/help/4074629/understanding-the-output-of-get-speculationcontrolsettings-powershell) again.
+	```powershell
+	Get-SpeculationControlSettings
+	```
+
+
+### Misc
 1. Set execution policy back:
+	```powershell
+	Set-ExecutionPolicy -ExecutionPolicy Restricted
+	```
+
+1. Enable controlled folder access:
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy Restricted
+Set-MpPreference -EnableControlledFolderAccess Enabled
 ```
+
 
 ### System CA
 Adjust content as necessary:
@@ -266,153 +296,81 @@ Adjust content as necessary:
 16. Enable "Early Launch Antimalware" GPO:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
 
+
 ## Powershell
 1. Check your current PS execution policy:
-```powershell
-> Get-ExecutionPolicy -List
-
-        Scope ExecutionPolicy
-        ----- ---------------
-MachinePolicy       Undefined
-   UserPolicy       Undefined
-      Process       Undefined
-  CurrentUser    RemoteSigned
- LocalMachine      Restricted
- ```
+	```powershell
+	> Get-ExecutionPolicy -List
+	
+			Scope ExecutionPolicy
+			----- ---------------
+	MachinePolicy       Undefined
+	UserPolicy       Undefined
+		Process       Undefined
+	CurrentUser    RemoteSigned
+	LocalMachine      Restricted
+	```
 1. Create profile:
-```powershell
-if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
-  New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
-}
-```
+	```powershell
+	if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
+	New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
+	}
+	```
 1. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
-```powershell
-# Yo
-function yocmd {
-    $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
-    $token_value = $token.split(" ")
-    Set-Clipboard -Value $token_value[2]
-}
-Set-Alias -Name yo -Value yocmd
-```
+	```powershell
+	# Yo
+	function yocmd {
+		$token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
+		$token_value = $token.split(" ")
+		Set-Clipboard -Value $token_value[2]
+	}
+	Set-Alias -Name yo -Value yocmd
+	```
 
 ### svchost.exe
 Let's limit service host's unstoppable desire to talk with the outside world.  
 1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
 1. Add to your profile:  
-```powershell
-# Update Windows
-function updatecmd {
-    $enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
-    if ($enabled -like "*Block*") {
-        Set-NetFirewallRule -DisplayName block_service_host -Action Allow
-    }
-    else {
-    }
-    $Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
-    if ([bool]$Updates) {
-		Write-Host "Found" $Updates.Count "updates:"
-        Write-Host $Updates.Title
-        Install-WUUpdates -Updates $Updates
-    }
-    else {
-        Write-Host "No updates found."
-    }
-    # Start-Sleep -s 5
-    Read-host “Press Enter to continue...”
-    Set-NetFirewallRule -DisplayName block_service_host -Action Block
-}
-
-function sudo_updatecmd {
-    Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
-}
-
-Set-Alias -Name update -Value sudo_updatecmd
-```
+	```powershell
+	# Update Windows
+	function updatecmd {
+		$enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
+		if ($enabled -like "*Block*") {
+			Set-NetFirewallRule -DisplayName block_service_host -Action Allow
+		}
+		else {
+		}
+		$Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
+		if ([bool]$Updates) {
+			Write-Host "Found" $Updates.Count "updates:"
+			Write-Host $Updates.Title
+			Install-WUUpdates -Updates $Updates
+		}
+		else {
+			Write-Host "No updates found."
+		}
+		# Start-Sleep -s 5
+		Read-host “Press Enter to continue...”
+		Set-NetFirewallRule -DisplayName block_service_host -Action Block
+	}
+	
+	function sudo_updatecmd {
+		Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
+	}
+	
+	Set-Alias -Name update -Value sudo_updatecmd
+	```
 1. Now, when you'd like to update Windows, just run `update` from the PS.  
    This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
 
 
 # After the machine is online
 1. After the Windows is activated, execute from elevated `cmd.exe`:
-```bat
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
-```
+	```bat
+	reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
+	```
 
 -------------------------------------
-
-
-
-
-     
-
-
-1. Enable controlled folder access:
-```powershell
-Set-MpPreference -EnableControlledFolderAccess Enabled
-```
-
-25. Enable and configure [exploit mitigation options](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection)
-```powershell
-Get-ProcessMitigation -System
-```
-
-26. Enable Local Security Authority (LSA) hardening:
-```powershell
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 1 /f
-```
-
-28. Use `tools/mdstools` to assess the damage caused by [speculative execution attacks](https://mdsattacks.com/).  
-
-29. Also, from `tools/SpeControl`:  
-```powershell
-Import-Module -name .\SpeculationControl.psm1
-Get-SpeculationControlSettings -Verbose
-```
-
-30. To enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
-```powershell
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverride /t REG_DWORD /d 8 /f
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
-```
-Reboot and verify:
-```powershell
-Get-SpeculationControlSettings -Quiet | grep KVAS\w*SupportEnabled
-KVAShadowWindowsSupportEnabled      : True
-```
-
-31. Verify Device Guard&trade; operational status:
-```powershell
-Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
-```
-
-
-After Windows is activated, run the following to prevent it from calling home on every boot to check the license:
-```powershell
-reg add "HKLM\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f
-```
-
-
-# Git
-
-1. Install git:
-```powershell
-choco install --force git --params "/NoGuiHereIntegration /NoShellHereIntegration"
-```
-2. Configure to sign commits by default:
-```powershell
-git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
-git config --global user.signingkey $LONG_KEY_ID
-git config --global commit.gpgsign true
-```
-
-# GPG
-
-1. Export pubkey from a (sub)key that is allowed to authenticate: `gpg.exe --export-ssh-key ID`
-2. Enable Putty support: `echo "enable-putty-support" >> C:\Users\asv\AppData\Roaming\gnupg\test.conf`
-3. Restart daemon: `gpg-connect-agent KILLAGENT /bye; gpg-agent.exe -v --enable-putty-support`.
-4. Try to login, authenticate card as usual. Should see something like this:
-![2019-08-09 21_46_11-192 168 2 202 - PuTTY](https://user-images.githubusercontent.com/300146/62778531-c49bb680-baef-11e9-8147-c34ec73c12e6.png)
 
 
 # TODO
@@ -424,10 +382,6 @@ git config --global commit.gpgsign true
     ![svchost_dns](https://user-images.githubusercontent.com/300146/62759132-a1f1a980-babf-11e9-9c3f-97819f7df1b6.png)
     
     This is currently mitigated by blocking outgoing on `svchost.exe` with the script in paragraph №21 above. Considering that it does not prevent DNS client from normal operations, I am still very much curious about WTF is going on.
-
-3. Consider https://github.com/Microsoft/AaronLocker (_requires "Enterprise"?.._)
-
-4. Mention separation of apps that have network access from "protected folders".
 
     
 # Notes

@@ -358,6 +358,11 @@ schtasks /Change /TN "\Microsoft\Windows\PushToInstall\Registration" /disable
 schtasks /Change /TN "\Microsoft\Windows\NetTrace\GatherNetworkInfo" /disable
 del /F /Q "C:\Windows\System32\Tasks\Microsoft\Windows\SettingSync\*"
 
+:: Enable
+
+echo [101;93m Enable Local Security Authority (LSA) hardening [0m
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 1 /f
+
 echo All done! Press any key to exit...
 echo.
 set /p done=""
