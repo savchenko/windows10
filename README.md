@@ -15,12 +15,10 @@ Tools used:
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
 
-If you are looking for something more reproducible and of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
+If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 ## Foreword
-This guide suggests to follow rather strict approach and accepts no closed-source utilities that promise to "fix Windows privacy".
-
-Author has rather dim view on such tools and whenever possible proposes to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
+This guide accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and whenever possible proposes to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
@@ -40,7 +38,7 @@ One might rightfully ask, &mdash; _"Why to bother with MS product while there ar
 At present, main considerations are:
 * Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
 
-    And while there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
+    Although there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
 * Commercial-grade Type-1 hypervisor.
 * Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
@@ -144,43 +142,43 @@ After we are done, your environment will look like this:
     .\Baseline-LocalInstall.ps1 -Win10NonDomainJoined
     ```
 1. Add [attack surface reduction rules](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/attack-surface-reduction-exploit-guard#attack-surface-reduction-rules).
-	```powershell
-	$asrs = @("BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550",  # Block executable content from email client and webmail
-			"D4F940AB-401B-4EFC-AADC-AD5F3C50688A", # Block all Office applications from creating child processes
-			"3B576869-A4EC-4529-8536-B80A7769E899", # Block Office applications from creating executable content
-			"75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84", # Block Office applications from injecting code into other processes
-			"D3E037E1-3EB8-44C8-A917-57927947596D", # Block JavaScript or VBScript from launching downloaded executable content
-			"5BEB7EFE-FD9A-4556-801D-275E5FFC04CC", # Block execution of potentially obfuscated scripts
-			"92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B", # Block Win32 API calls from Office macro
-			"01443614-cd74-433a-b99e-2ecdc07bfc25", # Block executable files from running unless they meet a prevalence, age, or trusted list criterion
-			"c1db55ab-c21a-4637-bb3f-a12568109d35", # Use advanced protection against ransomware
-			"9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2", # Block credential stealing from the Windows local security authority subsystem (lsass.exe)
-			"d1e49aac-8f56-4280-b9ba-993a6d77406c", # Block process creations originating from PSExec and WMI commands
-			"b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4", # Block untrusted and unsigned processes that run from USB
-			"26190899-1602-49e8-8b27-eb1d0a1ce869", # Block Office communication application from creating child processes
-			"7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c", # Block Adobe Reader from creating child processes
-			"e6db77e5-3df2-4cf1-b95a-636979351e5b") # Block persistence through WMI event subscription 
-	foreach ($rule in $asrs) {
-		Add-MpPreference -AttackSurfaceReductionRules_Ids $rule -AttackSurfaceReductionRules_Actions Enabled
-	}
-	```
+    ```powershell
+    $asrs = @("BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550",  # Block executable content from email client and webmail
+            "D4F940AB-401B-4EFC-AADC-AD5F3C50688A", # Block all Office applications from creating child processes
+            "3B576869-A4EC-4529-8536-B80A7769E899", # Block Office applications from creating executable content
+            "75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84", # Block Office applications from injecting code into other processes
+            "D3E037E1-3EB8-44C8-A917-57927947596D", # Block JavaScript or VBScript from launching downloaded executable content
+            "5BEB7EFE-FD9A-4556-801D-275E5FFC04CC", # Block execution of potentially obfuscated scripts
+            "92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B", # Block Win32 API calls from Office macro
+            "01443614-cd74-433a-b99e-2ecdc07bfc25", # Block executable files from running unless they meet a prevalence, age, or trusted list criterion
+            "c1db55ab-c21a-4637-bb3f-a12568109d35", # Use advanced protection against ransomware
+            "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2", # Block credential stealing from the Windows local security authority subsystem (lsass.exe)
+            "d1e49aac-8f56-4280-b9ba-993a6d77406c", # Block process creations originating from PSExec and WMI commands
+            "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4", # Block untrusted and unsigned processes that run from USB
+            "26190899-1602-49e8-8b27-eb1d0a1ce869", # Block Office communication application from creating child processes
+            "7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c", # Block Adobe Reader from creating child processes
+            "e6db77e5-3df2-4cf1-b95a-636979351e5b") # Block persistence through WMI event subscription 
+    foreach ($rule in $asrs) {
+        Add-MpPreference -AttackSurfaceReductionRules_Ids $rule -AttackSurfaceReductionRules_Actions Enabled
+    }
+    ```
 1. Check that rules are applied correctly:
-	```powershell
-	(Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids).Count -eq 15
-	```
+    ```powershell
+    (Get-MpPreference | Select-Object -ExpandProperty AttackSurfaceReductionRules_Ids).Count -eq 15
+    ```
 1. Check antimalware:
-	```powershell
-	Get-MpComputerStatus | Select-Object -Property "*enabled*"
-	
-	AMServiceEnabled          : True
-	AntispywareEnabled        : True
-	AntivirusEnabled          : True
-	BehaviorMonitorEnabled    : True
-	IoavProtectionEnabled     : True
-	NISEnabled                : True
-	OnAccessProtectionEnabled : True
-	RealTimeProtectionEnabled : True
-	```
+    ```powershell
+    Get-MpComputerStatus | Select-Object -Property "*enabled*"
+    
+    AMServiceEnabled          : True
+    AntispywareEnabled        : True
+    AntivirusEnabled          : True
+    BehaviorMonitorEnabled    : True
+    IoavProtectionEnabled     : True
+    NISEnabled                : True
+    OnAccessProtectionEnabled : True
+    RealTimeProtectionEnabled : True
+    ```
 1. Reboot
 
 Optional, but useful:
@@ -228,32 +226,32 @@ For _each_ user, run:
 1. Use `tools/mdstools` to [assess the damage](https://mdsattacks.com/).  
 1. From `tools/SpeControl`:
 
-	```powershell
-	Import-Module -name .\SpeculationControl.psm1
-	Get-SpeculationControlSettings -Verbose
-	```
-	
+    ```powershell
+    Import-Module -name .\SpeculationControl.psm1
+    Get-SpeculationControlSettings -Verbose
+    ```
+    
 If output is unsatisfactory...
 
 1. Enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
-	```powershell
-	reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverride /t REG_DWORD /d 72 /f
-	reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
-	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization" /v MinVmVersionForCpuBasedMitigations /t REG_SZ /d "1.0" /f
-	```
+    ```powershell
+    reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverride /t REG_DWORD /d 72 /f
+    reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
+    reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization" /v MinVmVersionForCpuBasedMitigations /t REG_SZ /d "1.0" /f
+    ```
 1. Reboot and compare output of `Get-SpeculationControlSettings` against the [documentation](https://support.microsoft.com/en-au/help/4074629/understanding-the-output-of-get-speculationcontrolsettings-powershell).
 
 
 ### Misc
 1. Set execution policy back:
-	```powershell
-	Set-ExecutionPolicy -ExecutionPolicy Restricted
-	```
+    ```powershell
+    Set-ExecutionPolicy -ExecutionPolicy Restricted
+    ```
 
 1. Enable controlled folder access:
-	```powershell
-	Set-MpPreference -EnableControlledFolderAccess Enabled
-	```
+    ```powershell
+    Set-MpPreference -EnableControlledFolderAccess Enabled
+    ```
 
 
 ### System CA
@@ -298,76 +296,76 @@ Adjust content as necessary:
 
 ## Powershell
 1. Check your current PS execution policy:
-	```powershell
-	> Get-ExecutionPolicy -List
-	
-			Scope ExecutionPolicy
-			----- ---------------
-	MachinePolicy       Undefined
-	UserPolicy       Undefined
-		Process       Undefined
-	CurrentUser    RemoteSigned
-	LocalMachine      Restricted
-	```
+    ```powershell
+    > Get-ExecutionPolicy -List
+    
+            Scope ExecutionPolicy
+            ----- ---------------
+    MachinePolicy       Undefined
+    UserPolicy       Undefined
+        Process       Undefined
+    CurrentUser    RemoteSigned
+    LocalMachine      Restricted
+    ```
 1. Create profile:
-	```powershell
-	if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
-	New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
-	}
-	```
+    ```powershell
+    if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
+    New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
+    }
+    ```
 1. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
-	```powershell
-	# Yo
-	function yocmd {
-		$token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
-		$token_value = $token.split(" ")
-		Set-Clipboard -Value $token_value[2]
-	}
-	Set-Alias -Name yo -Value yocmd
-	```
+    ```powershell
+    # Yo
+    function yocmd {
+        $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
+        $token_value = $token.split(" ")
+        Set-Clipboard -Value $token_value[2]
+    }
+    Set-Alias -Name yo -Value yocmd
+    ```
 
 ### svchost.exe
 Let's limit service host's unstoppable desire to talk with the outside world.  
 1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or just denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
 1. Add to your profile:  
-	```powershell
-	# Update Windows
-	function updatecmd {
-		$enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
-		if ($enabled -like "*Block*") {
-			Set-NetFirewallRule -DisplayName block_service_host -Action Allow
-		}
-		else {
-		}
-		$Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
-		if ([bool]$Updates) {
-			Write-Host "Found" $Updates.Count "updates:"
-			Write-Host $Updates.Title
-			Install-WUUpdates -Updates $Updates
-		}
-		else {
-			Write-Host "No updates found."
-		}
-		# Start-Sleep -s 5
-		Read-host “Press Enter to continue...”
-		Set-NetFirewallRule -DisplayName block_service_host -Action Block
-	}
-	
-	function sudo_updatecmd {
-		Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
-	}
-	
-	Set-Alias -Name update -Value sudo_updatecmd
-	```
+    ```powershell
+    # Update Windows
+    function updatecmd {
+        $enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
+        if ($enabled -like "*Block*") {
+            Set-NetFirewallRule -DisplayName block_service_host -Action Allow
+        }
+        else {
+        }
+        $Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
+        if ([bool]$Updates) {
+            Write-Host "Found" $Updates.Count "updates:"
+            Write-Host $Updates.Title
+            Install-WUUpdates -Updates $Updates
+        }
+        else {
+            Write-Host "No updates found."
+        }
+        # Start-Sleep -s 5
+        Read-host “Press Enter to continue...”
+        Set-NetFirewallRule -DisplayName block_service_host -Action Block
+    }
+    
+    function sudo_updatecmd {
+        Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
+    }
+    
+    Set-Alias -Name update -Value sudo_updatecmd
+    ```
 1. Now, when you'd like to update Windows, just run `update` from the PS.  
    This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
 
 
 # After the machine is online
 1. After the Windows is activated, execute from elevated `cmd.exe`:
-	```bat
-	reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
-	```
+    ```bat
+    reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
+    ```
 
 -------------------------------------
 
