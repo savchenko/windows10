@@ -145,7 +145,7 @@ After we are done, your environment will look like this:
     ```
 1. Reboot
 
-Optional, but userful:
+Optional, but useful:
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 
@@ -165,14 +165,13 @@ Optional, but userful:
 1. Navigate to `./Tools/Scripts`.
 1. In elevated PowerShell:
     - `apps.ps1`
-	
+
     
 ### Clean-up profiles
 1. Create new user profile
 1. Log in as the newly created administrator
 1. Remove the old account, choose "delete files"
 1. Reboot
-
 
 ### Install stoptracking changes
 For _each_ user, run:
@@ -181,9 +180,8 @@ For _each_ user, run:
     - `windows.bat`
     - `edge.bat`
 1. In elevated PowerShell:
-	- `hosts.ps1` TODO
+	- `interfaces.ps1`
 	- `gpupdate /force`
-
 
 ## Full Disk Encryption for NT systems: Bitlocker
 1. Open policy editor and turn of the filter for: _"Configure TPM platform validation for native UEFI firmware configurations"_.
@@ -212,29 +210,11 @@ For _each_ user, run:
       .\manage-bde.exe -protectors -add -rk X:\WHERE_TO_STORE_KEY C:
       ```
       *N.B.* Don't forget to securely wipe device "X" after the key is transferred to a proper location. 
-
-## Check Hyper-V settings
-2. While this should be not necessary on builds after 1809, check if Hyper-V scheduler needs an adjustment to mitigate CVE-2018-3646. 
-   1. Read [Windows guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-au/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
-   2. Determine current scheduler:
-   ```powershell
-   Get-WinEvent -FilterHashTable @{ProviderName="Microsoft-Windows-Hyper-V-Hypervisor"; ID=2} | select -Last 1
-   ```
-   4. If the command above has returned 0x4, execute from elevated shell and reboot: `bcdedit /set hypervisorschedulertype core`.
-   5. Later, you will need to configure each VM so it takes advantage of the Core scheduler **by setting its hardware thread-count-per-core to two**:
-   ```powershell
-   Set-VMProcessor -VMName <VMName> -HwThreadCountPerCore 2
-   ```
-
-3. After reboot, verify current state:
-   ```powershell
-   Get-CimInstance -Namespace ROOT\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | fl SecurityServicesRunning, SecurityServicesConfigured, VirtualizationBasedSecurityStatus
-   ```
    
-## First 3 steps
 
-2. Import initial firewall policy from `./Settings/WDF`
-3. Import Group Policy from `./Settings/GPO`
+
+# After the machine is online
+
 5. After the Windows is activated, execute from elevated `cmd.exe`:
 ```bat
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
