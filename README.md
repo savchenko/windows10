@@ -18,7 +18,7 @@ Tools used:
 If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 ## Foreword
-This guide accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and whenever possible proposes to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of 3rd-party applications.
+This guide accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and prefers to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of a 3rd-party application.
 
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
