@@ -206,7 +206,7 @@ Optional, but useful:
 
     
 ### Clean-up profiles
-1. Create new user profile
+1. Create at least one new user profile
 1. Log in as the newly created administrator
 1. Remove the old account, choose "delete files"
 1. Reboot
@@ -215,7 +215,7 @@ Optional, but useful:
 ### Install stoptracking changes
 For _each_ user, run:
 
-1. In elevated `cmd.exe`, execute:
+1. In elevated `cmd.exe`:
     - `windows.bat`
     - `edge.bat`
 1. In elevated PowerShell:
@@ -240,10 +240,7 @@ If output is unsatisfactory...
 	reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v FeatureSettingsOverrideMask /t REG_DWORD /d 3 /f
 	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization" /v MinVmVersionForCpuBasedMitigations /t REG_SZ /d "1.0" /f
 	```
-1. Reboot and compare against the [documentation](https://support.microsoft.com/en-au/help/4074629/understanding-the-output-of-get-speculationcontrolsettings-powershell) again.
-	```powershell
-	Get-SpeculationControlSettings
-	```
+1. Reboot and compare output of `Get-SpeculationControlSettings` against the [documentation](https://support.microsoft.com/en-au/help/4074629/understanding-the-output-of-get-speculationcontrolsettings-powershell).
 
 
 ### Misc
