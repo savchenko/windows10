@@ -232,6 +232,7 @@ For _each_ user, run:
 	Import-Module -name .\SpeculationControl.psm1
 	Get-SpeculationControlSettings -Verbose
 	```
+	
 If output is unsatisfactory...
 
 1. Enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
