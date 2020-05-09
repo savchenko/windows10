@@ -360,50 +360,49 @@ Let's limit service host's unstoppable desire to talk with the outside world.
 1. Now, when you'd like to update Windows, run `update` from the PS.  
    This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
 
+# Virtual Machines
+
+As you remember, "commercial-grade hypervisor" was listed as one of the advantages of MS Windows. Time to use it.
+
+## V-Switch setup
+1. In Hyper-V Manager, open "Virtual Switch Manager".
+1. Create a new switch:
+	1. Type: external
+	1. Map to the physical interface
+	1. Un-tick "Allow management operating system to share this network adapter"
+
+
+## Router
+We will be using [pfSense](https://www.pfsense.org/) to setup a router that filters traffic, acts as a VPN client, transparent proxy and optionally IDS.
+
+### Installation
+1. Download [ISO for AMD64](https://www.pfsense.org/download/).
+1. Create new VM, allocate 2 CPU cores, 2Gb of RAM and \>8Gb disk.
+1. Disable "dynamic memory" function.
+1. Setup networking:
+	1. Add second network adapter.
+	1. Connect it to the "external" switch.
+	1. Setup distinct MAC addresses on both adapters.
+1. Proceed with installation, reboot.
+
+
+### Initial setup
+1. Connect to the VM from Hyper-V Manager.
+1. Select "1" from the on-screen menu.
+1. Choose WAN interface, this corresponds to the "external" switch.
+1. Assign IPs to both adapters.
+1. Open GUI via web-browser and proceed with the guided setup.
+
+
+### Squid
+
+
+
+--------------------------------------------------------------------
+
 
 # After the machine is online
 1. After the Windows is activated, execute from elevated `cmd.exe`:
     ```bat
     reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
     ```
-
--------------------------------------
-
-
-# Notes
-- **TODO:** Selectively limit talkativeness of the `svchost.exe` (see https://github.com/henrypp/simplewall/issues/516)
-
-Microsoft Network Monitor allows filtering on per-process basis:
-```powershell
-Conversation.ProcessName == "shady.exe"
-```
-
-Cleanup "MS Defender App Guard":
-```cmd
-wdagtool.exe cleanup
-wdagtool.exe cleanup RESET_PERSISTENCE_LAYER
-```
-
-There is a in-built alternative to `shasum`:
-```powershell
-CertUtil -hashfile $FILE SHA1
-```
-
-Set keyboard layout:
-```powershell
-Set-WinUserLanguageList -LanguageList en-US
-```
-
-Remove annoying "Git GUI here" and "Git Shell here" shortcuts added by TortoiseGit:
-```reg
-Windows Registry Editor Version 5.00
-[-HKEY_CLASSES_ROOT\Directory\shell\git_gui]
-[-HKEY_CLASSES_ROOT\Directory\shell\git_shell]
-[-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_gui]
-[-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_shell]
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\git_gui]
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\git_shell]
-```
-
-## Adobe Reader DC lockdown
-Moved to the WIKI.
