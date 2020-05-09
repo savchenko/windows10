@@ -398,12 +398,14 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 ### Transparent proxy
 1. Navigate to "SystemPackage / ManagerPackage / Installer".
 1. Install `squid` and `squidGuard`.
+1. Create CA from "".
 1. Open "Squid proxy server" from Services menu.
 	1. "General" tab:
 		1. Tick "Enable Squid proxy"
 		1. Enable "Transparent HTTP Proxy" and "Bypass Proxy for Private Address Destination".
 		1. Set "SSL/MITM Mode" to "Splice All"
 		1. Set "X-Forwarded Header Mode" to "transparent".
+		1. Save
 	1. "Local cache" tab:
 		1. Set memory cache size to 512mb
 		1. Set maximum object size to keep in memory to 512
@@ -412,7 +414,10 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 	1. "General settngs" tab:
 		1. Tick "Enable"
 		1. Enable logging and log rotation
-	1. 
+		1. Save
+	1. Create target categories
+		1. TODO
+	1. Go back to the "General" tab and click green "Apply" button
 		
 	
 
