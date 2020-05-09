@@ -395,7 +395,11 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 
 
 ### Squid
-
+1. Navigate to "SystemPackage / ManagerPackage / Installer".
+1. Install `squid`.
+1. Open "Squid proxy server" from Services menu.
+1. Tick "Enable Squid proxy"
+1.
 
 
 --------------------------------------------------------------------
