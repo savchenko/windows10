@@ -362,7 +362,7 @@ Let's limit service host's unstoppable desire to talk with the outside world.
 
 # Virtual Machines
 
-As you remember, "commercial-grade hypervisor" was listed as one of the advantages of MS Windows. Time to use it.
+As you remember, "commercial-grade hypervisor" was listed as one of the advantages. Time to use it.
 
 ## V-Switch setup
 1. In Hyper-V Manager, open "Virtual Switch Manager".
@@ -373,7 +373,7 @@ As you remember, "commercial-grade hypervisor" was listed as one of the advantag
 
 
 ## Router
-We will be using [pfSense](https://www.pfsense.org/) to setup a router that filters traffic, acts as a VPN client, transparent proxy and optionally IDS.
+We will be using [pfSense](https://www.pfsense.org/) to setup a router that filters traffic, acts as a VPN client and transparent proxy.
 
 ### Installation
 1. Download [ISO for AMD64](https://www.pfsense.org/download/).
@@ -394,12 +394,15 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 1. Open GUI via web-browser and proceed with the guided setup.
 
 
-### Squid
+### Transparent proxy
 1. Navigate to "SystemPackage / ManagerPackage / Installer".
 1. Install `squid`.
 1. Open "Squid proxy server" from Services menu.
 1. Tick "Enable Squid proxy"
-1.
+1. Enable "Transparent HTTP Proxy" and "Bypass Proxy for Private Address Destination".
+1. Set "SSL/MITM Mode" to "Splice All"
+1. Set "X-Forwarded Header Mode" to "transparent".
+1. 
 
 
 --------------------------------------------------------------------
