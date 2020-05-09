@@ -377,7 +377,7 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 
 ### Installation
 1. Download [ISO for AMD64](https://www.pfsense.org/download/).
-1. Create new VM, allocate 2 CPU cores, 2Gb of RAM and \>8Gb disk.
+1. Create new VM, allocate 2 **or** 4 CPU cores, 2Gb of RAM and \>8Gb of disk.
 1. Disable "dynamic memory" function.
 1. Setup networking:
 	1. Add second network adapter.
@@ -392,17 +392,29 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 1. Choose WAN interface, this corresponds to the "external" switch.
 1. Assign IPs to both adapters.
 1. Open GUI via web-browser and proceed with the guided setup.
-
+1. Enable AES-NI acceleration at "System / Advanced / Miscellaneous"
+1. Power-off and create VM snapshot.
 
 ### Transparent proxy
 1. Navigate to "SystemPackage / ManagerPackage / Installer".
-1. Install `squid`.
+1. Install `squid` and `squidGuard`.
 1. Open "Squid proxy server" from Services menu.
-1. Tick "Enable Squid proxy"
-1. Enable "Transparent HTTP Proxy" and "Bypass Proxy for Private Address Destination".
-1. Set "SSL/MITM Mode" to "Splice All"
-1. Set "X-Forwarded Header Mode" to "transparent".
-1. 
+	1. "General" tab:
+		1. Tick "Enable Squid proxy"
+		1. Enable "Transparent HTTP Proxy" and "Bypass Proxy for Private Address Destination".
+		1. Set "SSL/MITM Mode" to "Splice All"
+		1. Set "X-Forwarded Header Mode" to "transparent".
+	1. "Local cache" tab:
+		1. Set memory cache size to 512mb
+		1. Set maximum object size to keep in memory to 512
+		1. Set hard disk cache size to 0
+1. Open "SquidGuard prxo filter" from Services menu.
+	1. "General settngs" tab:
+		1. Tick "Enable"
+		1. Enable logging and log rotation
+	1. 
+		
+	
 
 
 --------------------------------------------------------------------
