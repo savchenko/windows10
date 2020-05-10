@@ -377,7 +377,7 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 
 ### Installation
 1. Download [ISO for AMD64](https://www.pfsense.org/download/).
-1. Create new VM, allocate 2 **or** 4 CPU cores, 2Gb of RAM and \>8Gb of disk.
+1. Create new VM, allocate 2 **or** 4 CPU cores, 2Gb of RAM and 8Gb disk.
 1. Disable "dynamic memory" function.
 1. Setup networking:
 	1. Add second network adapter.
@@ -392,13 +392,20 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 1. Choose WAN interface, this corresponds to the "external" switch.
 1. Assign IPs to both adapters.
 1. Open GUI via web-browser and proceed with the guided setup.
-1. Enable AES-NI acceleration at "System / Advanced / Miscellaneous"
+1. Under "System / Advanced / Networking":
+	1. Disable "Allow ipv6"
+	1. You _might_ need to disable hardware checksum offloading
+		Please refer to [this note](TODO) for details.
+1. Under "System / Advanced / Miscellaneous":
+	1. Un-tick "Installation Feedback"
+	1. Enable AES-NI acceleration
 1. Power-off and create VM snapshot.
 
 ### Transparent proxy
+1. Enable DNS resolver at "Services / DNS Resolver / General Settings".
 1. Navigate to "SystemPackage / ManagerPackage / Installer".
 1. Install `squid` and `squidGuard`.
-1. Create CA from "".
+1. Create CA at "Sytem / Cert. Manager"
 1. Open "Squid proxy server" from Services menu.
 	1. "General" tab:
 		1. Tick "Enable Squid proxy"
@@ -410,7 +417,8 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 		1. Set memory cache size to 512mb
 		1. Set maximum object size to keep in memory to 512
 		1. Set hard disk cache size to 0
-1. Open "SquidGuard prxo filter" from Services menu.
+		1. Save
+1. Open "SquidGuard proxy filter" from Services menu.
 	1. "General settngs" tab:
 		1. Tick "Enable"
 		1. Enable logging and log rotation
