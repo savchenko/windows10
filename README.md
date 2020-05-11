@@ -58,7 +58,8 @@ This guide accomodates two posible use models:
 Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
 
 ## First steps
-1. Recognize that you are dealing with the closed-source, SaaS-like operating system. To give an idea about the "Microsoft world", this is enabled by default: 
+1. Recognize that you are dealing with the closed-source, SaaS-like operating system.  
+To give an idea about the "Microsoft world", this is enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
