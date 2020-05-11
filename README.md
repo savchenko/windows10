@@ -7,6 +7,7 @@ Level 3 baseline with additional customizations: less network noise, focus on si
 Tools used:
 * [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
 * [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
+* [MS Server pages](https://docs.microsoft.com/en-us/windows-server/security/security-and-assurance)
 * [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 * [Connection endpoints documentation](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
@@ -63,7 +64,7 @@ This guide accomodates two posible use models:
 1. Disabled "Network Connectivity Probe" (NCSI).
 1. AppX packages are severely limited in what they can access.
 1. "Activity feed" is disabled.
-1. ipv6 is be disabled by default. TODO
+1. ipv6 is disabled by default. TODO
 1. "Microsoft store" is removed.
 1. "Application Compatibility" is disabled.
 1. "Game DVR" and "XBox" are disabled.
