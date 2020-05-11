@@ -55,6 +55,19 @@ This guide accomodates two posible use models:
 	- Known "MS Spynet / Advert-net" domains and IP ranges
 	- Malware and advertisement domains
 	
+## Known limitations
+1. Cortana is limited to the Start menu search.
+1. No access to the microphone and camera by default
+1. Ability to log-in via "Microsoft account" is disabled.
+1. Windows search is not allowed to send queries back to MS/Bing.
+1. Disabled "Network Connectivity Probe" (NCSI).
+1. AppX packages are severely limited in what they can access.
+1. "Activity feed" is disabled.
+1. ipv6 is be disabled by default. TODO
+1. "Microsoft store" is removed.
+1. "Application Compatibility" is disabled.
+1. "Game DVR" and "XBox" are disabled.
+	
 Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
 
 ## First steps

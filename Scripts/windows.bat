@@ -219,7 +219,7 @@ reg Add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Capability
 
 echo.
 
-echo [101;93m Do not send my voice data to Microsoft [0m
+echo [101;93m Do not send my voice data (!) to Microsoft [0m
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" /t REG_DWORD /v HasAccepted /d 0 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Speech" /t REG_DWORD /v AllowSpeechModelUpdate /d 0 /f
 
