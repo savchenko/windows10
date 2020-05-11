@@ -366,6 +366,12 @@ del /F /Q "C:\Windows\System32\Tasks\Microsoft\Windows\SettingSync\*"
 echo [101;93m Enable Local Security Authority (LSA) hardening [0m
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 00000001 /f
 
+echo [101;93m Always display file extension in Explorer [0m
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f
+
+
+
+
 echo All done! Press any key to exit...
 echo.
 set /p done=""

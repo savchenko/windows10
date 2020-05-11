@@ -44,6 +44,18 @@ At present, main considerations are:
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
+## Modes of operation
+This guide accomodates two posible use models:
+1. Main Windows installation has only whitelisted access to the bare necessary domains:
+	- OSCP
+	- Updates
+	- NTP
+	- Local network SMB mounts
+2. Main installation has unrestricted access to the Internet apart from:
+	- Known "MS Spynet / Advert-net" domains and IP ranges
+	- Malware and advertisement domains
+Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
+
 ## First steps
 1. Recognize that you are dealing with the closed-source, SaaS-like operating system. To give an idea about the "Microsoft world", this is enabled by default: 
 
@@ -96,7 +108,9 @@ After we are done, your environment will look like this:
 2. Opt-out from all personal data collection when asked. This means answering "no" to every single question.
 
 # After installation
-1. Copy this repository to the target machine via local means.
+1. Copy to the target machine via local means:
+	1. This repository
+	1. pfSense installation ISO
 1. Copy `LGPO.exe` from `./Tools` to `C:\Windows\system32\`.  
 
 ## Enable HVCI and Credential Guard
@@ -179,9 +193,13 @@ After we are done, your environment will look like this:
     OnAccessProtectionEnabled : True
     RealTimeProtectionEnabled : True
     ```
+1. Set Windows Defender to run its child process(es) from within AppContainer:
+	```batch
+	setx /M MP_FORCE_USE_SANDBOX 1
+	```
 1. Reboot
 
-Optional, but useful:
+Optional, but convenient:
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
 1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
 
@@ -211,7 +229,7 @@ Optional, but useful:
 
 
 ### Install stoptracking changes
-For _each_ user, run:
+As some of the changes are applied to HKCU hive, for _each_ user, run:
 
 1. In elevated `cmd.exe`:
     - `windows.bat`
@@ -394,7 +412,7 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 1. Open GUI via web-browser and proceed with the guided setup.
 1. Under "System / Advanced / Networking":
 	1. Disable "Allow ipv6"
-	1. You _might_ need to disable hardware checksum offloading
+	1. You _might_ need to disable hardware checksum offloading  
 		Please refer to [this note](TODO) for details.
 1. Under "System / Advanced / Miscellaneous":
 	1. Un-tick "Installation Feedback"
@@ -423,6 +441,16 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 		1. Tick "Enable"
 		1. Enable logging and log rotation
 		1. Save
+	1. "Target categories" tab:
+		1. Create new category
+		1. Add the following domains:
+		```
+		ctldl.windowsupdate.com
+		sls.microsoft.com
+		mp.microsoft.com
+		wustat.windows.com
+		windowsupdate.com
+		```
 	1. Create target categories
 		1. TODO
 	1. Go back to the "General" tab and click green "Apply" button
