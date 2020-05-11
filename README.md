@@ -54,6 +54,7 @@ This guide accomodates two posible use models:
 2. Main installation has unrestricted access to the Internet apart from:
 	- Known "MS Spynet / Advert-net" domains and IP ranges
 	- Malware and advertisement domains
+	
 Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
 
 ## First steps
