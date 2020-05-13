@@ -58,14 +58,14 @@ This guide accomodates two posible use models:
 	
 ## Known limitations
 1. Cortana is limited to the Start menu search.
-1. No access to the microphone and camera by default
+1. No access to the microphone, camera and Bluetooth by default
 1. Ability to log-in via "Microsoft account" is disabled.
 1. Windows search is not allowed to send queries back to MS/Bing.
 1. Disabled "Network Connectivity Probe" (NCSI).
 1. AppX packages are severely limited in what they can access.
 1. "Activity feed" is disabled.
-1. ipv6 is disabled by default. TODO
-1. "Microsoft store" is removed.
+1. ipv6 is disabled by default.
+1. "Microsoft store" is disabled.
 1. "Application Compatibility" is disabled.
 1. "Game DVR" and "XBox" are disabled.
 	
@@ -374,7 +374,7 @@ Let's limit service host's unstoppable desire to talk with the outside world.
         $Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
         if ([bool]$Updates) {
             Write-Host "Found" $Updates.Count "updates:"
-            Write-Host $Updates.Title
+            Write-Host $Updates.Title -Separator "`n"
             Install-WUUpdates -Updates $Updates
         }
         else {
