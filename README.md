@@ -4,17 +4,20 @@ Level 3 baseline with additional customizations: less network noise, focus on si
 
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
-Tools used:
-* [MS Docs](https://docs.microsoft.com/en-us/windows/windows-10/)
+### Tools used
 * [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
-* [MS Server pages](https://docs.microsoft.com/en-us/windows-server/security/security-and-assurance)
-* [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
 * [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
-* [Connection endpoints documentation](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
-* [Endpoint management](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
 * [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
 * [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
 * [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
+
+### Documentation
+* [Windows 10 docs](https://docs.microsoft.com/en-us/windows/windows-10/)
+* [Windows Server pages](https://docs.microsoft.com/en-us/windows-server/security/security-and-assurance)
+* [Connection endpoints](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
+* [Endpoint management](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
+* [Microsoft privacy statement](https://go.microsoft.com/fwlink/?LinkID=521839)
+* [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
 
 If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
