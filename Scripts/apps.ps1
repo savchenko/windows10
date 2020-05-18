@@ -1,3 +1,6 @@
+#Requires -RunAsAdministrator
+#Requires -Version 5
+
 #
 # https://github.com/stoptracking/windows10
 #
@@ -10,5 +13,8 @@ Get-AppxPackage -AllUsers | where-object {$_.name –notlike "*store*"} | Remove
 
 Write-Host "Remove installed applications for the current user..."
 Get-AppxPackage -AllUsers | where-object {$_.name –notlike "*store*"} | Remove-AppxPackage -erroraction silentlycontinue
+
+Write-Host "Disable PowerShell v2"
+Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2
 
 Write-Host "All done! Please proceed with the new user creation and delete this one afterwards."

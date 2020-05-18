@@ -32,10 +32,26 @@ echo [101;93m Disable error reporting [0m
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 
-echo [101;93m Disable LLMNR [0m
-reg add "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v " EnableMulticast" /t REG_DWORD /d "0" /f
+echo [101;93m Disable Microsoft experimentation [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\System\AllowExperimentation" /v value /t REG_DWORD /d 0 /f
+
+echo [101;93m Do not allow WifiSense hotspots [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" /v value /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" /v value /t REG_DWORD /d 0 /f
+
+echo [101;93m Disable LLMNR and Smart-Name-Resoltion [0m
+reg add "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v EnableMulticast /t REG_DWORD /d 0 /f
+reg add "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v DisableSmartNameResolution /t REG_DWORD /d 1 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" /v DisableParallelAandAAAA /t REG_DWORD /d 1 /f
 
 :: Windows updates
+
+echo [101;93m Enable Windows Update [0m
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v DisableWindowsUpdateAccess /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v DoNotConnectToWindowsUpdateInternetLocations /t REG_DWORD /d 0 /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v WUServer /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v WUStatusServer /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v UseWUServer /f
 
 echo [101;93m Keep auto-updates enabled [0m
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 0 /f
@@ -54,7 +70,15 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v Detection
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v DetectionFrequency /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable "featured software" in Windows update [0m
-reg add	"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /T REG_DWORD /V "EnableFeaturedSoftware" /D 0 /F
+reg add	"HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /T REG_DWORD /V EnableFeaturedSoftware /D 0 /F
+
+echo [101;93m Defer feature-updates by 360 days  [0m
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /t REG_DWORD /v DeferFeatureUpdates /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /t REG_DWORD /v DeferFeatureUpdatesPeriodInDays /d 360 /f
+
+echo [101;93m Ensure security updates are installed on day zero [0m
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /t REG_DWORD /v DeferQualityUpdates /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /t REG_DWORD /v DeferQualityUpdatesPeriodInDays /d 0 /f
 
 ::
 
@@ -68,6 +92,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\AppV\CEIP" /T REG_DWORD /V "CEIPEnable
 echo [101;93m Disable "Windows Spotlight" [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures /t REG_DWORD /d 1 /f
 reg add "HKEY_Local_Machine\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization"/v LockScreenImage /d "%SystemRoot%\web\screen\img105.jpg" /f
 reg add "HKEY_Local_Machine\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v LockScreenOverlaysDisabled /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable consumer features [0m
@@ -83,6 +108,9 @@ reg add	"HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /T REG_DWORD /
 echo [101;93m Disable suggested apps [0m
 reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 
+echo [101;93m Disable password reveal [0m
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Speech" /t REG_DWORD /v DisablePasswordReveal /d 1 /f
+
 echo [101;93m Disable settings synchronization [0m
 reg add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync /t REG_DWORD /d 2 /f
 
@@ -93,10 +121,10 @@ echo [101;93m Disable device metadata retrieval [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" /v PreventDeviceMetadataFromNetwork /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable "Find my device" [0m
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\FindMyDevice\AllowFindMyDevice" /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\FindMyDevice" /v AllowFindMyDevice /t REG_DWORD /d 0 /f
 
 echo [101;93m Disable font streaming  [0m
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System\EnableFontProviders" /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableFontProviders /t REG_DWORD /d 0 /f
 
 echo [101;93m Disable web-search... [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowSearchToUseLocation /d 0 /f
@@ -108,6 +136,9 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PreviewBuilds" /
 
 echo [101;93m Turn off "live tiles" [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" /t REG_DWORD /v NoCloudApplicationNotification /d 1 /f
+
+echo [101;93m Disable help ratings [0m
+reg add "HKCU\Software\Policies\Microsoft\Assistance\Client\1.0" /v NoExplicitFeedback /t REG_DWORD /d 1 /f
 
 echo [101;93m Disable Windows mail application [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Mail" /v ManualLaunchAllowed /t REG_DWORD /d 0 /f
@@ -122,15 +153,16 @@ echo [101;93m Disable OneDrive [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\OneDrive" /v PreventNetworkTrafficPreUserSignIn /t REG_DWORD /d 1 /f
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v DisableFileSyncNGSC /t REG_DWORD /d 1 /f
 
+echo [101;93m Do not download maps data [0m
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Maps" /v AutoDownloadAndUpdateMapData /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Maps" /v AllowUntriggeredNetworkTrafficOnSettingsPage /t REG_DWORD /d 0 /f
+
 echo [101;93m Turn off advertising ID [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /t REG_DWORD /v Enabled /d 0 /f
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" /t REG_DWORD /v DisabledByGroupPolicy /d 1 /f
 
 echo [101;93m Do not retrieve device metadata from the Internet [0m
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" /V "PreventDeviceMetadataFromNetwork" /T REG_DWORD /D 1 /F
-
-echo [101;93m Do not share user's location with apps [0m
-reg add "HKEY_CURRENT_USER\Control Panel\International\User Profile" /t REG_DWORD /v HttpAcceptLanguageOptOut /d 1 /f
 
 echo [101;93m Do not track application launches [0m
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /t REG_DWORD /v Start_TrackProgs /d 0 /f
@@ -144,9 +176,14 @@ reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_D
 echo [101;93m Do not share location and sensors data [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v LetAppsAccessLocation /d 2 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\LocationAndSensors" /t REG_DWORD /v DisableLocation /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\LocationAndSensors" /t REG_DWORD /v DisableLocationScripting /d 1 /f
+
+echo [101;93m Do not share across devices [0m
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\CDP" /t REG_DWORD /v CdpSessionUserAuthzPolicy /d 0 /f
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\CDP" /t REG_DWORD /v RomeSdkChannelUserAuthzPolicy /d 0 /f
 
 echo [101;93m Adjust AppX privacy settings [0m
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v AllowMessageSync /d 2 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v AllowMessageSync /d 0 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v LetAppsAccessAccountInfo /d 2 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v LetAppsAccessCalendar /d 2 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\AppPrivacy" /t REG_DWORD /v LetAppsAccessCallHistory /d 2 /f
@@ -233,12 +270,12 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\InputPersonalization" /t REG_DWORD
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Input\TIPC" /t REG_DWORD /v "Enabled" /d 0 /f
 
 echo [101;93m Disable activity feed [0m
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v EnableActivityFeed /d 2 /f
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v PublishUserActivities /d 2 /f
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v UploadUserActivities /d 2 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v EnableActivityFeed /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v PublishUserActivities /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" /t REG_DWORD /v UploadUserActivities /d 0 /f
 
 echo [101;93m Disable Windows Sync [0m
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SettingSync" /t REG_DWORD /v DisableSettingSync /d 2 /f
+reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SettingSync" /t REG_DWORD /v DisableSettingSync /d 1 /f
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SettingSync" /t REG_DWORD /v DisableSettingSyncUserOverride /d 1 /f
 
 echo [101;93m Turn off messaging cloud sync [0m
@@ -246,6 +283,14 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Messaging" /t REG_DWORD /v CloudSe
 
 echo [101;93m Disable Teredo [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition" /t REG_SZ /v "Disabled" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition" /v Teredo_State /d "Disabled" /f
+
+echo [101;93m Disable Wifi Sense [0m
+reg add "HKLM\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" /v WiFISenseAllowed /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" /v AutoConnectAllowedOEM /t REG_DWORD /d 0 /f
+
+echo [101;93m Delete WPAD key for the current user [0m
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad" /f
 
 echo [101;93m Disable SpyNet and do not send samples to Microsoft [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Spynet" /t REG_DWORD /v SpyNetReporting /d 0 /f
@@ -258,14 +303,14 @@ echo [101;93m Disable Microsoft Store [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore" /t REG_DWORD /v DisableStoreApps /d 1 /f
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore " /t REG_DWORD /v AutoDownload /d 2 /f
 
+echo [101;93m Do not use SmartScreen for AppX [0m
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" /v EnableWebContentEvaluation /t REG_DWORD /d 0 /f
+
 echo [101;93m Disable "Apps for websites" [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /t REG_DWORD /v EnableAppUriHandlers /d 0 /f
 
 echo [101;93m Disable "delivery optimisation" [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization " /t REG_DWORD /v DODownloadMode /d 100 /f
-
-echo [101;93m Disable store apps [0m
-reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsStore\DisableStoreApps"
 
 echo [101;93m Disable MS Store [0m
 reg add "HKLM\Software\Policies\Microsoft\WindowsStore" /v RemoveWindowsStore /t REG_DWORD /d 1 /f
@@ -291,9 +336,13 @@ echo [101;93m Disable Autoplay [0m
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" /T REG_DWORD /V "DisableAutoplay" /D 1 /F
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" /T REG_DWORD /V "DisableAutoplay" /D 1 /F
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /T REG_DWORD /V "NoAutoplayfornonVolume" /D 1 /F
+reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /T REG_DWORD /V NoDriveTypeAutoRun /D 255 /F
 
 echo [101;93m Disable Explorer web-wizards [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /T REG_DWORD /V NoWebServices /D 1 /F
+
+echo [101;93m Disable online tips [0m
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v AllowOnlineTips /t REG_DWORD /d 0 /f
 
 echo [101;93m Do not download printer drivers over HTTP [0m
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\Printers" /T REG_DWORD /V DisableWebPnPDownload /D 1 /F
@@ -314,6 +363,10 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v Sb
 echo [101;93m Disable Game DVR [0m
 reg add "HKCU\System\GameConfigStore" /T REG_DWORD /V "GameDVR_Enabled" /D 0 /F
 reg Add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /T REG_DWORD /V "AllowGameDVR" /D 0 /F
+
+echo [101;93m Disable Ink Workspace [0m
+reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowWindowsInkWorkspace /t REG_DWORD /d 0 /f
+reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v AllowSuggestedAppsInWindowsInkWorkspace /t REG_DWORD /d 0 /f
 
 echo [101;93m Prevent automatic Edge-to-Chromium upgrade [0m
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\EdgeUpdate" /v DoNotUpdateToEdgeWithChromium /t REG_DWORD /d 1 /f
@@ -361,17 +414,95 @@ echo [101;93m Disable ActiveX Installer  [0m
 sc config AxInstSV start=disabled
 
 echo [101;93m Disable AllJoyn router [0m
-AJRouter
+sc config AJRouter start=disabled
 
 echo [101;93m Disable bluetooth service [0m
-bthserv
+sc config bthserv start=disabled
 
 echo [101;93m Disable "connected devices platform" services [0m
-CDPUserSvc
+sc config CDPUserSvc start=disabled
+sc config CDPSvc start=disabled
 
+echo [101;93m Disable Game DVR service [0m
+sc config BcastDVRUserService start=disabled
 
-CDPSvc
-:: TODO HERE
+echo [101;93m Disable bluetooth service [0m
+sc config BluetoothUserService start=disabled
+
+echo [101;93m Disable Miracast and DLNA service [0m
+sc config DevicePickerUserSvc start=disabled
+
+echo [101;93m Disable ConnectUX service (WiFi/bluetooth displays) [0m
+sc config DevicesFlowUserSvc start=disabled
+
+echo [101;93m Disable text messaging service [0m
+sc config MessagingService start=disabled
+
+echo [101;93m Disable Client-licensing service (MS Store) [0m
+sc config ClipSVC start=disabled
+
+echo [101;93m Disable maps broker service [0m
+sc config MapsBroker start=disabled
+
+echo [101;93m Disable Function Discovery Resource Publication service [0m
+sc config FDResPub start=disabled
+
+echo [101;93m Disable geolocation service [0m
+sc config lfsvc start=disabled
+
+echo [101;93m Disable 6to4 service [0m
+sc config iphlpsvc start=disabled
+
+echo [101;93m Disable LLTDM service [0m
+sc config lltdsvc start=disabled
+
+echo [101;93m Disable MS Account services [0m
+sc config wlidsvc start=disabled
+sc config NgcSvc start=disabled
+
+echo [101;93m Disable Network Connection Broker (AppX connectivity) service [0m
+sc config NcbService start=disabled
+
+echo [101;93m Disable RPC Locator service [0m
+sc config RpcLocator start=disabled
+
+echo [101;93m Disable Program Compatibility Assistant service [0m
+sc config PcaSvc start=disabled
+
+echo [101;93m Disable sensor services [0m
+sc config SensorService start=disabled
+sc config SensorDataService start=disabled
+sc config SensrSvc start=disabled
+
+echo [101;93m Disable autoplay service [0m
+sc config ShellHWDetection start=disabled
+
+echo [101;93m Disable SSDP service [0m
+sc config SSDPSRV start=disabled
+
+echo [101;93m Disable sync host service [0m
+sc config OneSyncSvc start=disabled
+
+echo [101;93m Disable NetBIOS service [0m
+sc config lmhosts start=disabled
+
+echo [101;93m Disable touch keyboard and handwriting service [0m
+sc config TabletInputService start=disabled
+
+echo [101;93m Disable UPnP service [0m
+sc config upnphost start=disabled
+
+echo [101;93m Disable Wallet (AppX) service [0m
+sc config WalletService start=disabled
+
+echo [101;93m Disable Windows Insider service [0m
+sc config wisvc start=disabled
+
+echo [101;93m Disable Windows Store license service [0m
+sc config LicenseManager start=disabled
+
+echo [101;93m Disable mobile hotspot service [0m
+sc config icssvc start=disabled
 
 
 :: Networking
@@ -379,7 +510,8 @@ CDPSvc
 
 echo [101;93m Disable ipv6 [0m
 reg add "HKLM\System\CurrentControlSet\Services\Tcpip6\Parameters" /v DisabledComponents /t REG_DWORD /d 0xFF /f
-netsh int ipv6 isatap set state disabled
+netsh int ipv6 set state disabled
+netsh int isatap set state disabled
 
 echo [101;93m Disable Teredo [0m
 netsh int teredo set state disabled
@@ -416,6 +548,9 @@ reg add "HKLM\System\CurrentControlSet\Services\SNMP" /v "Start" /t REG_DWORD /d
 echo [101;93m Disable ip source routing [0m
 reg add "HKLM\System\CurrentControlSet\Services\Tcpip\Parameters" /v DisableIPSourceRouting /t REG_DWORD /d 2 /f
 
+echo [101;93m Disable Do not resolve unqualified DNS queries [0m
+reg add "HKLM\System\CurrentControlSet\Services\Tcpip\Parameters" /v UseDomainNameDevolution /t REG_DWORD /d 0 /f
+
 echo [101;93m Disable ICMP redirect [0m
 reg add "HKLM\System\CurrentControlSet\Services\Tcpip\Parameters" /v EnableICMPRedirect /t REG_DWORD /d 0 /f
 
@@ -434,7 +569,6 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicPr
 :: Disable tasks
 
 echo [101;93m Disable tasks that might leak information to Microsoft and Friends [0m
-
 schtasks /Change /TN "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" /disable
 schtasks /Change /TN "Microsoft\Windows\Application Experience\ProgramDataUpdater" /disable
 schtasks /Change /TN "Microsoft\Windows\Application Experience\StartupAppTask" /disable

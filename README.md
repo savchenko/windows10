@@ -1,31 +1,51 @@
-# Summary
-This is a cheat-sheet for a single-user installation of Windows 10 **build 1909**.  
+This is a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".
 Level 3 baseline with additional customizations: less network noise, focus on single-user workstation, etc.
-
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
-
-### Tools used
-* [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
-* [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
-* [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
-* [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
-* [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
-
-### Documentation
-* [Windows 10 docs](https://docs.microsoft.com/en-us/windows/windows-10/)
-* [Windows Server pages](https://docs.microsoft.com/en-us/windows-server/security/security-and-assurance)
-* [Connection endpoints](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
-* [Endpoint management](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
-* [Microsoft privacy statement](https://go.microsoft.com/fwlink/?LinkID=521839)
-* [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
 
 If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
-## Foreword
-This guide accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and prefers to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of a 3rd-party application.
+TODO:
+1. Add Microsoft legal terms
+1. Project management
+    1. Purpose
+    1. Justification
+        1. SMART goals: specific, measurable, achievable, relevant, time-bound
+    1. Scope description
+        1. Inclusions
+        1. Exclusions
+    1. Acceptance criteria
+        1. Prerequisites for the new release
 
+
+# Foreword
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
 
+
+## Rationale
+One might ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
+At present, main considerations are:
+* Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, this is not a default modus operandi of LUKS.
+
+    Linux users can use `clevis`, however _"TPM in conjunction with user password"_ with automatic roll-over is not supported by any major Linux distribution as in Q1 2020.
+	
+	That being said, there is [some](https://github.com/Foxboron/sbctl) [hope](https://github.com/osresearch/safeboot).
+* Commercial-grade Type-1 hypervisor.
+* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
+* Handy software that is not available under Linux or \*BSD.
+* Good hardware support.
+
+
+## Mode of operation
+Main Windows installation has only whitelisted access to the bare necessary:
+    - OSCP
+    - Updates
+    - NTP
+    - SSH/sFTP
+    - Intranet SMB
+
+
+## Changing the system
+Large number of changes are made using MS-provided "Traffic restriction policy"
 Number of settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, here:
 
 > To turn off Messaging cloud sync:
@@ -36,45 +56,26 @@ and here:
 > Note: There is no Group Policy to turn off the Malicious Software Reporting Tool diagnostic data.
 
 Even then, registry "tweaks" are taken from Microsoft documentation for the specific build version.
-
-## Rationale
-One might ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
-At present, main considerations are:
-* Ability to use [well-tested FDE](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures) that it tied to TPM _and_ user-supplied secret. While it is possible to implement something similar via `keyscript` in `/etc/crypttab`, such ~bodging~ hacking is not a default modus operandi of LUKS.
-
-    Although there is `clevis`, _"TPM in conjunction with user password"_ and additional backup keys with automatic roll-over after kernel upgrades are not supported by any major Linux distribution as in Q1 2020.
-* Commercial-grade Type-1 hypervisor.
-* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
-* Handy software that is not available under Linux or \*BSD.
-* Good hardware support.
-
-## Modes of operation
-This guide accomodates two posible use models:
-1. Main Windows installation has only whitelisted access to the bare necessary domains:
-	- OSCP
-	- Updates
-	- NTP
-	- Local network SMB mounts
-2. Main installation has unrestricted access to the Internet apart from:
-	- Known "MS Spynet / Advert-net" domains and IP ranges
-	- Malware and advertisement domains
 	
+
 ## Known limitations
-1. Cortana is limited to the Start menu search.
-1. No access to the microphone, camera and Bluetooth by default
-1. Ability to log-in via "Microsoft account" is disabled.
-1. Windows search is not allowed to send queries back to MS/Bing.
-1. Disabled "Network Connectivity Probe" (NCSI).
-1. AppX packages are severely limited in what they can access.
-1. "Activity feed" is disabled.
-1. ipv6 is disabled by default.
-1. "Microsoft store" is disabled.
-1. "Application Compatibility" is disabled.
-1. "Game DVR" and "XBox" are disabled.
+- Cortana is limited to the Start menu search.
+	- It is included in the "Services list"
+- No access to the microphone, camera and Bluetooth by default
+- Ability to log-in via "Microsoft account" is disabled.
+- Windows search is not allowed to send queries back to MS/Bing.
+- Disabled "Network Connectivity Probe" (NCSI).
+- AppX packages are severely limited in what they can access.
+- "Activity feed" is disabled.
+- ipv6 is disabled by default.
+- "Microsoft store" is disabled.
+- "Application Compatibility" is disabled.
+- "Game DVR" and "XBox" are disabled.
 	
 Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
 
-## First steps
+
+# Before installation
 1. Recognize that you are dealing with the closed-source, SaaS-like operating system.  
 To give an idea about the "Microsoft world", this is enabled by default: 
 
@@ -84,7 +85,8 @@ To give an idea about the "Microsoft world", this is enabled by default:
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored.
 
-2. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
+> "When you interact with your Windows device by speaking or typing, Microsoft collects speech, inking, and typing information – including information about your Calendar and People"
+1. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
 > "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
 
@@ -92,9 +94,7 @@ After we are done, your environment will look like this:
 ![HVCI](https://user-images.githubusercontent.com/300146/64527010-019fd680-d344-11e9-9cbe-08fe004c1baf.png)
 ...plus some more VMs on the side.
 
-3. Remember about performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, compare against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). This is when hardware upgrade might be a wise choice.
-
-# Before installation
+1. Remember about performance hit from countermeasures against [2019 side-channel attacks](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). Down the track, you can obtain CPU stepping by running `wmic cpu get caption` in PowerShell and, if using Intel, compare against [this list](https://www.intel.com/content/www/us/en/architecture-and-technology/engineering-new-protections-into-hardware.html). This is when hardware upgrade might be a wise choice.
 1. Un-plug ethernet if present, disable WiFi.
 1. Install latest BIOS/FWs from a vendor.
 1. Consider stripping Intel ME using [metool](https://github.com/corna/me_cleaner) or be ready to assess/update/patch using CSME, link above.
@@ -202,7 +202,7 @@ After we are done, your environment will look like this:
 1. Check antimalware:
     ```powershell
     Get-MpComputerStatus | Select-Object -Property "*enabled*"
-    
+
     AMServiceEnabled          : True
     AntispywareEnabled        : True
     AntivirusEnabled          : True
@@ -220,8 +220,9 @@ After we are done, your environment will look like this:
 
 Optional, but convenient:
 1. Open "Group Policy editor", navigate to `Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options`
-1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
-
+    1. Change "User Account Control: Behavior of the elevation prompt for standard users" to "Prompt for credentials on the secure desktop"
+1. Navigate to: `Computer Configuration\Policies\Administrative Templates\Windows Components\File Explorer`
+    1. Enable "Show hibernate in the power options menu"
 
 ### Traffic restriction
 1. Navigate to `./Tools/baseline_traffic` and:
@@ -231,6 +232,9 @@ Optional, but convenient:
     .\RestrictedTraffic_ClientEnt_Install.cmd
     ```
     1. Accept the terms.
+1. Open "Local group policy editor"
+	1. Navigate to "Administrative templates --> Windows components --> Windows update"
+	1. Ensure all policies are set to "Not configured" 
 1. Reboot
 
 
@@ -239,7 +243,7 @@ Optional, but convenient:
 1. In elevated PowerShell:
     - `apps.ps1`
 
-    
+
 ### Clean-up profiles
 1. Create at least one new user profile
 1. Log in as the newly created administrator
@@ -267,7 +271,7 @@ As some of the changes are applied to HKCU hive, for _each_ user, run:
     Import-Module -name .\SpeculationControl.psm1
     Get-SpeculationControlSettings -Verbose
     ```
-    
+
 If output is unsatisfactory...
 
 1. Enable [CVE-2018-3639](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-3639) mitigations, as per [MS](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) article,
@@ -331,11 +335,16 @@ Adjust content as necessary:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
 
 
-## Powershell
+## PowerShell
+TODO move this into its own section. Too opinionated?
+1. Ensure the PowerShell v2 is indeed disabled:
+	```powershell
+	Get-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2 | select -Property State
+	```
 1. Check your current PS execution policy:
     ```powershell
     > Get-ExecutionPolicy -List
-    
+
             Scope ExecutionPolicy
             ----- ---------------
     MachinePolicy       Undefined
@@ -387,11 +396,11 @@ Let's limit service host's unstoppable desire to talk with the outside world.
         Read-host “Press Enter to continue...”
         Set-NetFirewallRule -DisplayName block_service_host -Action Block
     }
-    
+
     function sudo_updatecmd {
         Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
     }
-    
+
     Set-Alias -Name update -Value sudo_updatecmd
     ```
 1. Now, when you'd like to update Windows, run `update` from the PS.  
@@ -473,15 +482,49 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 	1. Create target categories
 		1. TODO
 	1. Go back to the "General" tab and click green "Apply" button
-		
-	
+
 
 
 --------------------------------------------------------------------
-
 
 # After the machine is online
 1. After the Windows is activated, execute from elevated `cmd.exe`:
     ```bat
     reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /t REG_DWORD /v NoGenTicket /d 1 /f
+    sc config sppsvc start=disabled
     ```
+
+--------------------------------------------------------------------
+
+# Documentation
+
+## Papers
+* [Windows 10 docs](https://docs.microsoft.com/en-us/windows/windows-10/)
+* [MS privacy statement](https://privacy.microsoft.com/en-us/privacystatement)
+* [MS service agreement](https://www.microsoft.com/en-us/servicesagreement/)
+* [Windows Server pages](https://docs.microsoft.com/en-us/windows-server/security/security-and-assurance)
+* [Connection endpoints](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
+* [Endpoint management](https://docs.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services)
+* [Bitlocker countermeasures](https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-countermeasures)
+* [Deprecated Windows 10 features](https://docs.microsoft.com/en-us/windows/deployment/planning/windows-10-deprecated-features)
+
+* [GP Search](https://gpsearch.azurewebsites.net/Default_legacy.aspx)
+
+## Tools
+This guide accepts no closed-source utilities that promise to "fix Windows privacy". Author has rather dim view on such tools and prefers to rely on empirical evidence and collected data rather than a promise. When possible, instruments provided by Microsoft are used instead of a 3rd-party application.
+* [MS Security Compliance Toolkit](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-compliance-toolkit-10)
+* [GPO and Policy Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
+* [Wireshark](https://wireshark.org) and [MS Network Monitor](https://www.microsoft.com/en-au/download/details.aspx?id=4865)
+* [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
+* [Intel CSME](https://downloadcenter.intel.com/download/28632/Intel-CSME-Detection-Tool)
+
+## Questions
+1. Why not DISM?
+    - This framework is oriented towards the wide audience. Some of them might not have an access to a known clean computer with Windows 10 installation, others could lack knowledge of assembling the base image and are at risk of ending-up with botched installation.
+1. Why internet access from the "main" Windows installation is so restricted?
+    - Vastly reduces an impact of [coersive telemtry](https://www.ghacks.net/2016/11/07/nvidia-telemetry-tracking/) across the whole software stack.
+    - Makes operating reverse shell a little bit trickier.
+1. Why Windows version 2004 aka "20H1" is not supported?
+    - 1909 is a mature and stable release supported by Microsoft until May 2021 for Home/Pro/WS/IoT and until May 2022 for Enterprise/Education.
+    - At the time of wiriting, relevant policies for 20H1 were not published or tested.
+    - Microsoft is known to introduce updates that go as far as [deleting user files](https://www.forbes.com/sites/gordonkelly/2020/02/19/new-windows-10-update-starts-causing-serious-problems/)

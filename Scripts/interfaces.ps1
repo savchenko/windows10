@@ -1,3 +1,6 @@
+#Requires -RunAsAdministrator
+#Requires -Version 5
+
 #
 # https://github.com/stoptracking/windows10
 #
@@ -15,6 +18,9 @@ Disable-NetAdapterBinding -Name "*" -ComponentID ms_lldp
 Write-Host "Disable LLTD for all interfaces"
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_lltdio
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_rspndr
+
+Write-Host "Reset proxy settings (needed to stop WPAD correctly)"
+netsh winhttp reset proxy
 
 
 Write-Host "All done!"
