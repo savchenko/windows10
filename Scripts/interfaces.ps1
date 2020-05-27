@@ -19,8 +19,12 @@ Write-Host "Disable LLTD for all interfaces"
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_lltdio
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_rspndr
 
+Write-Host "Disable 'Client for MS Networks'"
+Disable-NetAdapterBinding -Name "*" -ComponentID "ms_msclient"
+
 Write-Host "Reset proxy settings (needed to stop WPAD correctly)"
 netsh winhttp reset proxy
+
 
 
 Write-Host "All done!"

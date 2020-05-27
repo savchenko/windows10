@@ -528,3 +528,5 @@ This guide accepts no closed-source utilities that promise to "fix Windows priva
     - 1909 is a mature and stable release supported by Microsoft until May 2021 for Home/Pro/WS/IoT and until May 2022 for Enterprise/Education.
     - At the time of wiriting, relevant policies for 20H1 were not published or tested.
     - Microsoft is known to introduce updates that go as far as [deleting user files](https://www.forbes.com/sites/gordonkelly/2020/02/19/new-windows-10-update-starts-causing-serious-problems/)
+    - https://answers.microsoft.com/en-us/windows/forum/all/cumulative-updates-may-12th-2020/3a51c803-1114-4551-bca2-e5a610900f52?LastReply=true#LastReply&page=1
+    - Tick/tock, lighter/heavier...
