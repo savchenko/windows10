@@ -47,7 +47,8 @@ Main Windows installation has whitelisted access only to the practically necessa
 
 
 ## Changing the system
-Number of changes are made using MS-provided "Traffic restriction policy". Multiple settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, here:
+Number of changes are made using MS-provided "Traffic restriction policy". Multiple settings are applied via direct registry injection instead of a GPO import.  
+Here, I can only quote Microsoft themselves:
 
 > To turn off Messaging cloud sync:
 >    There is no Group Policy corresponding to this registry key.
