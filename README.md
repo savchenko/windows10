@@ -1,4 +1,4 @@
-This is a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".
+This is a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".  
 Level 3 baseline with additional customizations: less network noise, focus on single-user workstation, etc.
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
@@ -30,13 +30,15 @@ At present, main considerations are:
 	
 	That being said, there is [some](https://github.com/Foxboron/sbctl) [hope](https://github.com/osresearch/safeboot).
 * Commercial-grade Type-1 hypervisor.
-* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine. Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
+* Application firewall with the [WFP layer](https://docs.microsoft.com/en-us/windows/win32/fwp/windows-filtering-platform-start-page) that allows building additional rules on top of the same engine.  
+  Usable GUIs to manage WFP and CLI for the Windows Firewall itself.
 * Handy software that is not available under Linux or \*BSD.
 * Good hardware support.
 
 
 ## Mode of operation
 Main Windows installation has only whitelisted access to the bare necessary:
+
     - OSCP
     - Updates
     - NTP
