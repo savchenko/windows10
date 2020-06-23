@@ -106,6 +106,7 @@ After we are done, your environment will look like this:
    ```powershell
    .\BiosConfigUtility64.exe /setvalue:"Trusted Execution Technology (TXT)","Disable" /cpwdfile:"pwd.bin" /verbose
    ```
+   Stdout:
     ```xml
     <BIOSCONFIG Version="" Computername="WIN" Date="2019/08/31" Time="21:23:19" UTC="10">
         <SUCCESS msg="Successfully read password from file" />
@@ -336,77 +337,6 @@ Adjust content as necessary:
 ![2019-07-26 12_19_27-Boot-Start Driver Initialization Policy](https://user-images.githubusercontent.com/300146/61922498-d46bb480-af9f-11e9-9039-be001136de1c.png)
 
 
-## PowerShell
-TODO move this into its own section. Too opinionated?
-1. Ensure the PowerShell v2 is indeed disabled:
-	```powershell
-	Get-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2 | select -Property State
-	```
-1. Check your current PS execution policy:
-    ```powershell
-    > Get-ExecutionPolicy -List
-
-            Scope ExecutionPolicy
-            ----- ---------------
-    MachinePolicy       Undefined
-    UserPolicy       Undefined
-        Process       Undefined
-    CurrentUser    RemoteSigned
-    LocalMachine      Restricted
-    ```
-1. Create profile:
-    ```powershell
-    if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
-    New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
-    }
-    ```
-1. Add handy alias for Yubikey OTP, this goes into `Microsoft.PowerShell_profile.ps1`
-    ```powershell
-    # Yo
-    function yocmd {
-        $token = cmd /c "$env:Programfiles\Yubico\YubiKey Manager\ykman.exe" oath code $args
-        $token_value = $token.split(" ")
-        Set-Clipboard -Value $token_value[2]
-    }
-    Set-Alias -Name yo -Value yocmd
-    ```
-
-### svchost.exe
-Let's limit service host's unstoppable desire to talk with the outside world.  
-1. Create rule named "block_service_host" that either prevents `%SystemRoot%\System32\svchost.exe` from any connections or denies 80/443 ports access. Latter is assuming you know why it needs to access other ports.
-1. Add to your profile:  
-    ```powershell
-    # Update Windows
-    function updatecmd {
-        $enabled = Get-NetFirewallRule -DisplayName block_service_host | Select-Object -Property Action
-        if ($enabled -like "*Block*") {
-            Set-NetFirewallRule -DisplayName block_service_host -Action Allow
-        }
-        else {
-        }
-        $Updates = Start-WUScan -SearchCriteria "IsInstalled=0 AND IsHidden=0 AND IsAssigned=1"
-        if ([bool]$Updates) {
-            Write-Host "Found" $Updates.Count "updates:"
-            Write-Host $Updates.Title -Separator "`n"
-            Install-WUUpdates -Updates $Updates
-        }
-        else {
-            Write-Host "No updates found."
-        }
-        # Start-Sleep -s 5
-        Read-host “Press Enter to continue...”
-        Set-NetFirewallRule -DisplayName block_service_host -Action Block
-    }
-
-    function sudo_updatecmd {
-        Start-Process -FilePath powershell.exe -ArgumentList {updatecmd} -verb RunAs
-    }
-
-    Set-Alias -Name update -Value sudo_updatecmd
-    ```
-1. Now, when you'd like to update Windows, run `update` from the PS.  
-   This would request for an elevated session, temporarily allow svchost to communicate, download and install necessary packages and finally turn the blocker rule back on.
-
 # Virtual Machines
 
 As you remember, "commercial-grade hypervisor" was listed as one of the advantages. Time to use it.
@@ -418,11 +348,10 @@ As you remember, "commercial-grade hypervisor" was listed as one of the advantag
 	1. Map to the physical interface
 	1. Un-tick "Allow management operating system to share this network adapter"
 
-
 ## Router
 We will be using [pfSense](https://www.pfsense.org/) to setup a router that filters traffic, acts as a VPN client and transparent proxy.
 
-### Installation
+### pfSense Installation
 1. Download [ISO for AMD64](https://www.pfsense.org/download/).
 1. Create new VM, allocate 2 **or** 4 CPU cores, 2Gb of RAM and 8Gb disk.
 1. Disable "dynamic memory" function.
@@ -431,7 +360,6 @@ We will be using [pfSense](https://www.pfsense.org/) to setup a router that filt
 	1. Connect it to the "external" switch.
 	1. Setup distinct MAC addresses on both adapters.
 1. Proceed with installation, reboot.
-
 
 ### Initial setup
 1. Connect to the VM from Hyper-V Manager.
