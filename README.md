@@ -37,18 +37,17 @@ At present, main considerations are:
 
 
 ## Mode of operation
-Main Windows installation has only whitelisted access to the bare necessary:
+Main Windows installation has whitelisted access only to the practically necessary services:
 
-    - OSCP
-    - Updates
-    - NTP
-    - SSH/sFTP
-    - Intranet SMB
+- OSCP
+- Updates
+- NTP
+- SSH/sFTP
+- Intranet SMB
 
 
 ## Changing the system
-Large number of changes are made using MS-provided "Traffic restriction policy"
-Number of settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, here:
+Number of changes are made using MS-provided "Traffic restriction policy". Multiple settings are applied via direct registry injection instead of a GPO import. I can only quote Microsoft, here:
 
 > To turn off Messaging cloud sync:
 >    There is no Group Policy corresponding to this registry key.
