@@ -47,8 +47,8 @@ Main Windows installation has whitelisted access only to the practically necessa
 
 
 ## Changing the system
-Number of changes are made using MS-provided "Traffic restriction policy". Multiple settings are applied via direct registry injection instead of a GPO import.  
-Here, I can only quote Microsoft themselves:
+Number of changes are made using MS-provided "Traffic restriction policy". Multiple settings are applied via direct registry injection instead of a GPO import.
+I can only quote Microsoft, here:
 
 > To turn off Messaging cloud sync:
 >    There is no Group Policy corresponding to this registry key.
@@ -62,7 +62,6 @@ Even then, registry "tweaks" are taken from Microsoft documentation for the spec
 
 ## Known limitations
 - Cortana is limited to the Start menu search.
-	- It is included in the "Services list"
 - No access to the microphone, camera and Bluetooth by default
 - Ability to log-in via "Microsoft account" is disabled.
 - Windows search is not allowed to send queries back to MS/Bing.
@@ -73,13 +72,11 @@ Even then, registry "tweaks" are taken from Microsoft documentation for the spec
 - "Microsoft store" is disabled.
 - "Application Compatibility" is disabled.
 - "Game DVR" and "XBox" are disabled.
-	
-Whenever step is unique to either of the categories, it is labeled as such and explanation is provided.
 
 
 # Before installation
 1. Recognize that you are dealing with the closed-source, SaaS-like operating system.  
-To give an idea about the "Microsoft world", this is enabled by default: 
+To give an idea about the "Microsoft world", these are enabled by default: 
 
 > Automatic learning enables the collection and storage of text and ink written by the user in order to help adapt handwriting recognition to the vocabulary and handwriting style of the user.  
 > 
@@ -87,7 +84,9 @@ To give an idea about the "Microsoft world", this is enabled by default:
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored.
 
+
 > "When you interact with your Windows device by speaking or typing, Microsoft collects speech, inking, and typing information – including information about your Calendar and People"
+
 1. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
 > "The Secure Kernel relies on the Mode-Based Execution Control (MBEC) feature, if present in hardware, which enhances the SLAT with a user/kernel executable bit, or the hypervisor’s software emulation of this feature, called Restricted User Mode (RUM)." 
