@@ -84,8 +84,10 @@ To give an idea about the "Microsoft world", these are enabled by default:
 >
 > Deleting email content or the browser history does not delete the stored personalization data. Ink entered through Input Panel is collected and stored.
 
-
 > "When you interact with your Windows device by speaking or typing, Microsoft collects speech, inking, and typing information – including information about your Calendar and People"
+
+Windows "Defender":
+> Information collected includes file data (such as file names, sizes, and hashes), process data (running processes, hashes), registry data, network connection data (host IPs and ports), and device details (such as device identifiers, names, and the operating system version).
 
 1. Be aware that you will be enabling [Hypervisor-protected code integrity (HVCI)](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/enable-virtualization-based-protection-of-code-integrity) which imposes _significant_ performance penalty on all Intel CPUs released before "7th generation" and AMD processors prior to ["Ryzen 2"](https://github.com/MicrosoftDocs/windows-itpro-docs/issues/3997). To quote Mark Russinovich and Alex Ionescu:
 
