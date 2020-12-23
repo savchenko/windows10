@@ -6,19 +6,15 @@ Level 3 baseline with additional customizations: less network noise, focus on si
 If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
 ## Purpose of the project
-Allow Windows users to control the operating system they ~~own~~ licensed to limited use from Microsoft.
+Allow Windows users to control the operating system they ~~own~~ have licensed for a limited usage from Microsoft.
 
 ## Project goals
 1. Educate users about Windows security capabilites and allow them to enable those in a controlled manner.
 1. Reduce Microsoft telemetry to the bare minimum. Remove advertising and tracking whenever possible.
 1. Defer the "feature" updates to counter the [appalling quality](https://www.howtogeek.com/658194/windows-10s-new-update-is-deleting-peoples-files-again/) of what it [traditionally](https://www.cleverfiles.com/howto/recover-files-windows10-update.html) shoveled upon the home users.
 
-    1. Scope description
-        1. Inclusions
-        1. Exclusions
-    1. Acceptance criteria
-        1. Prerequisites for the new release
-
+## Project scope
+1. Microsoft Windows 10 on x86-64.
 
 # Foreword
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
