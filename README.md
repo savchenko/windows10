@@ -1,15 +1,18 @@
-This is a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".  
+# About
+This was a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".  
 Level 3 baseline with additional customizations: less network noise, focus on single-user workstation, etc.
 ![seccon-framework](https://user-images.githubusercontent.com/300146/63164652-3469ee00-c068-11e9-8a0a-96347d5254b0.png)
 
 If you are looking for something more of a \*nix flavour, check-out the [Playbook](https://github.com/stoptracking/playbook).
 
-TODO:
-1. Add Microsoft legal terms
-1. Project management
-    1. Purpose
-    1. Justification
-        1. SMART goals: specific, measurable, achievable, relevant, time-bound
+## Purpose of the project
+Allow Windows users to control the operating system they ~~own~~ licensed to limited use from Microsoft.
+
+## Project goals
+1. Educate users about Windows security capabilites and allow them to enable those in a controlled manner.
+1. Reduce Microsoft telemetry to the bare minimum. Remove advertising and tracking whenever possible.
+1. Defer the "feature" updates to counter the [appalling quality](https://www.howtogeek.com/658194/windows-10s-new-update-is-deleting-peoples-files-again/) of what it [traditionally](https://www.cleverfiles.com/howto/recover-files-windows10-update.html) shoveled upon the home users.
+
     1. Scope description
         1. Inclusions
         1. Exclusions
