@@ -14,11 +14,10 @@ Allow Windows users to control the operating system they ~~own~~ have licensed f
 1. Defer the "feature" updates to counter the [appalling quality](https://www.howtogeek.com/658194/windows-10s-new-update-is-deleting-peoples-files-again/) of what it [traditionally](https://www.cleverfiles.com/howto/recover-files-windows10-update.html) shoveled upon the home users.
 
 ## Project scope
-1. Microsoft Windows 10 on x86-64.
+Microsoft Windows 10 on x86-64.
 
 # Foreword
 Great care should be taken when using commercial operating system with "post-sale monetisation" as a part of its business model. Make no mistake as to what is a product and [where profits are coming from](https://www.microsoft.com/investor/reports/ar19/index.html).
-
 
 ## Rationale
 One might ask, &mdash; _"Why to bother with MS product while there are better \*nix-based operating systems?"_<br />
@@ -459,4 +458,3 @@ This guide accepts no closed-source utilities that promise to "fix Windows priva
     - At the time of wiriting, relevant policies for 20H1 were not published or tested.
     - Microsoft is known to introduce updates that go as far as [deleting user files](https://www.forbes.com/sites/gordonkelly/2020/02/19/new-windows-10-update-starts-causing-serious-problems/)
     - https://answers.microsoft.com/en-us/windows/forum/all/cumulative-updates-may-12th-2020/3a51c803-1114-4551-bca2-e5a610900f52?LastReply=true#LastReply&page=1
-    - Tick/tock, lighter/heavier...
