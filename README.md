@@ -1,3 +1,7 @@
+# Current status
+
+Project is looking for new maintainers, please see the [Issue #22](https://github.com/stoptracking/windows10/issues/22).
+
 # About
 This was a cheat-sheet for a single-user installation of Windows 10 build 1909, also known as "19H2".  
 Level 3 baseline with additional customizations: less network noise, focus on single-user workstation, etc.
